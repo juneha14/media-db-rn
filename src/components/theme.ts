@@ -1,6 +1,6 @@
 import { TextStyle } from "react-native";
 
-const Palette = {
+export const Palette = {
   White: `#FFFFFF`,
   Transparent: `#00000000`,
   Grey: {
@@ -119,7 +119,7 @@ export const TextVariants: Record<
 };
 
 type Space = 0.5 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 13 | 16;
-const spacing = (space: Space): number => 8 * space;
+export const spacing = (space: Space): number => 8 * space;
 export const Spacing = {
   xl: spacing(3),
   l: spacing(2),
