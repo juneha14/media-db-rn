@@ -1,6 +1,9 @@
 import React from "react";
 import { storiesOf } from "@storybook/react-native";
 
-import { TestButtons } from "./TestButtons";
+import { ContentView } from "../ContentView";
+import { Typography } from "./Text";
 
-storiesOf("Buttons", module).add("Button", () => <TestButtons />);
+storiesOf("Typography", module)
+  .addDecorator(ContentView)
+  .add("Text", () => <Typography />);
