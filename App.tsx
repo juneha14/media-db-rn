@@ -2,8 +2,6 @@ import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { Text, View } from "react-native";
 
-export { default } from "./storybook";
-
 const App = () => {
   return (
     <View>
@@ -13,4 +11,5 @@ const App = () => {
   );
 };
 
+export { default } from "./storybook";
 // export default App;
