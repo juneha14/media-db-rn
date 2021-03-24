@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import { Text } from "../../src/components/Text";
+import { Text } from "../../../src/components/Text";
 
 export const Typography: React.FC = () => {
   return (

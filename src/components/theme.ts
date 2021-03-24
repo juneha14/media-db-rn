@@ -103,9 +103,9 @@ export const TextVariants: Record<
   captionHeadingSmall: {
     fontFamily: "System",
     fontSize: 17,
-    fontWeight: "400",
+    fontWeight: "500",
     lineHeight: 19,
-    letterSpacing: 0.1,
+    letterSpacing: 0,
     color: Colors.TextNeutral,
   },
   body: {

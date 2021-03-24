@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, StyleSheet } from "react-native";
-import { Colors } from "../src/components/theme";
+import { Colors, Palette } from "../src/components/theme";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
@@ -17,5 +17,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: Colors.SurfaceBackground,
+    // backgroundColor: Palette.White,
   },
 });
