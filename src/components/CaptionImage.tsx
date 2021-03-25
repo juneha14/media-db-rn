@@ -7,7 +7,7 @@ import {
   Image,
   ImageStyle,
 } from "react-native";
-import { Text } from "./Text";
+import { Caption, CaptionProps } from "./Caption";
 import { Colors, Spacing } from "./theme";
 
 const aspectRatio = {
@@ -16,28 +16,17 @@ const aspectRatio = {
 };
 type Orientation = keyof typeof aspectRatio;
 
-interface CaptionImageProps {
+interface CaptionImageProps extends Omit<CaptionProps, "style" | "title"> {
   url: string;
   width?: number;
   height?: number;
   orientation?: Orientation;
   title?: string;
-  description?: string;
-  tertiaryInfo?: string;
   style?: StyleProp<ViewStyle>;
 }
 
 export const CaptionImage: React.FC<CaptionImageProps> = React.memo(
-  ({
-    url,
-    width,
-    height,
-    orientation,
-    title,
-    description,
-    tertiaryInfo,
-    style,
-  }) => {
+  ({ url, width, height, orientation, title, description, style, ...rest }) => {
     const size = {
       width: width
         ? width
@@ -53,8 +42,8 @@ export const CaptionImage: React.FC<CaptionImageProps> = React.memo(
 
     const imageBorderStyle: ImageStyle = {
       borderRadius: 4,
-      borderBottomLeftRadius: title || description || tertiaryInfo ? 0 : 4,
-      borderBottomRightRadius: title || description || tertiaryInfo ? 0 : 4,
+      borderBottomLeftRadius: title || description ? 0 : 4,
+      borderBottomRightRadius: title || description ? 0 : 4,
     };
 
     return (
@@ -64,24 +53,13 @@ export const CaptionImage: React.FC<CaptionImageProps> = React.memo(
           source={{ uri: url }}
           resizeMode="cover"
         />
-        {title || description || tertiaryInfo ? (
-          <View style={styles.captionContainer}>
-            {title && (
-              <Text variant="captionHeadingSmall" style={styles.text}>
-                {title}
-              </Text>
-            )}
-            {description && (
-              <Text variant="body" style={styles.text}>
-                {description}
-              </Text>
-            )}
-            {tertiaryInfo && (
-              <Text variant="body" style={{ color: Colors.TextSubdued }}>
-                {tertiaryInfo}
-              </Text>
-            )}
-          </View>
+        {title || description ? (
+          <Caption
+            style={styles.captionContainer}
+            title={title ?? ""}
+            description={description}
+            {...rest}
+          />
         ) : null}
       </View>
     );
@@ -93,7 +71,8 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   captionContainer: {
-    paddingHorizontal: Spacing.l,
+    paddingLeft: Spacing.l,
+    paddingRight: Spacing.m,
     paddingVertical: Spacing.m,
     borderBottomLeftRadius: 4,
     borderBottomRightRadius: 4,
