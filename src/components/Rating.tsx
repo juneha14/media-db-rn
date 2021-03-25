@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { View, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import { useTextLayout } from "../hooks/useLayout";
 import { Text } from "./Text";
-import { Colors, Palette, spacing } from "./theme";
+import { Colors, Palette, Spacing } from "./theme";
 
 interface RatingProps {
   rating: number;
@@ -12,11 +12,11 @@ interface RatingProps {
 export const Rating: React.FC<RatingProps> = React.memo(({ rating, style }) => {
   const [layout, onLayout] = useTextLayout();
   const size = useMemo(() => {
-    return Math.max(layout?.width ?? 0, layout?.height ?? 0) + spacing(2);
+    return Math.max(layout?.width ?? 0, layout?.height ?? 0) + Spacing.m;
   }, [layout?.width, layout?.height]);
 
   const outerContainerSize = useMemo(() => {
-    const outerSize = size + spacing(0.5);
+    const outerSize = size + Spacing.s;
     return {
       width: outerSize,
       height: outerSize,
