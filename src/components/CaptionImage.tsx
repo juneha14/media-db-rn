@@ -10,11 +10,11 @@ import {
 import { Caption, CaptionProps } from "./Caption";
 import { Colors, Spacing } from "./theme";
 
-const aspectRatio = {
+const AspectRatio = {
   portrait: 2 / 3,
   landscape: 16 / 9,
 };
-type Orientation = keyof typeof aspectRatio;
+type Orientation = keyof typeof AspectRatio;
 
 interface CaptionImageProps extends Omit<CaptionProps, "style" | "title"> {
   url: string;
@@ -31,12 +31,12 @@ export const CaptionImage: React.FC<CaptionImageProps> = React.memo(
       width: width
         ? width
         : height && orientation
-        ? height * aspectRatio[orientation]
+        ? height * AspectRatio[orientation]
         : undefined,
       height: height
         ? height
         : width && orientation
-        ? width / aspectRatio[orientation]
+        ? width / AspectRatio[orientation]
         : undefined,
     };
 
