@@ -18,8 +18,8 @@ export type TRequest = NowPlayingMovies | MovieDetails;
 export async function fetchRequest(request: TRequest): Promise<any> {
   switch (request.path) {
     case "now-playing-movies":
-      return await client.getNowPlayingMovies(request.page);
+      return client.getNowPlayingMovies(request.page);
     case "movie-details":
-      return await client.getMovieDetails(request.movieId);
+      return client.getMovieDetails(request.movieId);
   }
 }

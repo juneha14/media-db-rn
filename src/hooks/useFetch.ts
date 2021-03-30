@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { fetchRequest, TRequest } from "../api/service";
+import { convertToCamelCase } from "../utils";
 
 interface FetchResponse<T> {
   isLoading: boolean;
@@ -24,7 +25,8 @@ export function useFetch<Response>(request: TRequest): FetchResponse<Response> {
 
     try {
       const request = JSON.parse(fetchConfig);
-      const data = await fetchRequest(request);
+      const json = await fetchRequest(request);
+      const data = convertToCamelCase(json);
       setState({ isLoading: false, data });
     } catch (error) {
       console.error("[useFetch] Failed to fetch due to error:", error);
