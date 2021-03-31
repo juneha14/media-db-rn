@@ -63,5 +63,6 @@ const styles = StyleSheet.create({
   },
   rightContainer: {
     flexGrow: 1,
+    alignItems: "flex-end",
   },
 });

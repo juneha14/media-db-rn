@@ -32,10 +32,7 @@ export const PressableIcon: React.FC<PressableIconProps> = React.memo(
     }, [onPress, pressed]);
 
     return (
-      <Pressable
-        style={[style, { backgroundColor: undefined }]}
-        onPress={onPressed}
-      >
+      <Pressable style={style} onPress={onPressed}>
         {pressed ? (
           <Icon
             name={filledIconName}
