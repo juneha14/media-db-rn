@@ -1,16 +1,8 @@
 import React, { useCallback } from "react";
-import {
-  StyleSheet,
-  ViewStyle,
-  StyleProp,
-  Pressable,
-  View,
-} from "react-native";
+import { StyleSheet, ViewStyle, StyleProp, Pressable } from "react-native";
 import { CaptionImage } from "../../components/CaptionImage";
-import { Icon } from "../../components/Icon";
 import { PressableIcon } from "../../components/PressableIcon";
 import { Rating } from "../../components/Rating";
-import { Spacing } from "../../components/theme";
 import { useLayout } from "../../hooks/useLayout";
 
 interface MediaCellProps {
