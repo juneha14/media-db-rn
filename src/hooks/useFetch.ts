@@ -3,7 +3,7 @@ import { fetchRequest, TRequest } from "../api/service";
 import { convertToCamelCase } from "../utils";
 
 interface FetchResponse<T> {
-  isLoading: boolean;
+  isLoading?: boolean;
   data?: T;
   errorMessage?: string;
 }
@@ -27,10 +27,10 @@ export function useFetch<Response>(request: TRequest): FetchResponse<Response> {
       const request = JSON.parse(fetchConfig);
       const json = await fetchRequest(request);
       const data = convertToCamelCase(json);
-      setState({ isLoading: false, data });
+      setState({ data });
     } catch (error) {
       console.error("[useFetch] Failed to fetch due to error:", error);
-      setState({ isLoading: false, errorMessage: error.message });
+      setState({ errorMessage: error.message });
     }
   }, [fetchConfig]);
 

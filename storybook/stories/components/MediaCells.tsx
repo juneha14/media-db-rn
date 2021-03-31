@@ -1,9 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Dimensions, View, StyleSheet } from "react-native";
 import { MediaCell } from "../../../src/screens/Home/MediaCell";
+import { useFetch } from "../../../src/hooks/useFetch";
+import { TMovieListResponse } from "../../../src/models";
 
 export const MediaCells: React.FC = () => {
-  const width = Dimensions.get("window").width / 2 - 32 - 8;
+  const width = Dimensions.get("window").width / 2 - 32;
+  const [count, setCount] = useState(1);
+  const state = useFetch<TMovieListResponse>({
+    path: "now-playing-movies",
+    page: count,
+  });
+
+  useEffect(() => {
+    console.log("==== Value of state:", state);
+  }, [state]);
+
   return (
     <View style={styles.container}>
       <MediaCell
@@ -15,9 +27,10 @@ export const MediaCells: React.FC = () => {
         rating={8.91}
         width={width}
         height={100}
-        onPress={() =>
-          console.log("========== File: MediaCells.tsx, Line: 16 ==========")
-        }
+        onPress={() => {
+          console.log("========== File: MediaCells.tsx, Line: 16 ==========");
+          setCount((count) => count + 1);
+        }}
       />
       <MediaCell
         style={styles.mediaCellContainer}
