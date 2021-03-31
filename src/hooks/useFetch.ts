@@ -27,7 +27,10 @@ export function useFetch<Response>(request: TRequest): FetchResponse<Response> {
       const request = JSON.parse(fetchConfig);
       const json = await fetchRequest(request);
       const data = convertToCamelCase(json);
-      setState({ data });
+
+      setTimeout(() => {
+        setState({ data });
+      }, 200);
     } catch (error) {
       console.error("[useFetch] Failed to fetch due to error:", error);
       setState({ errorMessage: error.message });
