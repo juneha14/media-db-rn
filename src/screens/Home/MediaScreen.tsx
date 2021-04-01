@@ -8,10 +8,10 @@ import { TMovie } from "../../models";
 import { MediaCell } from "./MediaCell";
 
 export const MediaScreen: React.FC = () => {
-  const { isLoading, data, errorMessage } = useFetch<any>({
-    path: "now-playing-movies",
-    page: 1,
-  });
+  const { isLoading, data, errorMessage } = useFetch<"NowPlayingMovies", any>(
+    "NowPlayingMovies",
+    { page: 1 }
+  );
   const [state, setState] = useState<TMovie[]>();
 
   const width = useMemo(() => {

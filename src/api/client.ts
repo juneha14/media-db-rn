@@ -48,7 +48,7 @@ client.getNowPlayingMovies = async (page: number) => {
   return client(url);
 };
 
-client.getMovieDetails = async (movieId: string) => {
+client.getMovieDetails = async (movieId: number) => {
   const url = constructUrl(`/movie/${movieId}`, { movieId });
   return client(url);
 };

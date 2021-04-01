@@ -18,18 +18,8 @@ export const MediaCells: React.FC = () => {
         onPress={() => {
           console.log("========== File: MediaCells.tsx, Line: 16 ==========");
         }}
-      />
-      <MediaCell
-        style={styles.mediaCellContainer}
-        id={12345}
-        posterImgUrl="/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
-        title="Monster Hunter"
-        releaseDate="2020-03-20"
-        rating={8.91}
-        width={width}
-        height={100}
-        onPress={() =>
-          console.log("========== File: MediaCells.tsx, Line: 16 ==========")
+        onLikePress={() =>
+          console.log("========== File: MediaCells.tsx, Line: 60 ==========")
         }
       />
       <MediaCell
@@ -44,6 +34,9 @@ export const MediaCells: React.FC = () => {
         onPress={() =>
           console.log("========== File: MediaCells.tsx, Line: 16 ==========")
         }
+        onLikePress={() =>
+          console.log("========== File: MediaCells.tsx, Line: 60 ==========")
+        }
       />
       <MediaCell
         style={styles.mediaCellContainer}
@@ -56,6 +49,25 @@ export const MediaCells: React.FC = () => {
         height={100}
         onPress={() =>
           console.log("========== File: MediaCells.tsx, Line: 16 ==========")
+        }
+        onLikePress={() =>
+          console.log("========== File: MediaCells.tsx, Line: 60 ==========")
+        }
+      />
+      <MediaCell
+        style={styles.mediaCellContainer}
+        id={12345}
+        posterImgUrl="/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
+        title="Monster Hunter"
+        releaseDate="2020-03-20"
+        rating={8.91}
+        width={width}
+        height={100}
+        onPress={() =>
+          console.log("========== File: MediaCells.tsx, Line: 16 ==========")
+        }
+        onLikePress={() =>
+          console.log("========== File: MediaCells.tsx, Line: 60 ==========")
         }
       />
     </View>
