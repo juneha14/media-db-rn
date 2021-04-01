@@ -1,1 +1,1 @@
-export { TMovieListResponse } from "./MovieListResponse";
+export { TMovie } from "./Movie";
