@@ -6,14 +6,15 @@ import { Rating } from "../../components/Rating";
 import { useLayout } from "../../hooks/useLayout";
 
 interface MediaCellProps {
-  id: string;
-  posterImgUrl: string;
+  id: number;
+  posterImgUrl: string | null;
   title: string;
   releaseDate: string;
   rating: number;
   width?: number;
   height?: number;
-  onPress: (id: string) => void;
+  onPress: (id: number) => void;
+  onLikePress: (pressed: boolean) => void;
   style?: StyleProp<ViewStyle>;
 }
 
@@ -26,15 +27,16 @@ export const MediaCell: React.FC<MediaCellProps> = ({
   width,
   height,
   onPress,
+  onLikePress,
   style,
 }) => {
+  const [cellSize, onCellLayout] = useLayout();
   const onPressed = useCallback(
-    (id: string) => () => {
+    (id: number) => () => {
       onPress(id);
     },
     [onPress]
   );
-  const [cellSize, onCellLayout] = useLayout();
 
   return (
     <>
@@ -55,20 +57,14 @@ export const MediaCell: React.FC<MediaCellProps> = ({
       <PressableIcon
         style={{
           position: "absolute",
-          top: cellSize?.y ? cellSize.y + 5 : 0,
-          left:
-            cellSize?.x && cellSize.width
-              ? cellSize.x + cellSize.width - 27
-              : 0,
+          top: cellSize ? cellSize.y + 5 : 0,
+          left: cellSize ? cellSize.x + cellSize.width - 27 : 0,
         }}
         unfilledIconName="heart-outline"
         unfilledIconSize="medium"
         filledIconName="ios-heart"
         filledIconSize="medium"
-        onPress={(pressed) => {
-          console.log("==== Value of pressed:", pressed);
-          console.log("========== File: MediaCell.tsx, Line: 71 ==========");
-        }}
+        onPress={onLikePress}
       />
     </>
   );

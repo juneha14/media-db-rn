@@ -12,7 +12,7 @@ interface RatingProps {
 export const Rating: React.FC<RatingProps> = React.memo(({ rating, style }) => {
   const [layout, onLayout] = useTextLayout();
   const size = useMemo(() => {
-    return Math.max(layout?.width ?? 0, layout?.height ?? 0) + Spacing.m;
+    return Math.max(layout?.width ?? 0, layout?.height ?? 0) + 10;
   }, [layout?.width, layout?.height]);
 
   const outerContainerSize = useMemo(() => {

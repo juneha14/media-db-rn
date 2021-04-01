@@ -7,6 +7,8 @@ import {
   Image,
   ImageStyle,
 } from "react-native";
+import Images from "../assets";
+import { useImageUrl } from "../hooks";
 import { Caption, CaptionProps } from "./Caption";
 import { Colors, Spacing } from "./theme";
 
@@ -17,7 +19,7 @@ const AspectRatio = {
 type Orientation = keyof typeof AspectRatio;
 
 interface CaptionImageProps extends Omit<CaptionProps, "style" | "title"> {
-  url: string;
+  url: string | null;
   width?: number;
   height?: number;
   orientation?: Orientation;
@@ -27,6 +29,8 @@ interface CaptionImageProps extends Omit<CaptionProps, "style" | "title"> {
 
 export const CaptionImage: React.FC<CaptionImageProps> = React.memo(
   ({ url, width, height, orientation, title, description, style, ...rest }) => {
+    const uri = useImageUrl("poster", "Medium", url);
+
     const size = {
       width: width
         ? width
@@ -50,8 +54,8 @@ export const CaptionImage: React.FC<CaptionImageProps> = React.memo(
       <View style={[styles.container, { width: size.width }, style]}>
         <Image
           style={[{ ...size }, { ...imageBorderStyle }]}
-          source={{ uri: url }}
-          resizeMode="cover"
+          source={uri ? { uri } : Images.placeholderImage}
+          resizeMode={uri ? "cover" : "center"}
         />
         {title || description ? (
           <Caption

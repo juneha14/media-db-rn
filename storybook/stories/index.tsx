@@ -7,6 +7,9 @@ import { Ratings } from "./components/Ratings";
 import { MediaCells } from "./components/MediaCells";
 import { CaptionImages } from "./components/CaptionImages";
 
+import { MediaScreen } from "../../src/screens/Home/MediaScreen";
+
+// Components
 storiesOf("Typography", module)
   .addDecorator(ContentView)
   .add("Text", () => <Typography />);
@@ -19,6 +22,9 @@ storiesOf("Caption Images", module)
   .addDecorator(ContentView)
   .add("Caption Images", () => <CaptionImages />);
 
-storiesOf("Media cells", module)
+storiesOf("Media Cells", module)
   .addDecorator(ContentView)
   .add("Media cell", () => <MediaCells />);
+
+// Screens
+storiesOf("Screens", module).add("Media Screen", () => <MediaScreen />);
