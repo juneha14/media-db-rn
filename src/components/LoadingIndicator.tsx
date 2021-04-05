@@ -8,13 +8,14 @@ import {
 } from "react-native";
 
 interface LoadingIndicatorProps {
+  isFullScreen?: boolean;
   style?: StyleProp<ViewStyle>;
 }
 
 export const LoadingIndicator: React.FC<LoadingIndicatorProps> = React.memo(
-  ({ style }) => {
+  ({ isFullScreen = true, style }) => {
     return (
-      <View style={[styles.container, style]}>
+      <View style={[isFullScreen && { flex: 1 }, styles.container, style]}>
         <ActivityIndicator />
       </View>
     );
@@ -23,7 +24,6 @@ export const LoadingIndicator: React.FC<LoadingIndicatorProps> = React.memo(
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },

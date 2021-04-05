@@ -31,26 +31,29 @@ export function PaginatedList<Item>({
   if (error) return <Text>{error}</Text>;
 
   return (
-    <>
-      <FlatList
-        style={style}
-        contentContainerStyle={contentContainerStyle}
-        keyExtractor={keyExtractor}
-        numColumns={numColumns}
-        data={data}
-        renderItem={renderItem}
-        onEndReached={({ distanceFromEnd }) => {
-          if (!fetchMoreEnabled.current) return;
-          fetchMoreEnabled.current = false;
-          onEndReached ? onEndReached({ distanceFromEnd }) : undefined;
-        }}
-        onEndReachedThreshold={onEndReachedThreshold}
-        onMomentumScrollBegin={() => (fetchMoreEnabled.current = true)}
-      />
-      {isFetching ? (
-        <LoadingIndicator style={styles.fetchingMoreIndicator} />
-      ) : null}
-    </>
+    <FlatList
+      style={style}
+      contentContainerStyle={contentContainerStyle}
+      keyExtractor={keyExtractor}
+      numColumns={numColumns}
+      data={data}
+      renderItem={renderItem}
+      onEndReached={({ distanceFromEnd }) => {
+        if (!fetchMoreEnabled.current) return;
+        fetchMoreEnabled.current = false;
+        onEndReached ? onEndReached({ distanceFromEnd }) : undefined;
+      }}
+      onEndReachedThreshold={onEndReachedThreshold}
+      onMomentumScrollBegin={() => (fetchMoreEnabled.current = true)}
+      ListFooterComponent={
+        isFetching ? (
+          <LoadingIndicator
+            style={styles.fetchingMoreIndicator}
+            isFullScreen={false}
+          />
+        ) : null
+      }
+    />
   );
 }
 
