@@ -43,7 +43,7 @@ export async function client(
 
 // Movies
 
-client.getNowPlayingMovies = async (page: number) => {
+client.getNowPlayingMovies = async (page = 1) => {
   const url = constructUrl("/movie/now_playing", { page });
   return client(url);
 };

@@ -1,18 +1,25 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { LoadingIndicator } from "../../components/LoadingIndicator";
 import { Spacing } from "../../components/theme";
-import { useFetch } from "../../hooks";
+import { usePagination } from "../../hooks";
 import { TMovie } from "../../models";
 import { MediaCell } from "./MediaCell";
 
 export const MediaScreen: React.FC = () => {
-  const { isLoading, data, errorMessage } = useFetch<"NowPlayingMovies", any>(
-    "NowPlayingMovies",
-    { page: 1 }
-  );
-  const [state, setState] = useState<TMovie[]>();
+  const {
+    isLoading,
+    isFetching,
+    errorMessage,
+    page,
+    fetchNextPage,
+    allData,
+  } = usePagination<TMovie>("NowPlayingMovies", { page: 1 });
+
+  useEffect(() => {
+    console.log("==== Value of allData:", allData);
+  }, [allData]);
 
   const width = useMemo(() => {
     // (screenWidth / 2) - (paddingHorizontal / 2 + marginHorizontal / 2)
@@ -22,9 +29,14 @@ export const MediaScreen: React.FC = () => {
   const onSelectCell = useCallback((id: number) => {
     console.log("==== Value of id:", id);
   }, []);
-  const onSelectLike = useCallback((pressed: boolean) => {
-    console.log("==== Value of pressed:", pressed);
-  }, []);
+
+  const onSelectLike = useCallback(
+    (pressed: boolean) => {
+      console.log("==== Value of pressed:", pressed);
+      fetchNextPage({ page: page + 1 });
+    },
+    [fetchNextPage, page]
+  );
 
   const renderItem = useCallback(
     ({
@@ -49,12 +61,6 @@ export const MediaScreen: React.FC = () => {
     [width, onSelectCell, onSelectLike]
   );
 
-  useEffect(() => {
-    if (data) {
-      setState(data.results);
-    }
-  }, [data]);
-
   if (isLoading) return <LoadingIndicator />;
   if (errorMessage) return <Text>{errorMessage}</Text>;
 
@@ -63,7 +69,7 @@ export const MediaScreen: React.FC = () => {
       <FlatList
         keyExtractor={(item) => String(item.id)}
         numColumns={2}
-        data={state}
+        data={allData}
         renderItem={renderItem}
       />
     </View>

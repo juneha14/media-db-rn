@@ -3,6 +3,7 @@ import { client } from "./client";
 
 export type EndpointParamList = {
   NowPlayingMovies: { page: number };
+  PopularMovies: { page: number };
   MovieDetails: { movieId: number };
 };
 
