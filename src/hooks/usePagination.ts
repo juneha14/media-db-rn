@@ -6,7 +6,7 @@ import { PaginatedResponse } from "../models";
 interface State<Data, Param> {
   isLoading: boolean;
   isFetching: boolean;
-  page: number;
+  nextPage: number;
   fetchNextPage: (updatedParams: Param) => void;
   pagedData?: Data;
   allData?: Data;
@@ -21,11 +21,11 @@ export function usePagination<
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(false);
 
-  const [pagedData, setPagedData] = useState<D[]>();
-  const [allData, setAllData] = useState<D[]>();
+  const [pagedData, setPagedData] = useState<D[]>([]);
+  const [allData, setAllData] = useState<D[]>([]);
   const [error, setError] = useState<string>();
 
-  const current_page = useRef(1);
+  const next_page = useRef(1);
   const total_pages = useRef(0);
   const total_results = useRef(0);
 
@@ -38,9 +38,9 @@ export function usePagination<
         ) as PaginatedResponse<D[]>;
 
         setPagedData(results);
-        setAllData((allData) => (allData ? [...allData, ...results] : results));
+        setAllData((allData) => [...allData, ...results]);
 
-        current_page.current = page;
+        next_page.current = page + 1;
         total_pages.current = totalPages;
         total_results.current = totalResults;
       } catch (error) {
@@ -60,7 +60,7 @@ export function usePagination<
 
   const fetchNextPage = useCallback(
     (params: P) => {
-      if (current_page.current > total_pages.current) return;
+      if (next_page.current > total_pages.current) return;
 
       setFetching(true);
       setTimeout(() => {
@@ -73,7 +73,7 @@ export function usePagination<
   return {
     isLoading: loading,
     isFetching: fetching,
-    page: current_page.current,
+    nextPage: next_page.current,
     fetchNextPage,
     pagedData,
     allData,

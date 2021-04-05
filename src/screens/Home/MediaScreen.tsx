@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect, useMemo } from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
-import { LoadingIndicator } from "../../components/LoadingIndicator";
+import React, { useCallback, useMemo } from "react";
+import { StyleSheet, Dimensions } from "react-native";
+import { PaginatedList } from "../../components/PaginatedList";
 import { Spacing } from "../../components/theme";
 import { usePagination } from "../../hooks";
 import { TMovie } from "../../models";
@@ -12,14 +11,10 @@ export const MediaScreen: React.FC = () => {
     isLoading,
     isFetching,
     errorMessage,
-    page,
+    nextPage,
     fetchNextPage,
     allData,
   } = usePagination<TMovie>("NowPlayingMovies", { page: 1 });
-
-  useEffect(() => {
-    console.log("==== Value of allData:", allData);
-  }, [allData]);
 
   const width = useMemo(() => {
     // (screenWidth / 2) - (paddingHorizontal / 2 + marginHorizontal / 2)
@@ -30,13 +25,9 @@ export const MediaScreen: React.FC = () => {
     console.log("==== Value of id:", id);
   }, []);
 
-  const onSelectLike = useCallback(
-    (pressed: boolean) => {
-      console.log("==== Value of pressed:", pressed);
-      fetchNextPage({ page: page + 1 });
-    },
-    [fetchNextPage, page]
-  );
+  const onSelectLike = useCallback((pressed: boolean) => {
+    console.log("==== Value of pressed:", pressed);
+  }, []);
 
   const renderItem = useCallback(
     ({
@@ -61,18 +52,24 @@ export const MediaScreen: React.FC = () => {
     [width, onSelectCell, onSelectLike]
   );
 
-  if (isLoading) return <LoadingIndicator />;
-  if (errorMessage) return <Text>{errorMessage}</Text>;
+  const keyExtractor = useCallback((item: TMovie, index: number) => {
+    return String(item.id) + String(index);
+  }, []);
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        keyExtractor={(item) => String(item.id)}
-        numColumns={2}
-        data={allData}
-        renderItem={renderItem}
-      />
-    </View>
+    <PaginatedList
+      contentContainerStyle={styles.container}
+      isLoading={isLoading}
+      isFetching={isFetching}
+      error={errorMessage}
+      keyExtractor={keyExtractor}
+      numColumns={2}
+      data={allData}
+      renderItem={renderItem}
+      onEndReached={() => {
+        fetchNextPage({ page: nextPage });
+      }}
+    />
   );
 };
 
