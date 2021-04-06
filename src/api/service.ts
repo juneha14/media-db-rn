@@ -1,25 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { client } from "./client";
 
-interface NowPlayingMovies {
-  path: "now-playing-movies";
-  page: number;
-  language?: string;
-}
+export type EndpointParamList = {
+  NowPlayingMovies: { page: number };
+  PopularMovies: { page: number };
+  MovieDetails: { movieId: number };
+};
 
-interface MovieDetails {
-  path: "movie-details";
-  movieId: string;
-  language?: string;
-}
+export type Endpoint = keyof EndpointParamList;
 
-export type TRequest = NowPlayingMovies | MovieDetails;
-
-export async function fetchRequest(request: TRequest): Promise<any> {
-  switch (request.path) {
-    case "now-playing-movies":
-      return client.getNowPlayingMovies(request.page);
-    case "movie-details":
-      return client.getMovieDetails(request.movieId);
+export async function fetchRequest<T extends Endpoint>(
+  endpoint: T,
+  params: EndpointParamList[T]
+): Promise<any> {
+  switch (endpoint) {
+    case "NowPlayingMovies": {
+      const { page } = params as EndpointParamList["NowPlayingMovies"];
+      return client.getNowPlayingMovies(page);
+    }
+    case "MovieDetails": {
+      const { movieId } = params as EndpointParamList["MovieDetails"];
+      return client.getMovieDetails(movieId);
+    }
   }
 }

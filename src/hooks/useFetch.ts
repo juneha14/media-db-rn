@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { fetchRequest, TRequest } from "../api/service";
+import { Endpoint, EndpointParamList, fetchRequest } from "../api/service";
 import { convertToCamelCase } from "../utils";
 
 interface FetchResponse<T> {
@@ -8,13 +8,16 @@ interface FetchResponse<T> {
   errorMessage?: string;
 }
 
-export function useFetch<Response>(request: TRequest): FetchResponse<Response> {
-  // Since `TRequest` is an object, it will create a new reference every time this hook is called in a component
-  // We cannot add `TRequest` as part of our dependency array, since this will cause an infinite fetch/rendering
+export function useFetch<T extends Endpoint, Response>(
+  endpoint: T,
+  params: EndpointParamList[T]
+): FetchResponse<Response> {
+  // Since `params` is an object, it will create a new reference every time this hook is called in a component
+  // We cannot add `params` as part of our dependency array, since this will cause an infinite fetch/rendering
   // Ideally, we need some form of 'deep equality' check to determine if the object's contents has actually changed
   // However, in general, 'deep equality' checking is a bad idea - using a JSON string is sufficient in cases where the object tree is small
   // https://twitter.com/dan_abramov/status/1104414272753487872
-  const fetchConfig = JSON.stringify(request);
+  const fetchConfig = JSON.stringify(params);
 
   const [state, setState] = useState<FetchResponse<Response>>({
     isLoading: true,
@@ -24,8 +27,8 @@ export function useFetch<Response>(request: TRequest): FetchResponse<Response> {
     setState({ isLoading: true });
 
     try {
-      const request = JSON.parse(fetchConfig);
-      const json = await fetchRequest(request);
+      const params = JSON.parse(fetchConfig);
+      const json = await fetchRequest(endpoint, params);
       const data = convertToCamelCase(json);
 
       setTimeout(() => {
@@ -35,7 +38,7 @@ export function useFetch<Response>(request: TRequest): FetchResponse<Response> {
       console.error("[useFetch] Failed to fetch due to error:", error);
       setState({ errorMessage: error.message });
     }
-  }, [fetchConfig]);
+  }, [endpoint, fetchConfig]);
 
   useEffect(() => {
     fetch();
