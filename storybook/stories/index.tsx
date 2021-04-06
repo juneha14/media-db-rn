@@ -10,21 +10,12 @@ import { CaptionImages } from "./components/CaptionImages";
 import { MediaScreen } from "../../src/screens/Home/MediaScreen";
 
 // Components
-storiesOf("Typography", module)
+storiesOf("Components", module)
   .addDecorator(ContentView)
-  .add("Text", () => <Typography />);
-
-storiesOf("Ratings", module)
-  .addDecorator(ContentView)
-  .add("Rating", () => <Ratings />);
-
-storiesOf("Caption Images", module)
-  .addDecorator(ContentView)
-  .add("Caption Images", () => <CaptionImages />);
-
-storiesOf("Media Cells", module)
-  .addDecorator(ContentView)
-  .add("Media cell", () => <MediaCells />);
+  .add("Typography", () => <Typography />)
+  .add("Ratings", () => <Ratings />)
+  .add("Caption Images", () => <CaptionImages />)
+  .add("Media cells", () => <MediaCells />);
 
 // Screens
 storiesOf("Screens", module).add("Media Screen", () => <MediaScreen />);

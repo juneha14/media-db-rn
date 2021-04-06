@@ -10,20 +10,20 @@ export const CaptionImages: React.FC = () => {
         <Text variant="captionHeadingRegular">Portrait</Text>
         <CaptionImage
           style={styles.image}
-          url="https://image.tmdb.org/t/p/w185/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
+          url="/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
           width={185}
           orientation="portrait"
         />
         <CaptionImage
           style={styles.image}
-          url="https://image.tmdb.org/t/p/w185/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
+          url="/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
           width={185}
           orientation="portrait"
           title="Monster Hunter"
         />
         <CaptionImage
           style={styles.image}
-          url="https://image.tmdb.org/t/p/w185/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
+          url="/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
           width={185}
           orientation="portrait"
           title="Monster Hunter"
@@ -35,20 +35,20 @@ export const CaptionImages: React.FC = () => {
         <Text variant="captionHeadingRegular">Landscape</Text>
         <CaptionImage
           style={styles.image}
-          url="https://image.tmdb.org/t/p/w500/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
+          url="/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
           height={185}
           orientation="landscape"
         />
         <CaptionImage
           style={styles.image}
-          url="https://image.tmdb.org/t/p/w500/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
+          url="/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
           height={185}
           orientation="landscape"
           title="Monster Hunter"
         />
         <CaptionImage
           style={styles.image}
-          url="https://image.tmdb.org/t/p/w500/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
+          url="/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
           height={185}
           orientation="landscape"
           title="Monster Hunter"
