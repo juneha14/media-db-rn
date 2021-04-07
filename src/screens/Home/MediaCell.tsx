@@ -3,6 +3,7 @@ import { StyleSheet, ViewStyle, StyleProp, Pressable } from "react-native";
 import { CaptionImage } from "../../components/CaptionImage";
 import { PressableIcon } from "../../components/PressableIcon";
 import { Rating } from "../../components/Rating";
+import { useImageUrl } from "../../hooks";
 import { useLayout } from "../../hooks/useLayout";
 
 interface MediaCellProps {
@@ -31,6 +32,7 @@ export const MediaCell: React.FC<MediaCellProps> = React.memo(
     onLikePress,
     style,
   }) => {
+    const uri = useImageUrl("poster", "Medium", posterImgUrl);
     const [cellSize, onCellLayout] = useLayout();
     const onPressed = useCallback(
       (id: number) => () => {
@@ -47,8 +49,9 @@ export const MediaCell: React.FC<MediaCellProps> = React.memo(
           onLayout={onCellLayout}
         >
           <CaptionImage
-            url={posterImgUrl}
+            uri={uri}
             width={width}
+            height={height}
             orientation="portrait"
             title={title}
             description={releaseDate}

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const PosterSize = {
   XSmall: "w92",
@@ -35,11 +35,11 @@ const baseUrl = "https://image.tmdb.org/t/p/";
 export function useImageUrl<
   T extends ImageType,
   S extends keyof typeof ImageSize[T]
->(type: T, size: S, path: string | null): string | undefined {
-  const [url, setUrl] = useState<string>();
+>(type: T, size: S, path: string | null): string | null {
+  const [url, setUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    if (path) {
+    if (path && path.length > 0) {
       const sizePath = ImageSize[type][size];
       setUrl(baseUrl + sizePath + path);
     }
