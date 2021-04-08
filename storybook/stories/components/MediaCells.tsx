@@ -14,7 +14,6 @@ export const MediaCells: React.FC = () => {
         releaseDate="2020-03-20"
         rating={8.91}
         width={width}
-        height={100}
         onPress={() => {
           console.log("========== File: MediaCells.tsx, Line: 16 ==========");
         }}
@@ -30,7 +29,6 @@ export const MediaCells: React.FC = () => {
         releaseDate="2020-03-20"
         rating={8.91}
         width={width}
-        height={100}
         onPress={() =>
           console.log("========== File: MediaCells.tsx, Line: 16 ==========")
         }
@@ -46,7 +44,6 @@ export const MediaCells: React.FC = () => {
         releaseDate="2020-03-20"
         rating={8.91}
         width={width}
-        height={100}
         onPress={() =>
           console.log("========== File: MediaCells.tsx, Line: 16 ==========")
         }
@@ -62,7 +59,6 @@ export const MediaCells: React.FC = () => {
         releaseDate="2020-03-20"
         rating={8.91}
         width={width}
-        height={100}
         onPress={() =>
           console.log("========== File: MediaCells.tsx, Line: 16 ==========")
         }

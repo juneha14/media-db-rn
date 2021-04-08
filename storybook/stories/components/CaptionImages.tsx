@@ -2,28 +2,40 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { CaptionImage } from "../../../src/components/CaptionImage";
 import { Text } from "../../../src/components/Text";
+import { useImageUrl } from "../../../src/hooks";
 
 export const CaptionImages: React.FC = () => {
+  const posterUri = useImageUrl(
+    "poster",
+    "Large",
+    "/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
+  );
+  const backdropUri = useImageUrl(
+    "backdrop",
+    "Large",
+    "/jMWkd0fuwbG39eJpzycJzPWMCww.jpg"
+  );
+
   return (
     <>
       <View style={styles.container}>
         <Text variant="captionHeadingRegular">Portrait</Text>
         <CaptionImage
           style={styles.image}
-          url="/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
+          uri={posterUri}
           width={185}
           orientation="portrait"
         />
         <CaptionImage
           style={styles.image}
-          url="/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
+          uri={posterUri}
           width={185}
           orientation="portrait"
           title="Monster Hunter"
         />
         <CaptionImage
           style={styles.image}
-          url="/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
+          uri={posterUri}
           width={185}
           orientation="portrait"
           title="Monster Hunter"
@@ -35,20 +47,20 @@ export const CaptionImages: React.FC = () => {
         <Text variant="captionHeadingRegular">Landscape</Text>
         <CaptionImage
           style={styles.image}
-          url="/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
+          uri={backdropUri}
           height={185}
           orientation="landscape"
         />
         <CaptionImage
           style={styles.image}
-          url="/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
+          uri={backdropUri}
           height={185}
           orientation="landscape"
           title="Monster Hunter"
         />
         <CaptionImage
           style={styles.image}
-          url="/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
+          uri={backdropUri}
           height={185}
           orientation="landscape"
           title="Monster Hunter"

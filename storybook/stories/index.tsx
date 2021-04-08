@@ -8,6 +8,7 @@ import { MediaCells } from "./components/MediaCells";
 import { CaptionImages } from "./components/CaptionImages";
 
 import { MediaScreen } from "../../src/screens/Home/MediaScreen";
+import { MediaDetailsHeader } from "./components/MediaDetailsHeader";
 
 // Components
 storiesOf("Components", module)
@@ -16,6 +17,10 @@ storiesOf("Components", module)
   .add("Ratings", () => <Ratings />)
   .add("Caption Images", () => <CaptionImages />)
   .add("Media cells", () => <MediaCells />);
+
+storiesOf("Media Details", module).add("Media Details Header", () => (
+  <MediaDetailsHeader />
+));
 
 // Screens
 storiesOf("Screens", module).add("Media Screen", () => <MediaScreen />);
