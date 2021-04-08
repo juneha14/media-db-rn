@@ -19,13 +19,13 @@ export const Icon: React.FC<IconProps> = React.memo(
     name,
     size = "small",
     fillColor = Colors.IconSubdued,
-    borderColor = "red",
+    borderColor,
     style,
   }) => {
     return (
       <View style={[styles.container, style]}>
         <Ionicons
-          style={[styles.container, style, { borderColor: borderColor }]}
+          style={{ borderColor: borderColor }}
           name={name}
           size={IconSizeValues[size]}
           color={fillColor}
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const IconSizeValues: Record<IconSize, number> = {
+export const IconSizeValues: Record<IconSize, number> = {
   small: 18,
   medium: 22,
   large: 44,

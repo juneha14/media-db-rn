@@ -1,15 +1,15 @@
 import React, { useCallback, useState } from "react";
-import { StyleProp, ViewStyle, Pressable } from "react-native";
-import { Icon, IconSize, IconName } from "./Icon";
+import { StyleProp, ViewStyle, Pressable, StyleSheet } from "react-native";
+import { Icon, IconSize, IconName, IconSizeValues } from "./Icon";
 import { Colors } from "./theme";
 
-interface PressableIconProps {
+export interface PressableIconProps {
   unfilledIconName?: IconName;
-  unfilledIconSize?: IconSize;
   unfilledIconColor?: string;
   filledIconName?: IconName;
-  filledIconSize?: IconSize;
   filledIconColor?: string;
+  size: IconSize;
+  encloseInBorder?: boolean;
   onPress: (pressed: boolean) => void;
   style?: StyleProp<ViewStyle>;
 }
@@ -17,36 +17,43 @@ interface PressableIconProps {
 export const PressableIcon: React.FC<PressableIconProps> = React.memo(
   ({
     unfilledIconName,
-    unfilledIconSize = "small",
     unfilledIconColor = Colors.IconOnPrimary,
     filledIconName,
-    filledIconSize = "small",
     filledIconColor = Colors.IconOnPrimary,
+    size,
+    encloseInBorder = false,
     onPress,
     style,
   }) => {
     const [pressed, setPressed] = useState(false);
     const onPressed = useCallback(() => {
-      onPress(!pressed);
-      setPressed((pressed) => !pressed);
-    }, [onPress, pressed]);
+      setPressed((pressed) => {
+        onPress(!pressed);
+        return !pressed;
+      });
+    }, [onPress]);
 
     return (
       <Pressable style={style} onPress={onPressed}>
-        {pressed ? (
-          <Icon
-            name={filledIconName}
-            size={filledIconSize}
-            fillColor={filledIconColor}
-          />
-        ) : (
-          <Icon
-            name={unfilledIconName}
-            size={unfilledIconSize}
-            fillColor={unfilledIconColor}
-          />
-        )}
+        <Icon
+          style={
+            encloseInBorder
+              ? { ...styles.enclosedBorder, borderRadius: IconSizeValues[size] }
+              : undefined
+          }
+          name={pressed ? filledIconName : unfilledIconName}
+          size={size}
+          fillColor={pressed ? filledIconColor : unfilledIconColor}
+        />
       </Pressable>
     );
   }
 );
+
+const styles = StyleSheet.create({
+  enclosedBorder: {
+    padding: 7,
+    borderColor: Colors.IconOnPrimary,
+    borderWidth: 1,
+  },
+});

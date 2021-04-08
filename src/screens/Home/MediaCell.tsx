@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { StyleSheet, ViewStyle, StyleProp, Pressable } from "react-native";
 import { CaptionImage } from "../../components/CaptionImage";
-import { PressableIcon } from "../../components/PressableIcon";
+import { FavouriteIcon } from "../../components/Icons";
 import { Rating } from "../../components/Rating";
 import { useImageUrl } from "../../hooks";
 import { useLayout } from "../../hooks/useLayout";
@@ -58,16 +58,13 @@ export const MediaCell: React.FC<MediaCellProps> = React.memo(
             rightAccessory={<Rating rating={rating} />}
           />
         </Pressable>
-        <PressableIcon
+        <FavouriteIcon
           style={{
             position: "absolute",
             top: cellSize ? cellSize.y + 5 : 0,
             left: cellSize ? cellSize.x + cellSize.width - 27 : 0,
           }}
-          unfilledIconName="heart-outline"
-          unfilledIconSize="medium"
-          filledIconName="ios-heart"
-          filledIconSize="medium"
+          size="medium"
           onPress={onLikePress}
         />
       </>

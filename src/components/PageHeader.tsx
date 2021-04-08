@@ -5,13 +5,13 @@ import { Spacing } from "./theme";
 
 interface PageHeaderProps {
   title: string;
-  description?: string;
+  subtitle?: string;
   style?: StyleProp<ViewStyle>;
 }
 
 export const PageHeader: React.FC<PageHeaderProps> = ({
   title,
-  description,
+  subtitle,
   style,
 }) => {
   return (
@@ -19,7 +19,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
       <Text style={styles.heading} variant="pageHeading">
         {title}
       </Text>
-      {description ? <Text variant="body">{description}</Text> : null}
+      {subtitle ? <Text variant="body">{subtitle}</Text> : null}
     </View>
   );
 };
