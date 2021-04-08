@@ -1,50 +1,42 @@
 import React, { useMemo } from "react";
-import { View, StyleSheet, StyleProp, ViewStyle } from "react-native";
-import { useTextLayout } from "../hooks/useLayout";
+import { StyleSheet, StyleProp, ViewStyle } from "react-native";
+import { Box } from "./Box";
 import { Text } from "./Text";
-import { Colors, Palette, Spacing } from "./theme";
+import { Colors, Palette } from "./theme";
+import { max } from "lodash";
 
 interface RatingProps {
   rating: number;
+  size?: number;
   style?: StyleProp<ViewStyle>;
 }
 
-export const Rating: React.FC<RatingProps> = React.memo(({ rating, style }) => {
-  const [layout, onLayout] = useTextLayout();
-  const size = useMemo(() => {
-    return Math.max(layout?.width ?? 0, layout?.height ?? 0) + 10;
-  }, [layout?.width, layout?.height]);
+export const Rating: React.FC<RatingProps> = React.memo(
+  ({ rating, size, style }) => {
+    const borderSize = useMemo(() => {
+      return max([size, 44]) ?? 44;
+    }, [size]);
 
-  const outerContainerSize = useMemo(() => {
-    const outerSize = size + Spacing.s;
-    return {
-      width: outerSize,
-      height: outerSize,
-      borderRadius: outerSize / 2,
-    };
-  }, [size]);
-  const innerContainerSize = useMemo(() => {
-    return {
-      width: size,
-      height: size,
-      borderRadius: size / 2,
-    };
-  }, [size]);
-
-  return (
-    <View style={[styles.outerContainer, outerContainerSize, style]}>
-      <View style={[styles.innerContainer, innerContainerSize]}>
-        <Text
-          variant="body"
-          color={fontColorForRating(rating)}
-          onTextLayout={onLayout}
+    return (
+      <Box style={style}>
+        <Box
+          style={[
+            styles.container,
+            {
+              width: borderSize,
+              height: borderSize,
+              borderRadius: borderSize / 2,
+            },
+          ]}
         >
-          {rating.toFixed(1)}
-        </Text>
-      </View>
-    </View>
-  );
-});
+          <Text variant="body" color={fontColorForRating(rating)}>
+            {rating.toFixed(1)}
+          </Text>
+        </Box>
+      </Box>
+    );
+  }
+);
 
 const fontColorForRating = (rating: number) => {
   if (rating <= 5) {
@@ -57,14 +49,10 @@ const fontColorForRating = (rating: number) => {
 };
 
 const styles = StyleSheet.create({
-  outerContainer: {
+  container: {
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: Colors.Border,
-  },
-  innerContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: Colors.SurfaceBackgroundPressed,
+    borderColor: Colors.Border,
+    borderWidth: 1,
   },
 });

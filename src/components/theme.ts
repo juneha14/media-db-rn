@@ -80,7 +80,7 @@ export const TextVariants: Record<
     fontFamily: "System",
     fontSize: 32,
     fontWeight: "600",
-    lineHeight: 37,
+    lineHeight: 34,
     letterSpacing: 0.2,
     color: Colors.TextNeutral,
   },

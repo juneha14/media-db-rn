@@ -1,5 +1,6 @@
 import React from "react";
-import { View, StyleProp, ViewStyle, StyleSheet } from "react-native";
+import { StyleProp, ViewStyle, StyleSheet } from "react-native";
+import { Box } from "../Box";
 import { PressableIcon, PressableIconProps } from "../PressableIcon";
 import { Text } from "../Text";
 import { Spacing } from "../theme";
@@ -15,8 +16,9 @@ interface FavouriteIconProps
 export const FavouriteIcon: React.FC<FavouriteIconProps> = React.memo(
   ({ size, encloseInBorder, caption, onPress, style }) => {
     return (
-      <View style={[styles.container, style]}>
+      <Box style={[{ alignItems: "center" }, style]}>
         <PressableIcon
+          style={styles.icon}
           unfilledIconName="heart-outline"
           filledIconName="heart"
           size={size}
@@ -28,13 +30,13 @@ export const FavouriteIcon: React.FC<FavouriteIconProps> = React.memo(
             {caption}
           </Text>
         ) : null}
-      </View>
+      </Box>
     );
   }
 );
 
 const styles = StyleSheet.create({
-  container: {
+  icon: {
     justifyContent: "center",
     alignItems: "center",
   },

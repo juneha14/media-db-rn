@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, StyleProp, ViewStyle } from "react-native";
+import { View, StyleProp, ViewStyle } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "./theme";
 
@@ -23,7 +23,7 @@ export const Icon: React.FC<IconProps> = React.memo(
     style,
   }) => {
     return (
-      <View style={[styles.container, style]}>
+      <View style={style}>
         <Ionicons
           style={{ borderColor: borderColor }}
           name={name}
@@ -34,13 +34,6 @@ export const Icon: React.FC<IconProps> = React.memo(
     );
   }
 );
-
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
 
 export const IconSizeValues: Record<IconSize, number> = {
   small: 18,

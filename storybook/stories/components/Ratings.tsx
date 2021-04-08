@@ -9,6 +9,7 @@ export const Ratings: React.FC = () => {
       <Rating style={{ marginBottom: spacing(1) }} rating={1.4} />
       <Rating style={{ marginBottom: spacing(1) }} rating={7.8} />
       <Rating style={{ marginBottom: spacing(1) }} rating={9.5} />
+      <Rating style={{ marginBottom: spacing(1) }} rating={1000} size={60} />
     </View>
   );
 };

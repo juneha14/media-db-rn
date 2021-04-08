@@ -5,7 +5,7 @@ export const MediaDetailsHeader: React.FC = () => {
   return (
     <Header
       id={1}
-      title="Godzilla vs King Kong - Battle of the ages"
+      title="Godzilla vs King Kong, Battle of the ages"
       releaseDate="2021-03-30"
       runtime={19300}
       rating={8.5}

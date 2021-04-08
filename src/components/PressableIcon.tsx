@@ -34,11 +34,24 @@ export const PressableIcon: React.FC<PressableIconProps> = React.memo(
     }, [onPress]);
 
     return (
-      <Pressable style={style} onPress={onPressed}>
+      <Pressable
+        style={[
+          encloseInBorder && {
+            width: IconSizeValues[size] * 2,
+            height: IconSizeValues[size] * 2,
+          },
+          style,
+        ]}
+        onPress={onPressed}
+      >
         <Icon
           style={
             encloseInBorder
-              ? { ...styles.enclosedBorder, borderRadius: IconSizeValues[size] }
+              ? {
+                  ...styles.enclosedBorder,
+                  borderRadius: IconSizeValues[size],
+                  padding: IconSizeValues[size] / 2,
+                }
               : undefined
           }
           name={pressed ? filledIconName : unfilledIconName}
@@ -52,8 +65,9 @@ export const PressableIcon: React.FC<PressableIconProps> = React.memo(
 
 const styles = StyleSheet.create({
   enclosedBorder: {
-    padding: 7,
-    borderColor: Colors.IconOnPrimary,
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: Colors.Border,
     borderWidth: 1,
   },
 });
