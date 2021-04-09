@@ -1,43 +1,36 @@
-import React from "react";
-import { StyleProp, ViewStyle, StyleSheet } from "react-native";
-import { Box } from "../Box";
-import { PressableIcon, PressableIconProps } from "../PressableIcon";
-import { Text } from "../Text";
-import { Spacing } from "../theme";
+import React, { useCallback, useState } from "react";
+import { StyleProp, ViewStyle, Pressable } from "react-native";
 import { noop } from "lodash";
+import { IconLabel, IconSize } from ".";
 
-interface FavouriteIconProps
-  extends Pick<PressableIconProps, "size" | "encloseInBorder"> {
+interface FavouriteIconProps {
+  iconSize: IconSize;
+  encloseInBorder?: boolean;
   caption?: string;
-  style?: StyleProp<ViewStyle>;
   onPress?: (pressed: boolean) => void;
+  style?: StyleProp<ViewStyle>;
 }
 
 export const FavouriteIcon: React.FC<FavouriteIconProps> = React.memo(
-  ({ size, encloseInBorder, caption, onPress, style }) => {
+  ({ iconSize, encloseInBorder, caption, onPress, style }) => {
+    const [pressed, setPressed] = useState(false);
+    const onPressed = useCallback(() => {
+      setPressed((pressed) => {
+        onPress ? onPress(!pressed) : noop;
+        return !pressed;
+      });
+    }, [onPress]);
+
     return (
-      <Box style={[{ alignItems: "center" }, style]}>
-        <PressableIcon
-          style={styles.icon}
-          unfilledIconName="heart-outline"
-          filledIconName="heart"
-          size={size}
+      <Pressable style={style} onPress={onPressed}>
+        <IconLabel
+          name={pressed ? "heart" : "heart-outline"}
+          size={iconSize}
           encloseInBorder={encloseInBorder}
-          onPress={onPress ? onPress : noop}
+          label={caption ?? ""}
+          labelPosition="below"
         />
-        {caption ? (
-          <Text style={{ marginTop: Spacing.s }} variant="body">
-            {caption}
-          </Text>
-        ) : null}
-      </Box>
+      </Pressable>
     );
   }
 );
-
-const styles = StyleSheet.create({
-  icon: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});

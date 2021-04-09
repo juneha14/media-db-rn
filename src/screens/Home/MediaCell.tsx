@@ -64,7 +64,7 @@ export const MediaCell: React.FC<MediaCellProps> = React.memo(
             top: cellSize ? cellSize.y + 5 : 0,
             left: cellSize ? cellSize.x + cellSize.width - 27 : 0,
           }}
-          size="medium"
+          iconSize="medium"
           onPress={onLikePress}
         />
       </>
