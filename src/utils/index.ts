@@ -1,1 +1,2 @@
-export { convertToCamelCase } from "./convertToCamelCase";
+export { convertToCamelCase } from "./camelCaseFormatter";
+export { formatMinutesToHM } from "./dateTimeFormatter";
