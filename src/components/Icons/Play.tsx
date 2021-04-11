@@ -1,8 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { StyleProp, ViewStyle, Pressable } from "react-native";
-import { noop } from "lodash";
-import { IconLabel, IconSize } from ".";
-import { Box } from "../Box";
+import { IconSize } from "./Icon";
+import { IconLabel } from "./IconLabel";
 
 interface PlayIconProps {
   iconSize: IconSize;

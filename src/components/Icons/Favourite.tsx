@@ -1,7 +1,8 @@
 import React, { useCallback, useState } from "react";
 import { StyleProp, ViewStyle, Pressable } from "react-native";
 import { noop } from "lodash";
-import { IconLabel, IconSize } from ".";
+import { IconLabel } from "./IconLabel";
+import { IconSize } from "./Icon";
 
 interface FavouriteIconProps {
   iconSize: IconSize;
