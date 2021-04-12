@@ -26,7 +26,13 @@ export const IconLabel: React.FC<IconLabelProps> = React.memo(
       >
         <Icon {...iconProps} />
         {label.length > 0 ? (
-          <Text style={{ marginTop: Spacing.s }} variant="body">
+          <Text
+            style={{
+              marginTop: labelPosition === "below" ? Spacing.s : undefined,
+              marginLeft: labelPosition === "right" ? Spacing.s : undefined,
+            }}
+            variant="body"
+          >
             {label}
           </Text>
         ) : null}

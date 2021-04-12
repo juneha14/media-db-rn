@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { StyleSheet, StyleProp, ViewStyle, Dimensions } from "react-native";
 import { Box } from "../../components/Box";
 import { FavouriteIcon, PlayIcon } from "../../components/Icons";
@@ -6,9 +6,12 @@ import { Image } from "../../components/Image";
 import { PageHeader } from "../../components/PageHeader";
 import { Rating } from "../../components/Rating";
 import { Text } from "../../components/Text";
+import { TagList } from "../../components/TagList";
+import { Section } from "../../components/Section";
 import { Colors, Spacing } from "../../components/theme";
 import { useImageUrl } from "../../hooks";
 import { noop } from "lodash";
+import { formatMinutesToHM } from "../../utils";
 
 interface HeaderProps {
   id: number;
@@ -17,17 +20,17 @@ interface HeaderProps {
   runtime: number | null;
   rating: number;
   ratingsCount: number;
+  hasVideo: boolean;
   posterImgUrl: string | null;
   backdropImgUrl: string | null;
   tagline: string | null;
   overview: string | null;
   genres: string[];
-  hasVideo: boolean;
+  onSelectGenre: (genre: string) => void;
   style?: StyleProp<ViewStyle>;
 }
 
 export const Header: React.FC<HeaderProps> = ({
-  id,
   title,
   releaseDate,
   runtime,
@@ -38,9 +41,21 @@ export const Header: React.FC<HeaderProps> = ({
   tagline,
   overview,
   genres,
+  onSelectGenre,
   hasVideo,
   style,
 }) => {
+  const infoText = runtime
+    ? `${releaseDate} ∙ ${formatMinutesToHM(runtime)}`
+    : releaseDate;
+
+  const onGenrePress = useCallback(
+    (genre: string) => () => {
+      onSelectGenre(genre);
+    },
+    [onSelectGenre]
+  );
+
   return (
     <Box
       style={[
@@ -53,15 +68,20 @@ export const Header: React.FC<HeaderProps> = ({
         backdropImgUrl={backdropImgUrl}
       />
       <PageHeader
-        style={{ marginVertical: Spacing.l }}
+        style={styles.titleHeader}
         title={title}
-        subtitle={releaseDate}
+        subtitle={infoText}
       />
-      <Box
-        id="buttons"
-        style={{ flexDirection: "row", justifyContent: "space-evenly" }}
-      >
-        <Box id="ratings" style={{ alignItems: "center" }}>
+      <TagList
+        style={styles.genresContainer}
+        tags={genres.map((genre) => ({
+          title: genre,
+          borderColor: Colors.ActionPrimary,
+          onPress: onGenrePress(genre),
+        }))}
+      />
+      <Box style={styles.buttonsContainer}>
+        <Box style={{ alignItems: "center" }}>
           <Rating style={{ marginBottom: Spacing.s }} rating={rating} />
           <Text variant="body">{`${ratingsCount} reviews`}</Text>
         </Box>
@@ -72,15 +92,22 @@ export const Header: React.FC<HeaderProps> = ({
           onPress={noop}
         />
         {hasVideo ? (
-          <PlayIcon
-            iconSize="medium"
-            caption="Play Trailer"
-            onPress={() =>
-              console.log("========== File: Header.tsx, Line: 75 ==========")
-            }
-          />
+          <PlayIcon iconSize="medium" caption="Play Trailer" onPress={noop} />
         ) : null}
       </Box>
+      <Section title="Overview">
+        <Text
+          style={{
+            fontStyle: "italic",
+            fontWeight: "500",
+            marginBottom: Spacing.s,
+          }}
+          variant="body"
+        >
+          {tagline}
+        </Text>
+        <Text variant="body">{overview}</Text>
+      </Section>
     </Box>
   );
 };
@@ -132,4 +159,16 @@ const PosterBackdropContainer = ({
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  titleHeader: {
+    marginVertical: Spacing.m,
+  },
+  genresContainer: {
+    marginBottom: Spacing.l,
+  },
+  buttonsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    marginBottom: Spacing.xl,
+  },
+});
