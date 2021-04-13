@@ -15,7 +15,10 @@ export const MediaDetailsHeader: React.FC = () => {
       backdropImgUrl="/jMWkd0fuwbG39eJpzycJzPWMCww.jpg"
       tagline="One will fall"
       overview="In a time when monsters walk the Earth, humanity’s fight for its future sets Godzilla and Kong on a collision course that will see the two most powerful forces of nature on the planet collide in a spectacular battle for the ages"
-      genres={["Action", "Science Fiction"]}
+      genres={[
+        { name: "Action", id: 1 },
+        { name: "Science Fiction", id: 2 },
+      ]}
       onSelectGenre={(genre) => console.log("==== Value of genre:", genre)}
     />
   );

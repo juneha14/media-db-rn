@@ -12,6 +12,7 @@ import { Colors, Spacing } from "../../components/theme";
 import { useImageUrl } from "../../hooks";
 import { noop } from "lodash";
 import { formatMinutesToHM } from "../../utils";
+import { Genre } from "../../models";
 
 interface HeaderProps {
   id: number;
@@ -25,8 +26,8 @@ interface HeaderProps {
   backdropImgUrl: string | null;
   tagline: string | null;
   overview: string | null;
-  genres: string[];
-  onSelectGenre: (genre: string) => void;
+  genres: Genre[];
+  onSelectGenre: (id: number) => void;
   style?: StyleProp<ViewStyle>;
 }
 
@@ -50,19 +51,14 @@ export const Header: React.FC<HeaderProps> = ({
     : releaseDate;
 
   const onGenrePress = useCallback(
-    (genre: string) => () => {
-      onSelectGenre(genre);
+    (id: number) => () => {
+      onSelectGenre(id);
     },
     [onSelectGenre]
   );
 
   return (
-    <Box
-      style={[
-        style,
-        { flex: 1, backgroundColor: Colors.SurfaceForegroundPressed },
-      ]}
-    >
+    <Box style={style}>
       <PosterBackdropContainer
         posterImgUrl={posterImgUrl}
         backdropImgUrl={backdropImgUrl}
@@ -75,9 +71,9 @@ export const Header: React.FC<HeaderProps> = ({
       <TagList
         style={styles.genresContainer}
         tags={genres.map((genre) => ({
-          title: genre,
+          title: genre.name,
           borderColor: Colors.ActionPrimary,
-          onPress: onGenrePress(genre),
+          onPress: onGenrePress(genre.id),
         }))}
       />
       <Box style={styles.buttonsContainer}>
