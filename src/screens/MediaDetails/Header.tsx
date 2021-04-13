@@ -28,6 +28,8 @@ interface HeaderProps {
   overview: string | null;
   genres: Genre[];
   onSelectGenre: (id: number) => void;
+  onSelectFavourite: () => void;
+  onSelectPlayTrailer?: () => void;
   style?: StyleProp<ViewStyle>;
 }
 
@@ -41,9 +43,11 @@ export const Header: React.FC<HeaderProps> = ({
   backdropImgUrl,
   tagline,
   overview,
+  hasVideo,
   genres,
   onSelectGenre,
-  hasVideo,
+  onSelectFavourite,
+  onSelectPlayTrailer,
   style,
 }) => {
   const infoText = runtime
@@ -85,10 +89,14 @@ export const Header: React.FC<HeaderProps> = ({
           iconSize="medium"
           encloseInBorder
           caption="Favourite"
-          onPress={noop}
+          onPress={onSelectFavourite}
         />
         {hasVideo ? (
-          <PlayIcon iconSize="medium" caption="Play Trailer" onPress={noop} />
+          <PlayIcon
+            iconSize="medium"
+            caption="Play Trailer"
+            onPress={onSelectPlayTrailer}
+          />
         ) : null}
       </Box>
       <Section title="Overview">

@@ -8,21 +8,23 @@ import { useLayout } from "../../hooks/useLayout";
 
 interface MediaCellProps {
   id: number;
-  posterImgUrl: string | null;
+  mediaImgType: "poster" | "backdrop";
+  mediaImgUrl: string | null;
   title: string;
   releaseDate: string;
   rating: number;
   width?: number;
   height?: number;
   onPress: (id: number) => void;
-  onLikePress: (pressed: boolean) => void;
+  onLikePress?: (pressed: boolean) => void;
   style?: StyleProp<ViewStyle>;
 }
 
 export const MediaCell: React.FC<MediaCellProps> = React.memo(
   ({
     id,
-    posterImgUrl,
+    mediaImgType,
+    mediaImgUrl,
     title,
     releaseDate,
     rating,
@@ -32,7 +34,11 @@ export const MediaCell: React.FC<MediaCellProps> = React.memo(
     onLikePress,
     style,
   }) => {
-    const uri = useImageUrl("poster", "Medium", posterImgUrl);
+    const uri = useImageUrl(
+      mediaImgType === "poster" ? "poster" : "backdrop",
+      "Medium",
+      mediaImgUrl
+    );
     const [cellSize, onCellLayout] = useLayout();
     const onPressed = useCallback(
       (id: number) => () => {
@@ -52,21 +58,23 @@ export const MediaCell: React.FC<MediaCellProps> = React.memo(
             uri={uri}
             width={width}
             height={height}
-            orientation="portrait"
+            orientation={mediaImgType === "poster" ? "portrait" : "landscape"}
             title={title}
             description={releaseDate}
             rightAccessory={<Rating rating={rating} />}
           />
         </Pressable>
-        <FavouriteIcon
-          style={{
-            position: "absolute",
-            top: cellSize ? cellSize.y + 5 : 0,
-            left: cellSize ? cellSize.x + cellSize.width - 27 : 0,
-          }}
-          iconSize="medium"
-          onPress={onLikePress}
-        />
+        {onLikePress && (
+          <FavouriteIcon
+            style={{
+              position: "absolute",
+              top: cellSize ? cellSize.y + 5 : 0,
+              left: cellSize ? cellSize.x + cellSize.width - 27 : 0,
+            }}
+            iconSize="medium"
+            onPress={onLikePress}
+          />
+        )}
       </>
     );
   }
