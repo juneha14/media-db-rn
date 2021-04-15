@@ -39,7 +39,8 @@ export const MediaScreen: React.FC = () => {
         <MediaCell
           style={styles.cellContainer}
           id={id}
-          posterImgUrl={posterPath}
+          mediaImgType="poster"
+          mediaImgUrl={posterPath}
           title={title}
           releaseDate={releaseDate}
           rating={voteAverage}

@@ -80,7 +80,7 @@ export const TextVariants: Record<
     fontFamily: "System",
     fontSize: 32,
     fontWeight: "600",
-    lineHeight: 37,
+    lineHeight: 34,
     letterSpacing: 0.2,
     color: Colors.TextNeutral,
   },
@@ -119,7 +119,7 @@ export const TextVariants: Record<
 };
 
 type Space = 0.5 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 13 | 16;
-export const spacing = (space: Space): number => 8 * space;
+const spacing = (space: Space): number => 8 * space;
 export const Spacing = {
   xl: spacing(3),
   l: spacing(2),

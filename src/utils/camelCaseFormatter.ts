@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { camelCase } from "lodash";
 
-export const convertToCamelCase = (obj: any): any => {
+export function convertToCamelCase(obj: any): any {
   if (!obj || typeof obj !== "object") {
     return obj;
   }
@@ -19,4 +19,4 @@ export const convertToCamelCase = (obj: any): any => {
   }, {});
 
   return camelCased;
-};
+}

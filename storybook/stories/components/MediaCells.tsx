@@ -9,12 +9,12 @@ export const MediaCells: React.FC = () => {
       <MediaCell
         style={styles.mediaCellContainer}
         id={12345}
-        posterImgUrl="/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
+        mediaImgType="poster"
+        mediaImgUrl="/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
         title="Monster Hunter and the Deadly Sword"
         releaseDate="2020-03-20"
         rating={8.91}
         width={width}
-        height={100}
         onPress={() => {
           console.log("========== File: MediaCells.tsx, Line: 16 ==========");
         }}
@@ -25,12 +25,12 @@ export const MediaCells: React.FC = () => {
       <MediaCell
         style={styles.mediaCellContainer}
         id={12345}
-        posterImgUrl="/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
+        mediaImgType="poster"
+        mediaImgUrl="/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
         title="Monster Hunter"
         releaseDate="2020-03-20"
         rating={8.91}
         width={width}
-        height={100}
         onPress={() =>
           console.log("========== File: MediaCells.tsx, Line: 16 ==========")
         }
@@ -41,12 +41,12 @@ export const MediaCells: React.FC = () => {
       <MediaCell
         style={styles.mediaCellContainer}
         id={12345}
-        posterImgUrl="/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
+        mediaImgType="backdrop"
+        mediaImgUrl="/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
         title="Monster Hunter"
         releaseDate="2020-03-20"
         rating={8.91}
         width={width}
-        height={100}
         onPress={() =>
           console.log("========== File: MediaCells.tsx, Line: 16 ==========")
         }
@@ -57,12 +57,12 @@ export const MediaCells: React.FC = () => {
       <MediaCell
         style={styles.mediaCellContainer}
         id={12345}
-        posterImgUrl="/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
+        mediaImgType="backdrop"
+        mediaImgUrl="/1UCOF11QCw8kcqvce8LKOO6pimh.jpg"
         title="Monster Hunter"
         releaseDate="2020-03-20"
         rating={8.91}
         width={width}
-        height={100}
         onPress={() =>
           console.log("========== File: MediaCells.tsx, Line: 16 ==========")
         }

@@ -4,58 +4,38 @@ import {
   StyleSheet,
   StyleProp,
   ViewStyle,
-  Image,
   ImageStyle,
 } from "react-native";
-import Images from "../assets";
-import { useImageUrl } from "../hooks";
+import { useLayout } from "../hooks";
 import { Caption, CaptionProps } from "./Caption";
+import { Image, ImageProps } from "./Image";
 import { Colors, Spacing } from "./theme";
 
-const AspectRatio = {
-  portrait: 2 / 3,
-  landscape: 16 / 9,
-};
-type Orientation = keyof typeof AspectRatio;
-
-interface CaptionImageProps extends Omit<CaptionProps, "style" | "title"> {
-  url: string | null;
-  width?: number;
-  height?: number;
-  orientation?: Orientation;
+interface CaptionImageProps
+  extends Omit<CaptionProps, "style" | "title">,
+    Omit<ImageProps, "style"> {
   title?: string;
   style?: StyleProp<ViewStyle>;
 }
 
 export const CaptionImage: React.FC<CaptionImageProps> = React.memo(
-  ({ url, width, height, orientation, title, description, style, ...rest }) => {
-    const uri = useImageUrl("poster", "Medium", url);
-
-    const size = {
-      width: width
-        ? width
-        : height && orientation
-        ? height * AspectRatio[orientation]
-        : undefined,
-      height: height
-        ? height
-        : width && orientation
-        ? width / AspectRatio[orientation]
-        : undefined,
-    };
+  ({ uri, width, height, orientation, title, description, style, ...rest }) => {
+    const [imageSize, onLayout] = useLayout();
 
     const imageBorderStyle: ImageStyle = {
-      borderRadius: 4,
       borderBottomLeftRadius: title || description ? 0 : 4,
       borderBottomRightRadius: title || description ? 0 : 4,
     };
 
     return (
-      <View style={[styles.container, { width: size.width }, style]}>
+      <View style={[styles.container, { width: imageSize?.width }, style]}>
         <Image
-          style={[{ ...size }, { ...imageBorderStyle }]}
-          source={uri ? { uri } : Images.placeholderImage}
-          resizeMode={uri ? "cover" : "center"}
+          imageStyle={{ ...imageBorderStyle }}
+          onLayout={onLayout}
+          uri={uri}
+          width={width}
+          height={height}
+          orientation={orientation}
         />
         {title || description ? (
           <Caption
@@ -81,8 +61,5 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 4,
     borderBottomRightRadius: 4,
     backgroundColor: Colors.SurfaceForeground,
-  },
-  text: {
-    marginBottom: Spacing.s,
   },
 });
