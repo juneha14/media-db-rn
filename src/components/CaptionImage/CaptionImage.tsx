@@ -1,19 +1,14 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  StyleProp,
-  ViewStyle,
-  ImageStyle,
-} from "react-native";
-import { useLayout } from "../hooks";
-import { Caption, CaptionProps } from "./Caption";
-import { Image, ImageProps } from "./Image";
-import { Colors, Spacing } from "./theme";
+import { StyleSheet, StyleProp, ViewStyle, ImageStyle } from "react-native";
+import { useLayout } from "../../hooks";
+import { Box } from "../Box";
+import { Caption, CaptionProps } from "../Caption/Caption";
+import { Image, ImageProps } from "../Image";
+import { Colors, Spacing } from "../theme";
 
 interface CaptionImageProps
   extends Omit<CaptionProps, "style" | "title">,
-    Omit<ImageProps, "style"> {
+    Omit<ImageProps, "style" | "imageStyle"> {
   title?: string;
   style?: StyleProp<ViewStyle>;
 }
@@ -28,7 +23,7 @@ export const CaptionImage: React.FC<CaptionImageProps> = React.memo(
     };
 
     return (
-      <View style={[styles.container, { width: imageSize?.width }, style]}>
+      <Box style={[styles.container, { width: imageSize?.width }, style]}>
         <Image
           imageStyle={{ ...imageBorderStyle }}
           onLayout={onLayout}
@@ -45,7 +40,7 @@ export const CaptionImage: React.FC<CaptionImageProps> = React.memo(
             {...rest}
           />
         ) : null}
-      </View>
+      </Box>
     );
   }
 );

@@ -1,0 +1,1 @@
+export { CaptionImage } from "./CaptionImage";
