@@ -7,12 +7,14 @@ function loadStories() {
   require("../src/components/Caption/Caption.stories");
   require("../src/components/CaptionImage/CaptionImage.stories");
   require("../src/components/Carousel/Carousel.stories");
+  require("../src/components/Icons/Icons.stories");
 }
 
 const stories = [
   "../src/components/Caption/Caption.stories",
   "../src/components/CaptionImage/CaptionImage.stories",
   "../src/components/Carousel/Carousel.stories",
+  "../src/components/Icons/Icons.stories",
 ];
 
 module.exports = {
