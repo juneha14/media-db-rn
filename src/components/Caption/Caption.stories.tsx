@@ -6,7 +6,7 @@ import { Caption } from "./Caption";
 import { Colors } from "../theme";
 import { Rating } from "../Rating";
 
-storiesOf("Captions", module)
+storiesOf("Caption", module)
   .addDecorator(ContentViewDark)
   .add("title", () => (
     <Caption

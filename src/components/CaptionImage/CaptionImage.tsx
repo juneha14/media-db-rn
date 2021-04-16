@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, StyleProp, ViewStyle, ImageStyle } from "react-native";
 import { useLayout } from "../../hooks";
 import { Box } from "../Box";
-import { Caption, CaptionProps } from "../Caption/Caption";
+import { Caption, CaptionProps } from "../Caption";
 import { Image, ImageProps } from "../Image";
 import { Colors, Spacing } from "../theme";
 

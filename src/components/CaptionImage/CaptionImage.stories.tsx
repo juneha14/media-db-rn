@@ -7,7 +7,7 @@ import { Rating } from "../Rating";
 const uri =
   "https://image.tmdb.org/t/p/original/pgqgaUx1cJb5oZQQ5v0tNARCeBp.jpg";
 
-storiesOf("Caption Images", module)
+storiesOf("Caption Image", module)
   .addDecorator(ContentViewDark)
   .add("portrait", () => (
     <CaptionImage
