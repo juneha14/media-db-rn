@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { FlatList, Text, FlatListProps, StyleSheet } from "react-native";
-import { LoadingIndicator } from "./LoadingIndicator";
-import { Spacing } from "./theme";
+import { LoadingIndicator } from "../LoadingIndicator";
+import { Spacing } from "../theme";
 
 interface PaginatedListProps<Item> extends FlatListProps<Item> {
   isLoading: boolean;
