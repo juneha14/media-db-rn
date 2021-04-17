@@ -1,8 +1,8 @@
 import React from "react";
 import { Pressable, StyleProp, StyleSheet, ViewStyle } from "react-native";
-import { Box } from "./Box";
-import { Text } from "./Text";
-import { Colors, Spacing } from "./theme";
+import { Box } from "../Box";
+import { Text } from "../Typography/Text";
+import { Colors, Spacing } from "../theme";
 
 interface Section {
   title: string;
