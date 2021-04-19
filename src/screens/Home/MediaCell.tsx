@@ -1,10 +1,9 @@
 import React, { useCallback } from "react";
-import { StyleSheet, ViewStyle, StyleProp, Pressable } from "react-native";
+import { ViewStyle, StyleProp, Pressable } from "react-native";
 import { CaptionImage } from "../../components/CaptionImage";
 import { FavouriteIcon } from "../../components/Icons";
 import { Rating } from "../../components/Rating";
-import { useImageUrl } from "../../hooks";
-import { useLayout } from "../../hooks/useLayout";
+import { useImageUri, useLayout } from "../../hooks";
 
 interface MediaCellProps {
   id: number;
@@ -34,12 +33,13 @@ export const MediaCell: React.FC<MediaCellProps> = React.memo(
     onLikePress,
     style,
   }) => {
-    const uri = useImageUrl(
+    const uri = useImageUri(
       mediaImgType === "poster" ? "poster" : "backdrop",
       "Medium",
       mediaImgUrl
     );
     const [cellSize, onCellLayout] = useLayout();
+    const [imageSize, onImageLayout] = useLayout();
     const onPressed = useCallback(
       (id: number) => () => {
         onPress(id);
@@ -50,7 +50,7 @@ export const MediaCell: React.FC<MediaCellProps> = React.memo(
     return (
       <>
         <Pressable
-          style={[styles.container, style]}
+          style={[style, { width: imageSize?.width }]}
           onPress={onPressed(id)}
           onLayout={onCellLayout}
         >
@@ -62,6 +62,7 @@ export const MediaCell: React.FC<MediaCellProps> = React.memo(
             title={title}
             description={releaseDate}
             rightAccessory={<Rating rating={rating} />}
+            onViewLayout={onImageLayout}
           />
         </Pressable>
         {onLikePress && (
@@ -69,7 +70,8 @@ export const MediaCell: React.FC<MediaCellProps> = React.memo(
             style={{
               position: "absolute",
               top: cellSize ? cellSize.y + 5 : 0,
-              left: cellSize ? cellSize.x + cellSize.width - 27 : 0,
+              left:
+                cellSize && imageSize ? cellSize.x + imageSize.width - 27 : 0,
             }}
             iconSize="medium"
             onPress={onLikePress}
@@ -79,7 +81,3 @@ export const MediaCell: React.FC<MediaCellProps> = React.memo(
     );
   }
 );
-
-const styles = StyleSheet.create({
-  container: {},
-});

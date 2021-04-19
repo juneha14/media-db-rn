@@ -1,5 +1,11 @@
 import React from "react";
-import { StyleSheet, StyleProp, ViewStyle, ImageStyle } from "react-native";
+import {
+  StyleSheet,
+  StyleProp,
+  ViewStyle,
+  ImageStyle,
+  LayoutChangeEvent,
+} from "react-native";
 import { useLayout } from "../../hooks";
 import { Box } from "../Box";
 import { Caption, CaptionProps } from "../Caption";
@@ -8,13 +14,24 @@ import { Colors, Spacing } from "../theme";
 
 interface CaptionImageProps
   extends Omit<CaptionProps, "style" | "title">,
-    Omit<ImageProps, "style" | "imageStyle"> {
+    Omit<ImageProps, "style" | "imageStyle" | "onLayout"> {
   title?: string;
+  onViewLayout?: (event: LayoutChangeEvent) => void;
   style?: StyleProp<ViewStyle>;
 }
 
 export const CaptionImage: React.FC<CaptionImageProps> = React.memo(
-  ({ uri, width, height, orientation, title, description, style, ...rest }) => {
+  ({
+    uri,
+    width,
+    height,
+    orientation,
+    title,
+    description,
+    onViewLayout,
+    style,
+    ...rest
+  }) => {
     const [imageSize, onLayout] = useLayout();
 
     const imageBorderStyle: ImageStyle = {
@@ -23,7 +40,10 @@ export const CaptionImage: React.FC<CaptionImageProps> = React.memo(
     };
 
     return (
-      <Box style={[styles.container, { width: imageSize?.width }, style]}>
+      <Box
+        style={[styles.container, { width: imageSize?.width }, style]}
+        onLayout={onViewLayout}
+      >
         <Image
           imageStyle={{ ...imageBorderStyle }}
           onLayout={onLayout}
