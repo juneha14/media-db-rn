@@ -1,8 +1,8 @@
 import React from "react";
 import { storiesOf } from "@storybook/react-native";
 import { CaptionImage } from "./CaptionImage";
-import { ContentViewDark } from "../../../storybook/ContentView";
 import { Rating } from "../Rating";
+import { ContentViewDark } from "../../../storybook/ContentView";
 
 const uri =
   "https://image.tmdb.org/t/p/original/pgqgaUx1cJb5oZQQ5v0tNARCeBp.jpg";

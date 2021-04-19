@@ -21,7 +21,7 @@ storiesOf("Caption", module)
       description="2020-03-30"
     />
   ))
-  .add("title, description, right accessory", () => (
+  .add("title, description, accessory", () => (
     <Caption
       style={styles.container}
       title="Godzilla vs Kong"

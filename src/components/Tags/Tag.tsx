@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, StyleProp, ViewStyle, Pressable } from "react-native";
-import { Text } from "../Typography/Text";
+import { Text } from "../Typography";
 import { Colors } from "../theme";
 
 export interface TagProps {

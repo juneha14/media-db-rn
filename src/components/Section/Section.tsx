@@ -11,31 +11,27 @@ interface Section {
   style?: StyleProp<ViewStyle>;
 }
 
-export const Section: React.FC<Section> = ({
-  title,
-  accessoryTitle,
-  onAccessoryPress,
-  children,
-  style,
-}) => {
-  return (
-    <Box style={style}>
-      <Box style={styles.container}>
-        <Text style={styles.title} variant="sectionHeading">
-          {title}
-        </Text>
-        <Pressable style={styles.accessoryTitle} onPress={onAccessoryPress}>
-          {accessoryTitle && (
-            <Text variant="body" color={Colors.ActionPrimary}>
-              {accessoryTitle}
-            </Text>
-          )}
-        </Pressable>
+export const Section: React.FC<Section> = React.memo(
+  ({ title, accessoryTitle, onAccessoryPress, children, style }) => {
+    return (
+      <Box style={style}>
+        <Box style={styles.container}>
+          <Text style={styles.title} variant="sectionHeading">
+            {title}
+          </Text>
+          <Pressable style={styles.accessoryTitle} onPress={onAccessoryPress}>
+            {accessoryTitle && (
+              <Text variant="body" color={Colors.ActionPrimary}>
+                {accessoryTitle}
+              </Text>
+            )}
+          </Pressable>
+        </Box>
+        {children}
       </Box>
-      {children}
-    </Box>
-  );
-};
+    );
+  }
+);
 
 const styles = StyleSheet.create({
   container: {

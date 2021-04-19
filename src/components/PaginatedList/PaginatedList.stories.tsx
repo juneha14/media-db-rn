@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { Dimensions } from "react-native";
 import { storiesOf } from "@storybook/react-native";
 import { PaginatedList } from "./PaginatedList";
 import { Image } from "../Image";
-import { Dimensions } from "react-native";
 
 const imageUrls = [
   "/inJjDhCjfhh3RtrJWBmmDqeuSYC.jpg",

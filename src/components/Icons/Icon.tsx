@@ -1,6 +1,7 @@
 import React from "react";
-import { View, StyleProp, ViewStyle } from "react-native";
+import { StyleProp, ViewStyle } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { Box } from "../Box";
 import { Colors } from "../theme";
 
 export type IconSize = "small" | "medium" | "large";
@@ -36,14 +37,14 @@ export const Icon: React.FC<IconProps> = React.memo(
     };
 
     return (
-      <View style={[encloseInBorder && { ...borderedStyle }, style]}>
+      <Box style={[encloseInBorder && { ...borderedStyle }, style]}>
         <Ionicons
           style={{ borderColor: borderColor }}
           name={name}
           size={IconSizeValues[size]}
           color={fillColor}
         />
-      </View>
+      </Box>
     );
   }
 );

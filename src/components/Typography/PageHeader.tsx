@@ -10,20 +10,18 @@ interface PageHeaderProps {
   style?: StyleProp<ViewStyle>;
 }
 
-export const PageHeader: React.FC<PageHeaderProps> = ({
-  title,
-  subtitle,
-  style,
-}) => {
-  return (
-    <Box style={style}>
-      <Text style={styles.heading} variant="pageHeading">
-        {title}
-      </Text>
-      {subtitle ? <Text variant="body">{subtitle}</Text> : null}
-    </Box>
-  );
-};
+export const PageHeader: React.FC<PageHeaderProps> = React.memo(
+  ({ title, subtitle, style }) => {
+    return (
+      <Box style={style}>
+        <Text style={styles.heading} variant="pageHeading">
+          {title}
+        </Text>
+        {subtitle ? <Text variant="body">{subtitle}</Text> : null}
+      </Box>
+    );
+  }
+);
 
 const styles = StyleSheet.create({
   heading: {

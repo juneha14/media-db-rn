@@ -1,15 +1,14 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, ScrollView } from "react-native";
 import { storiesOf } from "@storybook/react-native";
 import { ContentViewDark } from "../../../storybook/ContentView";
 import { FavouriteIcon } from "./Favourite";
-import { ScrollView } from "react-native-gesture-handler";
 import { Box } from "../Box";
 import { PlayIcon } from "./Play";
 
 storiesOf("Icons", module)
   .addDecorator(ContentViewDark)
-  .add("Favourite", () => (
+  .add("favourite", () => (
     <ScrollView>
       <Box style={styles.container}>
         <FavouriteIcon
@@ -35,7 +34,7 @@ storiesOf("Icons", module)
       </Box>
     </ScrollView>
   ))
-  .add("Play", () => (
+  .add("play", () => (
     <ScrollView>
       <Box style={styles.container}>
         <PlayIcon

@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  View,
   Image as RNImage,
   ViewStyle,
   StyleProp,
@@ -8,6 +7,7 @@ import {
   LayoutChangeEvent,
 } from "react-native";
 import Images from "../assets";
+import { Box } from "./Box";
 
 const AspectRatio = {
   portrait: 2 / 3,
@@ -54,14 +54,14 @@ export const Image: React.FC<ImageProps> = React.memo(
     };
 
     return (
-      <View style={style}>
+      <Box style={style}>
         <RNImage
           style={[{ ...size, ...imageBorderStyle }, imageStyle]}
           onLayout={onLayout}
           source={uri ? { uri } : Images.placeholderImage}
           resizeMode={uri ? "cover" : "center"}
         />
-      </View>
+      </Box>
     );
   }
 );
