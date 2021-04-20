@@ -1,18 +1,18 @@
 import React, { useCallback } from "react";
-import { Pressable, ScrollView, StyleProp, ViewStyle } from "react-native";
+import { ScrollView, Pressable, StyleProp, ViewStyle } from "react-native";
 import { Section } from "../../components/Section";
 import { Carousel } from "../../components/Carousel";
 import { CaptionImage } from "../../components/CaptionImage";
 import { Header } from "./Header";
 import { Spacing } from "../../components/theme";
 import { MediaCell } from "../Home/MediaCell";
-import { Cast, MovieDetails, TMovie } from "../../models";
-import { useImageUrl } from "../../hooks";
+import { Cast, MovieDetails, Movie } from "../../models";
+import { useImageUri } from "../../hooks";
 
 interface MediaDetailsViewProps {
   infoDetails: MovieDetails;
   cast: Cast[];
-  recommendations: TMovie[];
+  recommendations: Movie[];
   onSelectGenre: (id: number) => void;
   onSelectFavourite: () => void;
   onSelectPlayTrailer?: () => void;
@@ -52,7 +52,7 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
   );
 
   const renderRecommendations = useCallback(
-    ({ item }: { item: TMovie }) => {
+    ({ item }: { item: Movie }) => {
       return (
         <MediaCell
           style={{ marginRight: Spacing.m }}
@@ -130,7 +130,7 @@ const CastView = ({
   onPress: () => void;
   style: StyleProp<ViewStyle>;
 }) => {
-  const uri = useImageUrl("profile", "Medium", profilePath);
+  const uri = useImageUri("profile", "Medium", profilePath);
   return (
     <Pressable style={style} onPress={onPress}>
       <CaptionImage
