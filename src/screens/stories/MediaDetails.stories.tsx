@@ -1,13 +1,8 @@
 import React from "react";
 import { storiesOf } from "@storybook/react-native";
-import { ContentViewDark } from "../../../storybook/ContentView";
 import { Header } from "../MediaDetails/Header";
 import { MediaDetailsView } from "../MediaDetails/MediaDetailsView";
-import {
-  cast,
-  movieDetails,
-  movies,
-} from "../../../storybook/stories/fixtures";
+import { cast, movieDetails, movies } from "../../../storybook/fixtures";
 import { Box } from "../../components/Box";
 import { Colors } from "../../components/theme";
 

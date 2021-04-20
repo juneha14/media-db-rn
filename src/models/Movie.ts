@@ -1,4 +1,4 @@
-export type TMovie = {
+export type Movie = {
   posterPath: string | null;
   adult: boolean;
   overview: string;
