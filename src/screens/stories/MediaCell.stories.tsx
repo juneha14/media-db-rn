@@ -2,11 +2,11 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { storiesOf } from "@storybook/react-native";
 import { ContentViewDark } from "../../../storybook/ContentView";
-import { MediaCell } from "./MediaCell";
+import { MediaCell } from "../Home/MediaCell";
 
 storiesOf("Views", module)
   .addDecorator(ContentViewDark)
-  .add("Media Cell", () => (
+  .add("media cell", () => (
     <>
       <MediaCell
         style={styles.cell}

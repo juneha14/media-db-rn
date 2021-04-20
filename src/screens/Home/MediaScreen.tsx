@@ -3,7 +3,7 @@ import { StyleSheet, Dimensions } from "react-native";
 import { PaginatedList } from "../../components/PaginatedList";
 import { Spacing } from "../../components/theme";
 import { usePagination } from "../../hooks";
-import { TMovie } from "../../models";
+import { Movie } from "../../models";
 import { MediaCell } from "./MediaCell";
 
 export const MediaScreen: React.FC = () => {
@@ -14,7 +14,7 @@ export const MediaScreen: React.FC = () => {
     nextPage,
     fetchNextPage,
     allData,
-  } = usePagination<TMovie>("NowPlayingMovies", { page: 1 });
+  } = usePagination<Movie>("NowPlayingMovies", { page: 1 });
 
   const width = useMemo(() => {
     // (screenWidth / 2) - (paddingHorizontal / 2 + marginHorizontal / 2)
@@ -33,7 +33,7 @@ export const MediaScreen: React.FC = () => {
     ({
       item: { id, posterPath, title, releaseDate, voteAverage },
     }: {
-      item: TMovie;
+      item: Movie;
     }) => {
       return (
         <MediaCell
@@ -53,7 +53,7 @@ export const MediaScreen: React.FC = () => {
     [width, onSelectCell, onSelectLike]
   );
 
-  const keyExtractor = useCallback((item: TMovie, index: number) => {
+  const keyExtractor = useCallback((item: Movie, index: number) => {
     return String(item.id) + String(index);
   }, []);
 
