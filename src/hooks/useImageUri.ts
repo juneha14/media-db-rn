@@ -32,7 +32,7 @@ type ImageType = keyof typeof ImageSize;
 
 const baseUrl = "https://image.tmdb.org/t/p/";
 
-export function useImageUrl<
+export function useImageUri<
   T extends ImageType,
   S extends keyof typeof ImageSize[T]
 >(type: T, size: S, path: string | null): string | null {

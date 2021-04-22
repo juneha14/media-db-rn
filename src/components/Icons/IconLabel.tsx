@@ -1,13 +1,13 @@
 import React from "react";
 import { StyleProp, ViewStyle } from "react-native";
 import { Box } from "../Box";
-import { Text } from "../Text";
+import { Text } from "../Typography";
 import { Spacing } from "../theme";
 import { Icon, IconProps } from "./Icon";
 
 interface IconLabelProps extends Omit<IconProps, "style"> {
   label: string;
-  labelPosition?: "below" | "right";
+  labelPosition: "below" | "right";
   style?: StyleProp<ViewStyle>;
 }
 

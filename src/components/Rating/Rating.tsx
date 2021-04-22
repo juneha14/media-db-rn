@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
 import { StyleSheet, StyleProp, ViewStyle } from "react-native";
-import { Box } from "./Box";
-import { Text } from "./Text";
-import { Colors, Palette } from "./theme";
+import { Box } from "../Box";
+import { Text } from "../Typography";
+import { Colors, Palette } from "../theme";
 import { max } from "lodash";
 
 interface RatingProps {

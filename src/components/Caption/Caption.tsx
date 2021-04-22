@@ -1,7 +1,8 @@
 import React from "react";
-import { View, StyleSheet, StyleProp, ViewStyle } from "react-native";
-import { Text } from "./Text";
-import { Colors, Spacing } from "./theme";
+import { StyleSheet, StyleProp, ViewStyle } from "react-native";
+import { Box } from "../Box";
+import { Text } from "../Typography";
+import { Colors, Spacing } from "../theme";
 
 export interface CaptionProps {
   title: string;
@@ -22,7 +23,7 @@ export const Caption: React.FC<CaptionProps> = React.memo(
     style,
   }) => {
     return (
-      <View
+      <Box
         style={[
           styles.container,
           {
@@ -32,7 +33,7 @@ export const Caption: React.FC<CaptionProps> = React.memo(
           style,
         ]}
       >
-        <View style={styles.leftContainer}>
+        <Box style={styles.leftContainer}>
           <Text variant="captionHeadingSmall">{title}</Text>
           {description ? (
             <Text
@@ -42,11 +43,11 @@ export const Caption: React.FC<CaptionProps> = React.memo(
               {description}
             </Text>
           ) : null}
-        </View>
+        </Box>
         {rightAccessory && (
-          <View style={styles.rightContainer}>{rightAccessory}</View>
+          <Box style={styles.rightContainer}>{rightAccessory}</Box>
         )}
-      </View>
+      </Box>
     );
   }
 );

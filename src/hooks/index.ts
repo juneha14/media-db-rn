@@ -1,4 +1,4 @@
 export { useFetch } from "./useFetch";
 export { usePagination } from "./usePagination";
-export { useImageUrl } from "./useImageUrl";
+export { useImageUri } from "./useImageUri";
 export { useLayout } from "./useLayout";

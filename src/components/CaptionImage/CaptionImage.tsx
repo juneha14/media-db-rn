@@ -1,25 +1,37 @@
 import React from "react";
 import {
-  View,
   StyleSheet,
   StyleProp,
   ViewStyle,
   ImageStyle,
+  LayoutChangeEvent,
 } from "react-native";
-import { useLayout } from "../hooks";
-import { Caption, CaptionProps } from "./Caption";
-import { Image, ImageProps } from "./Image";
-import { Colors, Spacing } from "./theme";
+import { useLayout } from "../../hooks";
+import { Box } from "../Box";
+import { Caption, CaptionProps } from "../Caption";
+import { Image, ImageProps } from "../Image";
+import { Colors, Spacing } from "../theme";
 
 interface CaptionImageProps
   extends Omit<CaptionProps, "style" | "title">,
-    Omit<ImageProps, "style"> {
+    Omit<ImageProps, "style" | "imageStyle" | "onLayout"> {
   title?: string;
+  onViewLayout?: (event: LayoutChangeEvent) => void;
   style?: StyleProp<ViewStyle>;
 }
 
 export const CaptionImage: React.FC<CaptionImageProps> = React.memo(
-  ({ uri, width, height, orientation, title, description, style, ...rest }) => {
+  ({
+    uri,
+    width,
+    height,
+    orientation,
+    title,
+    description,
+    onViewLayout,
+    style,
+    ...rest
+  }) => {
     const [imageSize, onLayout] = useLayout();
 
     const imageBorderStyle: ImageStyle = {
@@ -28,7 +40,10 @@ export const CaptionImage: React.FC<CaptionImageProps> = React.memo(
     };
 
     return (
-      <View style={[styles.container, { width: imageSize?.width }, style]}>
+      <Box
+        style={[styles.container, { width: imageSize?.width }, style]}
+        onLayout={onViewLayout}
+      >
         <Image
           imageStyle={{ ...imageBorderStyle }}
           onLayout={onLayout}
@@ -45,7 +60,7 @@ export const CaptionImage: React.FC<CaptionImageProps> = React.memo(
             {...rest}
           />
         ) : null}
-      </View>
+      </Box>
     );
   }
 );

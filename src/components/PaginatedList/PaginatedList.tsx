@@ -1,7 +1,8 @@
 import React, { useRef } from "react";
-import { FlatList, Text, FlatListProps, StyleSheet } from "react-native";
-import { LoadingIndicator } from "./LoadingIndicator";
-import { Spacing } from "./theme";
+import { FlatList, FlatListProps, StyleSheet } from "react-native";
+import { LoadingIndicator } from "../LoadingIndicator";
+import { Text } from "../Typography";
+import { Spacing } from "../theme";
 
 interface PaginatedListProps<Item> extends FlatListProps<Item> {
   isLoading: boolean;
@@ -28,7 +29,7 @@ export function PaginatedList<Item>({
   const fetchMoreEnabled = useRef(true);
 
   if (isLoading) return <LoadingIndicator />;
-  if (error) return <Text>{error}</Text>;
+  if (error) return <Text variant="body">{error}</Text>;
 
   return (
     <FlatList

@@ -1,6 +1,6 @@
 import React from "react";
 import { Text as RNText, TextProps as RNTextProps } from "react-native";
-import { Colors, TextVariants } from "./theme";
+import { Colors, TextVariants } from "../theme";
 
 interface TextProps extends RNTextProps {
   variant: keyof typeof TextVariants;

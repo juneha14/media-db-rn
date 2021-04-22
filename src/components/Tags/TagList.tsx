@@ -1,8 +1,8 @@
 import React from "react";
 import { StyleProp, StyleSheet, ViewStyle } from "react-native";
-import { Box } from "./Box";
+import { Box } from "../Box";
+import { Spacing } from "../theme";
 import { Tag, TagProps } from "./Tag";
-import { Spacing } from "./theme";
 
 interface TagListProps {
   tags: TagProps[];

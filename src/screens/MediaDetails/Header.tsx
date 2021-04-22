@@ -3,14 +3,12 @@ import { StyleSheet, StyleProp, ViewStyle, Dimensions } from "react-native";
 import { Box } from "../../components/Box";
 import { FavouriteIcon, PlayIcon } from "../../components/Icons";
 import { Image } from "../../components/Image";
-import { PageHeader } from "../../components/PageHeader";
+import { PageHeader, Text } from "../../components/Typography";
 import { Rating } from "../../components/Rating";
-import { Text } from "../../components/Text";
-import { TagList } from "../../components/TagList";
+import { TagList } from "../../components/Tags";
 import { Section } from "../../components/Section";
 import { Colors, Spacing } from "../../components/theme";
-import { useImageUrl } from "../../hooks";
-import { noop } from "lodash";
+import { useImageUri } from "../../hooks";
 import { formatMinutesToHM } from "../../utils";
 import { Genre } from "../../models";
 
@@ -123,8 +121,8 @@ const PosterBackdropContainer = ({
   posterImgUrl: string | null;
   backdropImgUrl: string | null;
 }) => {
-  const posterUri = useImageUrl("poster", "Medium", posterImgUrl);
-  const backdropUri = useImageUrl("backdrop", "Large", backdropImgUrl);
+  const posterUri = useImageUri("poster", "Medium", posterImgUrl);
+  const backdropUri = useImageUri("backdrop", "Large", backdropImgUrl);
 
   if (!posterImgUrl && !backdropImgUrl) return null;
 

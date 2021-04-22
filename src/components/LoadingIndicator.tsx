@@ -1,11 +1,11 @@
 import React from "react";
 import {
-  View,
   StyleSheet,
   ActivityIndicator,
   StyleProp,
   ViewStyle,
 } from "react-native";
+import { Box } from "./Box";
 
 interface LoadingIndicatorProps {
   isFullScreen?: boolean;
@@ -15,9 +15,9 @@ interface LoadingIndicatorProps {
 export const LoadingIndicator: React.FC<LoadingIndicatorProps> = React.memo(
   ({ isFullScreen = true, style }) => {
     return (
-      <View style={[isFullScreen && { flex: 1 }, styles.container, style]}>
+      <Box style={[isFullScreen && { flex: 1 }, styles.container, style]}>
         <ActivityIndicator />
-      </View>
+      </Box>
     );
   }
 );
