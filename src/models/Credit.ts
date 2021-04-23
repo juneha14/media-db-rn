@@ -1,7 +1,7 @@
 export interface Credit {
   id: number;
-  cast: Cast;
-  crew: Crew;
+  cast: Cast[];
+  crew: Crew[];
 }
 
 export interface Cast {

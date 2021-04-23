@@ -9,6 +9,7 @@ type CarouselFlatListProps<Item> = Pick<
   | "pagingEnabled"
   | "showsHorizontalScrollIndicator"
   | "snapToInterval"
+  | "ListEmptyComponent"
 >;
 
 interface CarouselProps<Item> extends CarouselFlatListProps<Item> {
@@ -23,6 +24,7 @@ export function Carousel<Item>({
   showsHorizontalScrollIndicator = false,
   snapToInterval,
   pagingEnabled = false,
+  ListEmptyComponent,
   contentContainerStyle,
   style,
 }: CarouselProps<Item>): JSX.Element {
@@ -38,6 +40,7 @@ export function Carousel<Item>({
       pagingEnabled={pagingEnabled}
       snapToInterval={snapToInterval}
       decelerationRate="fast"
+      ListEmptyComponent={ListEmptyComponent}
     />
   );
 }

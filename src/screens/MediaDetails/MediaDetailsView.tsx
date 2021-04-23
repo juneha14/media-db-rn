@@ -8,11 +8,15 @@ import { Spacing } from "../../components/theme";
 import { MediaCell } from "../Home/MediaCell";
 import { Cast, MovieDetails, Movie } from "../../models";
 import { useImageUri } from "../../hooks";
+import { LoadingIndicator } from "../../components/LoadingIndicator";
+import { Text } from "../../components/Typography";
 
 interface MediaDetailsViewProps {
-  infoDetails: MovieDetails;
-  cast: Cast[];
-  recommendations: Movie[];
+  isLoading: boolean;
+  error?: string;
+  infoDetails?: MovieDetails;
+  cast?: Cast[];
+  recommendations?: Movie[];
   onSelectGenre: (id: number) => void;
   onSelectFavourite: () => void;
   onSelectPlayTrailer?: () => void;
@@ -24,6 +28,8 @@ interface MediaDetailsViewProps {
 }
 
 export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
+  isLoading,
+  error,
   infoDetails,
   cast,
   recommendations,
@@ -70,6 +76,10 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
     [onSelectRecommended]
   );
 
+  if (isLoading) return <LoadingIndicator />;
+  if (error || !infoDetails)
+    return <Text variant="body">Oops, something went wrong</Text>;
+
   return (
     <ScrollView style={style}>
       <Header
@@ -93,24 +103,32 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
       <Section
         style={{ marginBottom: Spacing.l }}
         title="Cast"
-        accessoryTitle="See all"
+        accessoryTitle={cast?.length ?? 0 > 0 ? "See all" : undefined}
         onAccessoryPress={onSelectSeeAllCast}
       >
         <Carousel
           keyExtractor={(item) => String(item.id)}
           data={cast}
           renderItem={renderCast}
+          ListEmptyComponent={
+            <Text variant="body">Cast information unavailable</Text>
+          }
         />
       </Section>
       <Section
         title="Recommended"
-        accessoryTitle="See all"
+        accessoryTitle={
+          recommendations?.length ?? 0 > 0 ? "See all" : undefined
+        }
         onAccessoryPress={onSelectSeeAllRecommended}
       >
         <Carousel
           keyExtractor={(item) => String(item.id)}
           data={recommendations}
           renderItem={renderRecommendations}
+          ListEmptyComponent={
+            <Text variant="body">Recommended movies unavailable</Text>
+          }
         />
       </Section>
     </ScrollView>
