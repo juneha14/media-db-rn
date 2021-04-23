@@ -1,14 +1,12 @@
 import React, { useCallback } from "react";
-import { StyleSheet, StyleProp, ViewStyle, Dimensions } from "react-native";
+import { StyleSheet, StyleProp, ViewStyle } from "react-native";
 import { Box } from "../../components/Box";
 import { FavouriteIcon, PlayIcon } from "../../components/Icons";
-import { Image } from "../../components/Image";
 import { PageHeader, Text } from "../../components/Typography";
 import { Rating } from "../../components/Rating";
 import { TagList } from "../../components/Tags";
 import { Section } from "../../components/Section";
 import { Colors, Spacing } from "../../components/theme";
-import { useImageUri } from "../../hooks";
 import { formatMinutesToHM } from "../../utils";
 import { Genre } from "../../models";
 
@@ -20,8 +18,6 @@ interface HeaderProps {
   rating: number;
   ratingsCount: number;
   hasVideo: boolean;
-  posterImgUrl: string | null;
-  backdropImgUrl: string | null;
   tagline: string | null;
   overview: string | null;
   genres: Genre[];
@@ -37,8 +33,6 @@ export const Header: React.FC<HeaderProps> = ({
   runtime,
   rating,
   ratingsCount,
-  posterImgUrl,
-  backdropImgUrl,
   tagline,
   overview,
   hasVideo,
@@ -61,10 +55,6 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <Box style={style}>
-      <PosterBackdropContainer
-        posterImgUrl={posterImgUrl}
-        backdropImgUrl={backdropImgUrl}
-      />
       <PageHeader
         style={styles.titleHeader}
         title={title}
@@ -111,53 +101,6 @@ export const Header: React.FC<HeaderProps> = ({
         <Text variant="body">{overview}</Text>
       </Section>
     </Box>
-  );
-};
-
-const PosterBackdropContainer = ({
-  posterImgUrl,
-  backdropImgUrl,
-}: {
-  posterImgUrl: string | null;
-  backdropImgUrl: string | null;
-}) => {
-  const posterUri = useImageUri("poster", "Medium", posterImgUrl);
-  const backdropUri = useImageUri("backdrop", "Large", backdropImgUrl);
-
-  if (!posterImgUrl && !backdropImgUrl) return null;
-
-  const posterStyle: StyleProp<ViewStyle> = backdropUri
-    ? {
-        position: "absolute",
-        left: 10,
-        top: 15,
-        zIndex: 1,
-      }
-    : {
-        marginVertical: Spacing.l,
-        marginHorizontal: Spacing.m,
-      };
-
-  return (
-    <>
-      {posterUri && (
-        <Image
-          style={posterStyle}
-          uri={posterUri}
-          height={150}
-          orientation="portrait"
-        />
-      )}
-      {backdropUri && (
-        <Image
-          style={{ opacity: 0.65 }}
-          uri={backdropUri}
-          width={Dimensions.get("window").width}
-          height={180}
-          shouldRoundCorners={false}
-        />
-      )}
-    </>
   );
 };
 

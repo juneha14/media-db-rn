@@ -3,13 +3,15 @@ import { ScrollView, Pressable, StyleProp, ViewStyle } from "react-native";
 import { Section } from "../../components/Section";
 import { Carousel } from "../../components/Carousel";
 import { CaptionImage } from "../../components/CaptionImage";
-import { Header } from "./Header";
+import { LoadingIndicator } from "../../components/LoadingIndicator";
+import { Text } from "../../components/Typography";
+import { Container } from "../../components/Container";
 import { Spacing } from "../../components/theme";
+import { Header } from "./Header";
+import { PosterBackdrop } from "./PosterBackdrop";
 import { MediaCell } from "../Home/MediaCell";
 import { Cast, MovieDetails, Movie } from "../../models";
 import { useImageUri } from "../../hooks";
-import { LoadingIndicator } from "../../components/LoadingIndicator";
-import { Text } from "../../components/Typography";
 
 interface MediaDetailsViewProps {
   isLoading: boolean;
@@ -82,55 +84,59 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
 
   return (
     <ScrollView style={style}>
-      <Header
-        style={{ marginBottom: Spacing.l }}
-        id={infoDetails.id}
-        title={infoDetails.title}
-        releaseDate={infoDetails.releaseDate}
-        runtime={infoDetails.runtime}
-        rating={infoDetails.voteAverage}
-        ratingsCount={infoDetails.voteCount}
-        hasVideo={infoDetails.video}
-        posterImgUrl={infoDetails.posterPath}
-        backdropImgUrl={infoDetails.backdropPath}
-        tagline={infoDetails.tagline}
-        overview={infoDetails.overview}
-        genres={infoDetails.genres}
-        onSelectGenre={onSelectGenre}
-        onSelectFavourite={onSelectFavourite}
-        onSelectPlayTrailer={onSelectPlayTrailer}
+      <PosterBackdrop
+        posterUrl={infoDetails.posterPath}
+        backdropUrl={infoDetails.backdropPath}
       />
-      <Section
-        style={{ marginBottom: Spacing.l }}
-        title="Cast"
-        accessoryTitle={cast?.length ?? 0 > 0 ? "See all" : undefined}
-        onAccessoryPress={onSelectSeeAllCast}
-      >
-        <Carousel
-          keyExtractor={(item) => String(item.id)}
-          data={cast}
-          renderItem={renderCast}
-          ListEmptyComponent={
-            <Text variant="body">Cast information unavailable</Text>
-          }
+      <Container ignoreTopPadding>
+        <Header
+          style={{ marginBottom: Spacing.l }}
+          id={infoDetails.id}
+          title={infoDetails.title}
+          releaseDate={infoDetails.releaseDate}
+          runtime={infoDetails.runtime}
+          rating={infoDetails.voteAverage}
+          ratingsCount={infoDetails.voteCount}
+          hasVideo={infoDetails.video}
+          tagline={infoDetails.tagline}
+          overview={infoDetails.overview}
+          genres={infoDetails.genres}
+          onSelectGenre={onSelectGenre}
+          onSelectFavourite={onSelectFavourite}
+          onSelectPlayTrailer={onSelectPlayTrailer}
         />
-      </Section>
-      <Section
-        title="Recommended"
-        accessoryTitle={
-          recommendations?.length ?? 0 > 0 ? "See all" : undefined
-        }
-        onAccessoryPress={onSelectSeeAllRecommended}
-      >
-        <Carousel
-          keyExtractor={(item) => String(item.id)}
-          data={recommendations}
-          renderItem={renderRecommendations}
-          ListEmptyComponent={
-            <Text variant="body">Recommended movies unavailable</Text>
+        <Section
+          style={{ marginBottom: Spacing.l }}
+          title="Cast"
+          accessoryTitle={cast?.length ?? 0 > 0 ? "See all" : undefined}
+          onAccessoryPress={onSelectSeeAllCast}
+        >
+          <Carousel
+            keyExtractor={(item) => String(item.id)}
+            data={cast}
+            renderItem={renderCast}
+            ListEmptyComponent={
+              <Text variant="body">Cast information unavailable</Text>
+            }
+          />
+        </Section>
+        <Section
+          title="Recommended"
+          accessoryTitle={
+            recommendations?.length ?? 0 > 0 ? "See all" : undefined
           }
-        />
-      </Section>
+          onAccessoryPress={onSelectSeeAllRecommended}
+        >
+          <Carousel
+            keyExtractor={(item) => String(item.id)}
+            data={recommendations}
+            renderItem={renderRecommendations}
+            ListEmptyComponent={
+              <Text variant="body">Recommended movies unavailable</Text>
+            }
+          />
+        </Section>
+      </Container>
     </ScrollView>
   );
 };
