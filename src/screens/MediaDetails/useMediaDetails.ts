@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { fetchRequest } from "../../api/service";
 import {
   Cast,
@@ -15,6 +15,7 @@ interface State {
   details?: MovieDetails;
   cast?: Cast[];
   recommendations?: Movie[];
+  refetch: () => void;
 }
 
 export const useMediaDetails = (movieId: number): State => {
@@ -24,27 +25,21 @@ export const useMediaDetails = (movieId: number): State => {
   const [cast, setCast] = useState<Cast[]>();
   const [recommendations, setRecommendations] = useState<Movie[]>();
 
-  useEffect(() => {
-    setLoading(true);
-
+  const fetch = useCallback(async () => {
     const details = fetchRequest("MovieDetails", { movieId });
     const credits = fetchRequest("MovieCredits", { movieId });
     const recommendations = fetchRequest("MovieRecommendations", { movieId });
 
-    Promise.all([details, credits, recommendations])
+    return Promise.all([details, credits, recommendations])
       .then((jsons) => {
         const [details, credits, recommendations] = jsons.map((json) =>
           convertToCamelCase(json)
         );
         setDetails(details);
-        setCast((credits as Credit).cast.slice(0, 7));
+        setCast((credits as Credit).cast.slice(0, 8));
         setRecommendations(
           (recommendations as PaginatedResponse<Movie[]>).results
         );
-
-        setTimeout(() => {
-          setLoading(false);
-        }, 500);
       })
       .catch((error) => {
         console.error(
@@ -55,11 +50,25 @@ export const useMediaDetails = (movieId: number): State => {
       });
   }, [movieId]);
 
+  useEffect(() => {
+    setLoading(true);
+    fetch().then(() => setLoading(false));
+  }, [fetch]);
+
+  const refetch = useCallback(() => {
+    setLoading(true);
+    setError(undefined);
+    setTimeout(() => {
+      fetch().then(() => setLoading(false));
+    }, 500);
+  }, [fetch]);
+
   return {
     loading,
     error,
     details,
     cast,
     recommendations,
+    refetch,
   };
 };

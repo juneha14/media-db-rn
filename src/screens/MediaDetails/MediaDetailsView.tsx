@@ -1,9 +1,8 @@
 import React, { useCallback } from "react";
-import { ScrollView, Pressable, StyleProp, ViewStyle } from "react-native";
+import { Pressable, StyleProp, ViewStyle } from "react-native";
 import { Section } from "../../components/Section";
 import { Carousel } from "../../components/Carousel";
 import { CaptionImage } from "../../components/CaptionImage";
-import { LoadingIndicator } from "../../components/LoadingIndicator";
 import { Text } from "../../components/Typography";
 import { Container } from "../../components/Container";
 import { Spacing } from "../../components/theme";
@@ -12,11 +11,10 @@ import { PosterBackdrop } from "./PosterBackdrop";
 import { MediaCell } from "../Home/MediaCell";
 import { Cast, MovieDetails, Movie } from "../../models";
 import { useImageUri } from "../../hooks";
+import { Box } from "../../components/Box";
 
 interface MediaDetailsViewProps {
-  isLoading: boolean;
-  error?: string;
-  infoDetails?: MovieDetails;
+  infoDetails: MovieDetails;
   cast?: Cast[];
   recommendations?: Movie[];
   onSelectGenre: (id: number) => void;
@@ -30,8 +28,6 @@ interface MediaDetailsViewProps {
 }
 
 export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
-  isLoading,
-  error,
   infoDetails,
   cast,
   recommendations,
@@ -78,12 +74,8 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
     [onSelectRecommended]
   );
 
-  if (isLoading) return <LoadingIndicator />;
-  if (error || !infoDetails)
-    return <Text variant="body">Oops, something went wrong</Text>;
-
   return (
-    <ScrollView style={style}>
+    <Box style={style}>
       <PosterBackdrop
         posterUrl={infoDetails.posterPath}
         backdropUrl={infoDetails.backdropPath}
@@ -137,7 +129,7 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
           />
         </Section>
       </Container>
-    </ScrollView>
+    </Box>
   );
 };
 

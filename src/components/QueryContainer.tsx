@@ -1,5 +1,5 @@
 import React from "react";
-import { FlatList, Pressable, StyleSheet } from "react-native";
+import { FlatList, StyleSheet, TouchableOpacity } from "react-native";
 import { Box } from "./Box";
 import { LoadingIndicator } from "./LoadingIndicator";
 import { Colors, Spacing } from "./theme";
@@ -11,49 +11,56 @@ interface QueryContainerProps {
   isRefreshing?: boolean;
   onRefresh?: () => void;
   errorMessage?: string;
-  onSelectTryAgain?: () => void;
+  onRetryQuery?: () => void;
 }
 
-export const QueryContainer: React.FC<QueryContainerProps> = ({
-  isLoading,
-  isErrored,
-  errorMessage,
-  isRefreshing = false,
-  onRefresh,
-  onSelectTryAgain,
-  children,
-}) => {
-  if (isLoading) return <LoadingIndicator />;
+export const QueryContainer: React.FC<QueryContainerProps> = React.memo(
+  ({
+    isLoading,
+    isErrored,
+    errorMessage,
+    isRefreshing = false,
+    onRefresh,
+    onRetryQuery,
+    children,
+  }) => {
+    if (isLoading) return <LoadingIndicator style={styles.background} />;
 
-  if (isErrored)
+    if (isErrored)
+      return (
+        <Box style={[styles.errorContainer, styles.background]}>
+          <Text variant="captionHeadingRegular">
+            {errorMessage ?? "Oops, something went wrong"}
+          </Text>
+          <TouchableOpacity
+            style={styles.tryAgainButton}
+            onPress={onRetryQuery}
+          >
+            <Text variant="body">Try again</Text>
+          </TouchableOpacity>
+        </Box>
+      );
+
     return (
-      <Box style={styles.errorContainer}>
-        <Text variant="captionHeadingRegular">
-          {errorMessage ?? "Oops, something went wrong"}
-        </Text>
-        <Pressable style={styles.tryAgainButton} onPress={onSelectTryAgain}>
-          <Text variant="body">Try again</Text>
-        </Pressable>
-      </Box>
+      <FlatList
+        keyExtractor={(_, index) => String(index)}
+        data={[children]}
+        renderItem={({ item }) => <>{item}</>}
+        refreshing={isRefreshing}
+        onRefresh={onRefresh}
+      />
     );
-
-  return (
-    <FlatList
-      keyExtractor={(_, index) => String(index)}
-      data={[children]}
-      renderItem={({ item }) => <>{item}</>}
-      refreshing={isRefreshing}
-      onRefresh={onRefresh}
-    />
-  );
-};
+  }
+);
 
 const styles = StyleSheet.create({
+  background: {
+    backgroundColor: Colors.SurfaceBackground,
+  },
   errorContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: Colors.SurfaceBackground,
   },
   tryAgainButton: {
     marginTop: Spacing.m,
