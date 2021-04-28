@@ -35,7 +35,7 @@ export const MediaCell: React.FC<MediaCellProps> = React.memo(
   }) => {
     const uri = useImageUri(
       mediaImgType === "poster" ? "poster" : "backdrop",
-      "Medium",
+      "Original",
       mediaImgUrl
     );
     const [cellSize, onCellLayout] = useLayout();

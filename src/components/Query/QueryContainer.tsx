@@ -18,7 +18,8 @@ interface QueryRefreshableProps extends QueryStatusProps {
   onRefresh?: () => void;
 }
 
-type ContentContainerStyle = "wrapped" | "non-wrapped";
+type ContentContainerStyle = "wrapped" | "unwrapped";
+
 type QueryContainerProps<S extends ContentContainerStyle> = S extends "wrapped"
   ? QueryRefreshableProps
   : QueryStatusProps;
@@ -26,7 +27,6 @@ type QueryContainerProps<S extends ContentContainerStyle> = S extends "wrapped"
 export function QueryContainer<S extends ContentContainerStyle>(
   props: PropsWithChildren<QueryContainerProps<S>>
 ): JSX.Element {
-  console.log("========== File: QueryContainer.tsx, Line: 29 ==========");
   if (props.isLoading) return <LoadingIndicator style={styles.background} />;
 
   if (props.isErrored)
