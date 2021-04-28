@@ -11,6 +11,8 @@ interface State<Data, Param> {
   pagedData?: Data;
   allData?: Data;
   errorMessage?: string;
+  isRefreshing: boolean;
+  refresh: () => void;
 }
 
 export function usePagination<
@@ -20,6 +22,7 @@ export function usePagination<
 >(endpoint: E, initialParams: P): State<D[], P> {
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   const [pagedData, setPagedData] = useState<D[]>([]);
   const [allData, setAllData] = useState<D[]>([]);
@@ -28,6 +31,20 @@ export function usePagination<
   const next_page = useRef(1);
   const total_pages = useRef(0);
   const total_results = useRef(0);
+
+  // Flag used to determine if we are currently resetting the fetched results
+  // Due to the batching (and unpredictable) behaviour of `setState`, we check if we are resetting before updating the `allData` state after fetching
+  const resetting = useRef(false);
+
+  const reset = useCallback(() => {
+    resetting.current = true;
+    next_page.current = 1;
+    total_pages.current = 0;
+    total_results.current = 0;
+    setLoading(false);
+    setFetching(false);
+    setError(undefined);
+  }, []);
 
   const fetch = useCallback(
     async (params: P) => {
@@ -38,7 +55,10 @@ export function usePagination<
         ) as PaginatedResponse<D[]>;
 
         setPagedData(results);
-        setAllData((allData) => [...allData, ...results]);
+        setAllData((allData) =>
+          resetting.current ? results : [...allData, ...results]
+        );
+        // setError("");
 
         next_page.current = page + 1;
         total_pages.current = totalPages;
@@ -52,11 +72,22 @@ export function usePagination<
   );
 
   const paramConfig = JSON.stringify(initialParams);
+
   useEffect(() => {
     setLoading(true);
     const params = JSON.parse(paramConfig);
     fetch(params).then(() => setLoading(false));
   }, [fetch, paramConfig]);
+
+  const refresh = useCallback(() => {
+    reset();
+    setRefreshing(true);
+    const params = JSON.parse(paramConfig);
+    fetch(params).then(() => {
+      resetting.current = false;
+      setRefreshing(false);
+    });
+  }, [reset, fetch, paramConfig]);
 
   const fetchNextPage = useCallback(
     (params: P) => {
@@ -78,5 +109,7 @@ export function usePagination<
     pagedData,
     allData,
     errorMessage: error,
+    isRefreshing: refreshing,
+    refresh,
   };
 }
