@@ -16,19 +16,11 @@ const uri = (url: string) => `https://image.tmdb.org/t/p/original${url}`;
 const PaginatedListInternal = () => {
   const [data, setData] = useState(imageUrls);
   const [fetching, setFetching] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-  }, []);
 
   return (
     <PaginatedList
       contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}
       keyExtractor={(item, index) => item + index}
-      isLoading={loading}
       isFetching={fetching}
       data={data}
       renderItem={({ item }) => (

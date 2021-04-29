@@ -6,23 +6,24 @@ import { Colors, Spacing } from "../theme";
 import { Text } from "../Typography";
 import { RefreshControl, ScrollView } from "react-native";
 
-interface QueryStatusProps {
+type ContentContainerStyle = "wrapped" | "unwrapped";
+
+interface QueryStatusProps<S> {
+  wrapperStyle: S;
   isLoading: boolean;
   isErrored: boolean;
   errorMessage?: string;
   onRetryQuery?: () => void;
 }
 
-interface QueryRefreshableProps extends QueryStatusProps {
-  isRefreshing: boolean;
+interface QueryRefreshableProps<S> extends QueryStatusProps<S> {
+  isRefreshing?: boolean;
   onRefresh?: () => void;
 }
 
-type ContentContainerStyle = "wrapped" | "unwrapped";
-
 type QueryContainerProps<S extends ContentContainerStyle> = S extends "wrapped"
-  ? QueryRefreshableProps
-  : QueryStatusProps;
+  ? QueryRefreshableProps<S>
+  : QueryStatusProps<S>;
 
 export function QueryContainer<S extends ContentContainerStyle>(
   props: PropsWithChildren<QueryContainerProps<S>>
@@ -44,14 +45,16 @@ export function QueryContainer<S extends ContentContainerStyle>(
       </Box>
     );
 
-  if (isRefreshableProps(props)) {
+  if (props.wrapperStyle === "wrapped" && isRefreshableProps(props)) {
     return (
       <ScrollView
         refreshControl={
-          <RefreshControl
-            refreshing={props.isRefreshing}
-            onRefresh={props.onRefresh}
-          />
+          props.isRefreshing !== undefined && props.onRefresh !== undefined ? (
+            <RefreshControl
+              refreshing={props.isRefreshing}
+              onRefresh={props.onRefresh}
+            />
+          ) : undefined
         }
       >
         {props.children}
@@ -62,12 +65,12 @@ export function QueryContainer<S extends ContentContainerStyle>(
   return <>{props.children}</>;
 }
 
-const isRefreshableProps = (
-  props: QueryStatusProps | QueryRefreshableProps
-): props is QueryRefreshableProps => {
-  const refreshable = props as QueryRefreshableProps;
-  return refreshable.isRefreshing !== undefined;
-};
+function isRefreshableProps<S>(
+  props: QueryStatusProps<S> | QueryRefreshableProps<S>
+): props is QueryRefreshableProps<S> {
+  const refreshable = props as QueryRefreshableProps<S>;
+  return refreshable !== undefined;
+}
 
 const styles = StyleSheet.create({
   background: {
