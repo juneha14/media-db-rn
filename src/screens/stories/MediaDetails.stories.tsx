@@ -6,6 +6,7 @@ import { cast, movieDetails, movies } from "../../../storybook/fixtures";
 import { Box } from "../../components/Box";
 import { Colors } from "../../components/theme";
 import { PosterBackdrop } from "../MediaDetails/PosterBackdrop";
+import { ScrollView } from "react-native";
 
 storiesOf("Views", module)
   .addDecorator((view) => (
@@ -54,12 +55,12 @@ storiesOf("Views", module)
 
 storiesOf("Views", module)
   .addDecorator((view) => (
-    <Box style={{ backgroundColor: Colors.SurfaceBackground }}>{view()}</Box>
+    <ScrollView style={{ backgroundColor: Colors.SurfaceBackground }}>
+      {view()}
+    </ScrollView>
   ))
   .add("media details view", () => (
     <MediaDetailsView
-      isLoading={false}
-      error={undefined}
       infoDetails={movieDetails}
       cast={cast}
       recommendations={movies}

@@ -58,7 +58,6 @@ export function usePagination<
         setAllData((allData) =>
           resetting.current ? results : [...allData, ...results]
         );
-        // setError("");
 
         next_page.current = page + 1;
         total_pages.current = totalPages;
@@ -76,17 +75,21 @@ export function usePagination<
   useEffect(() => {
     setLoading(true);
     const params = JSON.parse(paramConfig);
-    fetch(params).then(() => setLoading(false));
+    setTimeout(() => {
+      fetch(params).then(() => setLoading(false));
+    }, 500);
   }, [fetch, paramConfig]);
 
   const refresh = useCallback(() => {
     reset();
     setRefreshing(true);
     const params = JSON.parse(paramConfig);
-    fetch(params).then(() => {
-      resetting.current = false;
-      setRefreshing(false);
-    });
+    setTimeout(() => {
+      fetch(params).then(() => {
+        resetting.current = false;
+        setRefreshing(false);
+      });
+    }, 500);
   }, [reset, fetch, paramConfig]);
 
   const fetchNextPage = useCallback(

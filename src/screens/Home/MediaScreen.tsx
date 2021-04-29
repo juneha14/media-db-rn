@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from "react";
 import { StyleSheet, Dimensions } from "react-native";
 import { PaginatedList } from "../../components/PaginatedList";
-import { QueryContainer } from "../../components/Query";
+import { QueryContainer } from "../../components/QueryContainer";
 import { Colors, Spacing } from "../../components/theme";
 import { usePagination } from "../../hooks";
 import { Movie } from "../../models";
@@ -61,7 +61,8 @@ export const MediaScreen: React.FC = () => {
   }, []);
 
   return (
-    <QueryContainer<"unwrapped">
+    <QueryContainer
+      wrapperStyle="unwrapped"
       isLoading={isLoading}
       isErrored={errorMessage !== undefined}
       onRetryQuery={refresh}

@@ -11,8 +11,8 @@ interface PosterBackdropProps {
 
 export const PosterBackdrop: React.FC<PosterBackdropProps> = React.memo(
   ({ posterUrl, backdropUrl }) => {
-    const posterUri = useImageUri("poster", "Medium", posterUrl);
-    const backdropUri = useImageUri("backdrop", "Large", backdropUrl);
+    const posterUri = useImageUri("poster", "Original", posterUrl);
+    const backdropUri = useImageUri("backdrop", "Original", backdropUrl);
 
     if (!posterUrl && !backdropUrl) return null;
 

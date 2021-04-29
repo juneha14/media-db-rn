@@ -146,7 +146,7 @@ const CastView = ({
   onPress: () => void;
   style: StyleProp<ViewStyle>;
 }) => {
-  const uri = useImageUri("profile", "Medium", profilePath);
+  const uri = useImageUri("profile", "Original", profilePath);
   return (
     <Pressable style={style} onPress={onPress}>
       <CaptionImage

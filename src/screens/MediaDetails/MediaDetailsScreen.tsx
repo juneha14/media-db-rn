@@ -49,6 +49,7 @@ export const MediaDetailsScreen: React.FC = () => {
 
   return (
     <QueryContainer
+      wrapperStyle="wrapped"
       isLoading={loading}
       isErrored={error !== undefined || !details}
       onRetryQuery={onReattemptQuery}
