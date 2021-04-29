@@ -5,12 +5,20 @@ import { MediaDetailsView } from "../MediaDetails/MediaDetailsView";
 import { cast, movieDetails, movies } from "../../../storybook/fixtures";
 import { Box } from "../../components/Box";
 import { Colors } from "../../components/theme";
+import { PosterBackdrop } from "../MediaDetails/PosterBackdrop";
+import { ScrollView } from "react-native";
 
 storiesOf("Views", module)
   .addDecorator((view) => (
     <Box style={{ backgroundColor: Colors.SurfaceBackground, flex: 1 }}>
       {view()}
     </Box>
+  ))
+  .add("media details poster backdrop", () => (
+    <PosterBackdrop
+      posterUrl="/pgqgaUx1cJb5oZQQ5v0tNARCeBp.jpg"
+      backdropUrl="/jMWkd0fuwbG39eJpzycJzPWMCww.jpg"
+    />
   ))
   .add("media details header", () => (
     <Header
@@ -21,8 +29,6 @@ storiesOf("Views", module)
       rating={8.5}
       ratingsCount={900}
       hasVideo
-      posterImgUrl="/pgqgaUx1cJb5oZQQ5v0tNARCeBp.jpg"
-      backdropImgUrl="/jMWkd0fuwbG39eJpzycJzPWMCww.jpg"
       tagline="One will fall"
       overview="In a time when monsters walk the Earth, humanity’s fight for its future sets Godzilla and Kong on a collision course that will see the two most powerful forces of nature on the planet collide in a spectacular battle for the ages"
       genres={[
@@ -49,7 +55,9 @@ storiesOf("Views", module)
 
 storiesOf("Views", module)
   .addDecorator((view) => (
-    <Box style={{ backgroundColor: Colors.SurfaceBackground }}>{view()}</Box>
+    <ScrollView style={{ backgroundColor: Colors.SurfaceBackground }}>
+      {view()}
+    </ScrollView>
   ))
   .add("media details view", () => (
     <MediaDetailsView

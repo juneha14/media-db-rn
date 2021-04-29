@@ -1,7 +1,8 @@
 import React, { useCallback, useMemo } from "react";
 import { StyleSheet, Dimensions } from "react-native";
 import { PaginatedList } from "../../components/PaginatedList";
-import { Spacing } from "../../components/theme";
+import { QueryContainer } from "../../components/QueryContainer";
+import { Colors, Spacing } from "../../components/theme";
 import { usePagination } from "../../hooks";
 import { Movie } from "../../models";
 import { MediaCell } from "./MediaCell";
@@ -10,10 +11,12 @@ export const MediaScreen: React.FC = () => {
   const {
     isLoading,
     isFetching,
+    isRefreshing,
     errorMessage,
     nextPage,
     fetchNextPage,
     allData,
+    refresh,
   } = usePagination<Movie>("NowPlayingMovies", { page: 1 });
 
   const width = useMemo(() => {
@@ -58,27 +61,38 @@ export const MediaScreen: React.FC = () => {
   }, []);
 
   return (
-    <PaginatedList
-      contentContainerStyle={styles.container}
+    <QueryContainer
+      wrapperStyle="unwrapped"
       isLoading={isLoading}
-      isFetching={isFetching}
-      error={errorMessage}
-      keyExtractor={keyExtractor}
-      numColumns={2}
-      data={allData}
-      renderItem={renderItem}
-      onEndReached={() => {
-        fetchNextPage({ page: nextPage });
-      }}
-    />
+      isErrored={errorMessage !== undefined}
+      onRetryQuery={refresh}
+    >
+      <PaginatedList
+        style={styles.container}
+        contentContainerStyle={styles.contentContainer}
+        isFetching={isFetching}
+        refreshing={isRefreshing}
+        keyExtractor={keyExtractor}
+        numColumns={2}
+        data={allData}
+        renderItem={renderItem}
+        onEndReached={() => {
+          fetchNextPage({ page: nextPage });
+        }}
+        onRefresh={refresh}
+      />
+    </QueryContainer>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: Colors.SurfaceBackground,
+  },
+  contentContainer: {
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: 5,
+    paddingTop: 10,
     paddingHorizontal: 5,
   },
   cellContainer: {

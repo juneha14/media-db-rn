@@ -8,7 +8,7 @@ interface FetchResponse<T> {
   errorMessage?: string;
 }
 
-export function useFetch<T extends Endpoint, Response>(
+export function useFetch<Response, T extends Endpoint = Endpoint>(
   endpoint: T,
   params: EndpointParamList[T]
 ): FetchResponse<Response> {

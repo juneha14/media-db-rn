@@ -1,23 +1,26 @@
 import React, { useRef } from "react";
-import { FlatList, FlatListProps, StyleSheet } from "react-native";
+import {
+  FlatList,
+  FlatListProps,
+  RefreshControl,
+  StyleSheet,
+} from "react-native";
 import { LoadingIndicator } from "../LoadingIndicator";
-import { Text } from "../Typography";
-import { Spacing } from "../theme";
+import { Colors, Spacing } from "../theme";
+import { noop } from "lodash";
 
 interface PaginatedListProps<Item> extends FlatListProps<Item> {
-  isLoading: boolean;
   isFetching: boolean;
-  error?: string;
 }
 
 export function PaginatedList<Item>({
-  isLoading,
-  error,
   isFetching,
+  refreshing,
   keyExtractor,
   numColumns = 1,
   data,
   renderItem,
+  onRefresh,
   onEndReached,
   onEndReachedThreshold = 0,
   style,
@@ -27,9 +30,6 @@ export function PaginatedList<Item>({
   // This causes us to fetch next page twice, resulting in duplicate data entries
   // To prevent this, we will only allow to fetch more iff user begins to scroll again from the list's end
   const fetchMoreEnabled = useRef(true);
-
-  if (isLoading) return <LoadingIndicator />;
-  if (error) return <Text variant="body">{error}</Text>;
 
   return (
     <FlatList
@@ -46,6 +46,13 @@ export function PaginatedList<Item>({
       }}
       onEndReachedThreshold={onEndReachedThreshold}
       onMomentumScrollBegin={() => (fetchMoreEnabled.current = true)}
+      refreshControl={
+        <RefreshControl
+          tintColor={Colors.IconNeutral}
+          refreshing={refreshing ?? false}
+          onRefresh={onRefresh ?? noop}
+        />
+      }
       ListFooterComponent={
         isFetching ? (
           <LoadingIndicator
