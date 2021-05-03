@@ -12,7 +12,7 @@ interface State<Data, Param> {
   allData?: Data;
   errorMessage?: string;
   isRefreshing: boolean;
-  refresh: () => void;
+  refresh: (isRetry: boolean) => void;
 }
 
 export function usePagination<
@@ -80,17 +80,23 @@ export function usePagination<
     }, 500);
   }, [fetch, paramConfig]);
 
-  const refresh = useCallback(() => {
-    reset();
-    setRefreshing(true);
-    const params = JSON.parse(paramConfig);
-    setTimeout(() => {
-      fetch(params).then(() => {
-        resetting.current = false;
-        setRefreshing(false);
-      });
-    }, 500);
-  }, [reset, fetch, paramConfig]);
+  const refresh = useCallback(
+    (isRetry: boolean) => {
+      reset();
+      setLoading(isRetry);
+      setRefreshing(!isRetry);
+
+      const params = JSON.parse(paramConfig);
+      setTimeout(() => {
+        fetch(params).then(() => {
+          resetting.current = false;
+          setLoading(false);
+          setRefreshing(false);
+        });
+      }, 1000);
+    },
+    [reset, fetch, paramConfig]
+  );
 
   const fetchNextPage = useCallback(
     (params: P) => {

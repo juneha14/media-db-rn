@@ -9,10 +9,11 @@ import { Colors, Spacing } from "../../components/theme";
 import { usePagination } from "../../hooks";
 import { Movie } from "../../models";
 import { DiscoverParamList } from "../../navigation";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export const MediaScreen: React.FC = () => {
   const { navigate } = useNavigation<StackNavigationProp<DiscoverParamList>>();
+  const { top } = useSafeAreaInsets();
 
   const {
     isLoading,
@@ -74,11 +75,11 @@ export const MediaScreen: React.FC = () => {
       wrapperStyle="unwrapped"
       isLoading={isLoading}
       isErrored={errorMessage !== undefined}
-      onRetryQuery={refresh}
+      onRetryQuery={() => refresh(true)}
     >
       <PaginatedList
         style={styles.container}
-        contentContainerStyle={styles.contentContainer}
+        contentContainerStyle={[styles.contentContainer, { paddingTop: top }]}
         isFetching={isFetching}
         refreshing={isRefreshing}
         keyExtractor={keyExtractor}
@@ -88,7 +89,7 @@ export const MediaScreen: React.FC = () => {
         onEndReached={() => {
           fetchNextPage({ page: nextPage });
         }}
-        onRefresh={refresh}
+        onRefresh={() => refresh(false)}
       />
     </QueryContainer>
   );
@@ -101,7 +102,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: 10,
     paddingHorizontal: 5,
   },
   cellContainer: {

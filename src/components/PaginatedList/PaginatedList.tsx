@@ -23,6 +23,7 @@ export function PaginatedList<Item>({
   onRefresh,
   onEndReached,
   onEndReachedThreshold = 0,
+  contentInset,
   style,
   contentContainerStyle,
 }: PaginatedListProps<Item>): JSX.Element {
@@ -35,6 +36,7 @@ export function PaginatedList<Item>({
     <FlatList
       style={style}
       contentContainerStyle={contentContainerStyle}
+      contentInset={contentInset}
       keyExtractor={keyExtractor}
       numColumns={numColumns}
       data={data}
