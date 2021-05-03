@@ -1,13 +1,19 @@
 import React, { useCallback, useMemo } from "react";
 import { StyleSheet, Dimensions } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { PaginatedList } from "../../components/PaginatedList";
 import { QueryContainer } from "../../components/QueryContainer";
+import { MediaCell } from "./MediaCell";
 import { Colors, Spacing } from "../../components/theme";
 import { usePagination } from "../../hooks";
 import { Movie } from "../../models";
-import { MediaCell } from "./MediaCell";
+import { DiscoverParamList } from "../../navigation";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 export const MediaScreen: React.FC = () => {
+  const { navigate } = useNavigation<StackNavigationProp<DiscoverParamList>>();
+
   const {
     isLoading,
     isFetching,
@@ -24,9 +30,12 @@ export const MediaScreen: React.FC = () => {
     return Dimensions.get("window").width / 2 - 15;
   }, []);
 
-  const onSelectCell = useCallback((id: number) => {
-    console.log("==== Value of id:", id);
-  }, []);
+  const onSelectCell = useCallback(
+    (id: number) => {
+      navigate("MediaDetails", { id });
+    },
+    [navigate]
+  );
 
   const onSelectLike = useCallback((pressed: boolean) => {
     console.log("==== Value of pressed:", pressed);

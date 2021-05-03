@@ -1,11 +1,17 @@
 import React, { useCallback } from "react";
 import { StyleSheet } from "react-native";
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { QueryContainer } from "../../components/QueryContainer";
 import { MediaDetailsView } from "./MediaDetailsView";
 import { useMediaDetails } from "./useMediaDetails";
 import { Colors } from "../../components/theme";
+import { DiscoverParamList } from "../../navigation";
 
 export const MediaDetailsScreen: React.FC = () => {
+  const {
+    params: { id },
+  } = useRoute<RouteProp<DiscoverParamList, "MediaDetails">>();
+
   const {
     loading,
     error,
@@ -13,7 +19,7 @@ export const MediaDetailsScreen: React.FC = () => {
     cast,
     recommendations,
     refetch,
-  } = useMediaDetails(399566);
+  } = useMediaDetails(id);
 
   const onSelectGenre = useCallback((genreId: number) => {
     console.log("==== Value of genreId:", genreId);
