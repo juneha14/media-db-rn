@@ -1,7 +1,7 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
-import { MediaScreen } from "../screens/Home/MediaScreen";
-import { MediaDetailsScreen } from "../screens/MediaDetails/MediaDetailsScreen";
+import { MediaScreen } from "../screens/Home";
+import { MediaDetailsScreen } from "../screens/MediaDetails";
 
 export type DiscoverParamList = {
   MediaList: undefined;

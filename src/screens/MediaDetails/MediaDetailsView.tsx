@@ -8,7 +8,7 @@ import { Container } from "../../components/Container";
 import { Spacing } from "../../components/theme";
 import { Header } from "./Header";
 import { PosterBackdrop } from "./PosterBackdrop";
-import { MediaCell } from "../Home/MediaCell";
+import { MediaCell } from "../Home";
 import { Cast, MovieDetails, Movie } from "../../models";
 import { useImageUri } from "../../hooks";
 import { Box } from "../../components/Box";
@@ -24,6 +24,7 @@ interface MediaDetailsViewProps {
   onSelectRecommended: (id: number) => void;
   onSelectSeeAllCast: () => void;
   onSelectSeeAllRecommended: () => void;
+  onNavigateBack?: () => void;
   style?: StyleProp<ViewStyle>;
 }
 
@@ -38,6 +39,7 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
   onSelectRecommended,
   onSelectSeeAllCast,
   onSelectSeeAllRecommended,
+  onNavigateBack,
   style,
 }) => {
   const renderCast = useCallback(
@@ -80,7 +82,7 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
         posterUrl={infoDetails.posterPath}
         backdropUrl={infoDetails.backdropPath}
       />
-      <Container ignoreTopPadding>
+      <Container ignoreTopPadding onNavigateBack={onNavigateBack}>
         <Header
           style={{ marginBottom: Spacing.l }}
           id={infoDetails.id}

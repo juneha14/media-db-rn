@@ -12,7 +12,7 @@ import { DiscoverParamList } from "../../navigation";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export const MediaScreen: React.FC = () => {
-  const { navigate } = useNavigation<StackNavigationProp<DiscoverParamList>>();
+  const { push } = useNavigation<StackNavigationProp<DiscoverParamList>>();
   const { top } = useSafeAreaInsets();
 
   const {
@@ -33,9 +33,9 @@ export const MediaScreen: React.FC = () => {
 
   const onSelectCell = useCallback(
     (id: number) => {
-      navigate("MediaDetails", { id });
+      push("MediaDetails", { id });
     },
-    [navigate]
+    [push]
   );
 
   const onSelectLike = useCallback((pressed: boolean) => {

@@ -53,6 +53,8 @@ export function QueryContainer<S extends ContentContainerStyle>(
   if (props.wrapperStyle === "wrapped" && isRefreshableProps(props)) {
     return (
       <ScrollView
+        style={styles.background}
+        scrollIndicatorInsets={{ right: 1 }} // https://github.com/facebook/react-native/issues/26610#issuecomment-539843444
         refreshControl={
           props.isRefreshing !== undefined && props.onRefresh !== undefined ? (
             <RefreshControl
