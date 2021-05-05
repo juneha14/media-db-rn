@@ -11,6 +11,7 @@ import { noop } from "lodash";
 
 interface PaginatedListProps<Item> extends FlatListProps<Item> {
   isFetching: boolean;
+  listRef?: (ref: FlatList<Item> | null) => void;
 }
 
 export function PaginatedList<Item>({
@@ -23,6 +24,8 @@ export function PaginatedList<Item>({
   onRefresh,
   onEndReached,
   onEndReachedThreshold = 0,
+  contentInset,
+  listRef,
   style,
   contentContainerStyle,
 }: PaginatedListProps<Item>): JSX.Element {
@@ -33,8 +36,10 @@ export function PaginatedList<Item>({
 
   return (
     <FlatList
+      ref={listRef}
       style={style}
       contentContainerStyle={contentContainerStyle}
+      contentInset={contentInset}
       keyExtractor={keyExtractor}
       numColumns={numColumns}
       data={data}

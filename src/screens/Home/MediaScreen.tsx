@@ -1,13 +1,41 @@
-import React, { useCallback, useMemo } from "react";
-import { StyleSheet, Dimensions } from "react-native";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
+import { StyleSheet, Dimensions, FlatList } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { DiscoverParamList, TabParamList } from "../../navigation";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PaginatedList } from "../../components/PaginatedList";
 import { QueryContainer } from "../../components/QueryContainer";
+import { MediaCell } from "./MediaCell";
 import { Colors, Spacing } from "../../components/theme";
 import { usePagination } from "../../hooks";
 import { Movie } from "../../models";
-import { MediaCell } from "./MediaCell";
 
 export const MediaScreen: React.FC = () => {
+  const {
+    push,
+    dangerouslyGetParent,
+    addListener,
+    dangerouslyGetState,
+  } = useNavigation<StackNavigationProp<DiscoverParamList>>();
+  const { top } = useSafeAreaInsets();
+  const listRef = useRef<FlatList<Movie> | null>(null);
+
+  useEffect(() => {
+    const unsubscribe = dangerouslyGetParent<
+      BottomTabNavigationProp<TabParamList>
+    >().addListener("tabPress", () => {
+      const { index } = dangerouslyGetState();
+      if (index === 0) {
+        // We are in the root list screen. Scroll to the top when tab is pressed again.
+        listRef.current?.scrollToOffset({ animated: true, offset: 0 });
+      }
+    });
+
+    return unsubscribe;
+  }, [addListener, dangerouslyGetParent, dangerouslyGetState]);
+
   const {
     isLoading,
     isFetching,
@@ -24,9 +52,12 @@ export const MediaScreen: React.FC = () => {
     return Dimensions.get("window").width / 2 - 15;
   }, []);
 
-  const onSelectCell = useCallback((id: number) => {
-    console.log("==== Value of id:", id);
-  }, []);
+  const onSelectCell = useCallback(
+    (id: number) => {
+      push("MediaDetails", { id });
+    },
+    [push]
+  );
 
   const onSelectLike = useCallback((pressed: boolean) => {
     console.log("==== Value of pressed:", pressed);
@@ -65,21 +96,20 @@ export const MediaScreen: React.FC = () => {
       wrapperStyle="unwrapped"
       isLoading={isLoading}
       isErrored={errorMessage !== undefined}
-      onRetryQuery={refresh}
+      onRetryQuery={() => refresh(true)}
     >
       <PaginatedList
         style={styles.container}
-        contentContainerStyle={styles.contentContainer}
+        listRef={(input) => (listRef.current = input)}
+        contentContainerStyle={[styles.contentContainer, { paddingTop: top }]}
         isFetching={isFetching}
         refreshing={isRefreshing}
         keyExtractor={keyExtractor}
         numColumns={2}
         data={allData}
         renderItem={renderItem}
-        onEndReached={() => {
-          fetchNextPage({ page: nextPage });
-        }}
-        onRefresh={refresh}
+        onEndReached={() => fetchNextPage({ page: nextPage })}
+        onRefresh={() => refresh(false)}
       />
     </QueryContainer>
   );
@@ -92,7 +122,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: 10,
     paddingHorizontal: 5,
   },
   cellContainer: {

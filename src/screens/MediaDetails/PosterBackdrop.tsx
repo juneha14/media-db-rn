@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleProp, ViewStyle, Dimensions } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image } from "../../components/Image";
 import { Spacing } from "../../components/theme";
 import { useImageUri } from "../../hooks";
@@ -13,6 +14,7 @@ export const PosterBackdrop: React.FC<PosterBackdropProps> = React.memo(
   ({ posterUrl, backdropUrl }) => {
     const posterUri = useImageUri("poster", "Original", posterUrl);
     const backdropUri = useImageUri("backdrop", "Original", backdropUrl);
+    const { top } = useSafeAreaInsets();
 
     if (!posterUrl && !backdropUrl) return null;
 
@@ -20,7 +22,7 @@ export const PosterBackdrop: React.FC<PosterBackdropProps> = React.memo(
       ? {
           position: "absolute",
           left: 10,
-          top: 15,
+          top: top,
           zIndex: 1,
         }
       : {
@@ -43,7 +45,7 @@ export const PosterBackdrop: React.FC<PosterBackdropProps> = React.memo(
             style={{ opacity: 0.65 }}
             uri={backdropUri}
             width={Dimensions.get("window").width}
-            height={180}
+            height={180 + top}
             shouldRoundCorners={false}
           />
         )}

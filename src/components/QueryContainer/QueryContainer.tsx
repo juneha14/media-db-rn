@@ -25,6 +25,11 @@ type QueryContainerProps<S extends ContentContainerStyle> = S extends "wrapped"
   ? QueryRefreshableProps<S>
   : QueryStatusProps<S>;
 
+/**
+ * Centralized container to display query states (loading, error, success)
+ * Provide a `wrapped` style to wrap the content in a ScrollView
+ * Provide an `unwrapped` style when using a FlatList as the container's child
+ */
 export function QueryContainer<S extends ContentContainerStyle>(
   props: PropsWithChildren<QueryContainerProps<S>>
 ): JSX.Element {
@@ -48,6 +53,8 @@ export function QueryContainer<S extends ContentContainerStyle>(
   if (props.wrapperStyle === "wrapped" && isRefreshableProps(props)) {
     return (
       <ScrollView
+        style={styles.background}
+        scrollIndicatorInsets={{ right: 1 }} // https://github.com/facebook/react-native/issues/26610#issuecomment-539843444
         refreshControl={
           props.isRefreshing !== undefined && props.onRefresh !== undefined ? (
             <RefreshControl
@@ -62,7 +69,7 @@ export function QueryContainer<S extends ContentContainerStyle>(
     );
   }
 
-  return <>{props.children}</>;
+  return <Box>{props.children}</Box>;
 }
 
 function isRefreshableProps<S>(

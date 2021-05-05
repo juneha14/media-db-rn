@@ -1,11 +1,19 @@
 import React, { useCallback } from "react";
 import { StyleSheet } from "react-native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { QueryContainer } from "../../components/QueryContainer";
 import { MediaDetailsView } from "./MediaDetailsView";
 import { useMediaDetails } from "./useMediaDetails";
 import { Colors } from "../../components/theme";
+import { DiscoverParamList } from "../../navigation";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 export const MediaDetailsScreen: React.FC = () => {
+  const {
+    params: { id },
+  } = useRoute<RouteProp<DiscoverParamList, "MediaDetails">>();
+  const { push, pop } = useNavigation<StackNavigationProp<DiscoverParamList>>();
+
   const {
     loading,
     error,
@@ -13,7 +21,7 @@ export const MediaDetailsScreen: React.FC = () => {
     cast,
     recommendations,
     refetch,
-  } = useMediaDetails(399566);
+  } = useMediaDetails(id);
 
   const onSelectGenre = useCallback((genreId: number) => {
     console.log("==== Value of genreId:", genreId);
@@ -31,9 +39,12 @@ export const MediaDetailsScreen: React.FC = () => {
     console.log("==== Value of castId:", castId);
   }, []);
 
-  const onSelectRecommended = useCallback((movieId: number) => {
-    console.log("==== Value of movieId:", movieId);
-  }, []);
+  const onSelectRecommended = useCallback(
+    (id: number) => {
+      push("MediaDetails", { id });
+    },
+    [push]
+  );
 
   const onSelectSeeAllCast = useCallback(() => {
     console.log("========== File: MediaDetailsScreen.tsx, Line: 28 ==========");
@@ -43,16 +54,16 @@ export const MediaDetailsScreen: React.FC = () => {
     console.log("========== File: MediaDetailsScreen.tsx, Line: 31 ==========");
   }, []);
 
-  const onReattemptQuery = useCallback(() => {
-    refetch();
-  }, [refetch]);
+  const onNavigateBack = useCallback(() => {
+    pop();
+  }, [pop]);
 
   return (
     <QueryContainer
       wrapperStyle="wrapped"
       isLoading={loading}
       isErrored={error !== undefined || !details}
-      onRetryQuery={onReattemptQuery}
+      onRetryQuery={refetch}
     >
       {details && (
         <MediaDetailsView
@@ -67,6 +78,7 @@ export const MediaDetailsScreen: React.FC = () => {
           onSelectRecommended={onSelectRecommended}
           onSelectSeeAllCast={onSelectSeeAllCast}
           onSelectSeeAllRecommended={onSelectSeeAllRecommended}
+          onNavigateBack={onNavigateBack}
         />
       )}
     </QueryContainer>
