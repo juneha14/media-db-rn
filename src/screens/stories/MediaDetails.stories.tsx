@@ -7,6 +7,7 @@ import { Box } from "../../components/Box";
 import { Colors } from "../../components/theme";
 import { PosterBackdrop } from "../MediaDetails/PosterBackdrop";
 import { ScrollView } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 storiesOf("Views", module)
   .addDecorator((view) => (
@@ -15,10 +16,12 @@ storiesOf("Views", module)
     </Box>
   ))
   .add("media details poster backdrop", () => (
-    <PosterBackdrop
-      posterUrl="/pgqgaUx1cJb5oZQQ5v0tNARCeBp.jpg"
-      backdropUrl="/jMWkd0fuwbG39eJpzycJzPWMCww.jpg"
-    />
+    <SafeAreaProvider>
+      <PosterBackdrop
+        posterUrl="/pgqgaUx1cJb5oZQQ5v0tNARCeBp.jpg"
+        backdropUrl="/jMWkd0fuwbG39eJpzycJzPWMCww.jpg"
+      />
+    </SafeAreaProvider>
   ))
   .add("media details header", () => (
     <Header
@@ -60,44 +63,46 @@ storiesOf("Views", module)
     </ScrollView>
   ))
   .add("media details view", () => (
-    <MediaDetailsView
-      infoDetails={movieDetails}
-      cast={cast}
-      recommendations={movies}
-      onSelectGenre={() =>
-        console.log(
-          "========== File: MediaDetailsView.tsx, Line: 93 =========="
-        )
-      }
-      onSelectFavourite={() =>
-        console.log(
-          "========== File: MediaDetailsView.tsx, Line: 211 =========="
-        )
-      }
-      onSelectPlayTrailer={() =>
-        console.log(
-          "========== File: MediaDetailsView.tsx, Line: 212 =========="
-        )
-      }
-      onSelectCast={() =>
-        console.log(
-          "========== File: MediaDetailsView.tsx, Line: 213 =========="
-        )
-      }
-      onSelectRecommended={() =>
-        console.log(
-          "========== File: MediaDetailsView.tsx, Line: 214 =========="
-        )
-      }
-      onSelectSeeAllCast={() =>
-        console.log(
-          "========== File: MediaDetailsView.tsx, Line: 215 =========="
-        )
-      }
-      onSelectSeeAllRecommended={() =>
-        console.log(
-          "========== File: MediaDetailsView.tsx, Line: 216 =========="
-        )
-      }
-    />
+    <SafeAreaProvider>
+      <MediaDetailsView
+        infoDetails={movieDetails}
+        cast={cast}
+        recommendations={movies}
+        onSelectGenre={() =>
+          console.log(
+            "========== File: MediaDetailsView.tsx, Line: 93 =========="
+          )
+        }
+        onSelectFavourite={() =>
+          console.log(
+            "========== File: MediaDetailsView.tsx, Line: 211 =========="
+          )
+        }
+        onSelectPlayTrailer={() =>
+          console.log(
+            "========== File: MediaDetailsView.tsx, Line: 212 =========="
+          )
+        }
+        onSelectCast={() =>
+          console.log(
+            "========== File: MediaDetailsView.tsx, Line: 213 =========="
+          )
+        }
+        onSelectRecommended={() =>
+          console.log(
+            "========== File: MediaDetailsView.tsx, Line: 214 =========="
+          )
+        }
+        onSelectSeeAllCast={() =>
+          console.log(
+            "========== File: MediaDetailsView.tsx, Line: 215 =========="
+          )
+        }
+        onSelectSeeAllRecommended={() =>
+          console.log(
+            "========== File: MediaDetailsView.tsx, Line: 216 =========="
+          )
+        }
+      />
+    </SafeAreaProvider>
   ));
