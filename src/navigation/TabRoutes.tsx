@@ -7,7 +7,7 @@ import { Text } from "../components/Typography";
 import { Colors } from "../components/theme";
 import { DiscoverRoutes } from "./DiscoverRoutes";
 
-type TabParamList = {
+export type TabParamList = {
   Discover: undefined;
   Search: undefined;
   Favourite: undefined;
