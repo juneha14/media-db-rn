@@ -9,8 +9,8 @@ import { PaginatedList } from "../../components/PaginatedList";
 import { QueryContainer } from "../../components/QueryContainer";
 import { MediaCell } from "./MediaCell";
 import { Colors, Spacing } from "../../components/theme";
-import { usePagination } from "../../hooks";
-import { Movie } from "../../models";
+import { usePagination, usePersistedState } from "../../hooks";
+import { Favourite, Movie } from "../../models";
 
 export const MediaScreen: React.FC = () => {
   const {
@@ -47,25 +47,32 @@ export const MediaScreen: React.FC = () => {
     refresh,
   } = usePagination<Movie>("NowPlayingMovies", { page: 1 });
 
+  const [favourites, setFavourites] = usePersistedState<Favourite[]>(
+    "LikedMedia"
+  );
+
   const width = useMemo(() => {
     // (screenWidth / 2) - (paddingHorizontal / 2 + marginHorizontal / 2)
     return Dimensions.get("window").width / 2 - 15;
   }, []);
 
   const onSelectCell = useCallback(
-    (id: number) => {
-      push("MediaDetails", { id });
-    },
+    (id: number) => push("MediaDetails", { id }),
     [push]
   );
 
-  const onSelectLike = useCallback((pressed: boolean) => {
-    console.log("==== Value of pressed:", pressed);
-  }, []);
+  const onSelectLike = useCallback(
+    (favouriteMedia: Favourite) => () => {
+      setFavourites(
+        favourites ? [...favourites, favouriteMedia] : [favouriteMedia]
+      );
+    },
+    [setFavourites, favourites]
+  );
 
   const renderItem = useCallback(
     ({
-      item: { id, posterPath, title, releaseDate, voteAverage },
+      item: { id, posterPath, backdropPath, title, releaseDate, voteAverage },
     }: {
       item: Movie;
     }) => {
@@ -80,7 +87,14 @@ export const MediaScreen: React.FC = () => {
           rating={voteAverage}
           width={width}
           onPress={onSelectCell}
-          onLikePress={onSelectLike}
+          onLikePress={onSelectLike({
+            id,
+            posterPath,
+            backdropPath,
+            title,
+            releaseDate,
+            voteAverage,
+          })}
         />
       );
     },

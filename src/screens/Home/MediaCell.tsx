@@ -15,7 +15,7 @@ interface MediaCellProps {
   width?: number;
   height?: number;
   onPress: (id: number) => void;
-  onLikePress?: (pressed: boolean) => void;
+  onLikePress?: () => void;
   style?: StyleProp<ViewStyle>;
 }
 
