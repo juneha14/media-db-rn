@@ -8,13 +8,21 @@ interface FavouriteIconProps {
   iconSize: IconSize;
   encloseInBorder?: boolean;
   caption?: string;
+  selected?: boolean;
   onPress?: (pressed: boolean) => void;
   style?: StyleProp<ViewStyle>;
 }
 
 export const FavouriteIcon: React.FC<FavouriteIconProps> = React.memo(
-  ({ iconSize, encloseInBorder, caption, onPress, style }) => {
-    const [pressed, setPressed] = useState(false);
+  ({
+    iconSize,
+    encloseInBorder,
+    caption,
+    selected = false,
+    onPress,
+    style,
+  }) => {
+    const [pressed, setPressed] = useState(selected);
     const onPressed = useCallback(() => {
       setPressed((pressed) => {
         onPress ? onPress(!pressed) : noop;

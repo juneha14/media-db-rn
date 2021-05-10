@@ -9,8 +9,9 @@ import { PaginatedList } from "../../components/PaginatedList";
 import { QueryContainer } from "../../components/QueryContainer";
 import { MediaCell } from "./MediaCell";
 import { Colors, Spacing } from "../../components/theme";
-import { usePagination, usePersistedState } from "../../hooks";
+import { usePagination } from "../../hooks";
 import { Favourite, Movie } from "../../models";
+import { useFavouriteState } from "../Favourite";
 
 export const MediaScreen: React.FC = () => {
   const {
@@ -47,9 +48,11 @@ export const MediaScreen: React.FC = () => {
     refresh,
   } = usePagination<Movie>("NowPlayingMovies", { page: 1 });
 
-  const [favourites, setFavourites] = usePersistedState<Favourite[]>(
-    "LikedMedia"
-  );
+  const { favourites, onToggleLike } = useFavouriteState();
+
+  useEffect(() => {
+    console.log("==== Value of favourites:", favourites);
+  }, [favourites]);
 
   const width = useMemo(() => {
     // (screenWidth / 2) - (paddingHorizontal / 2 + marginHorizontal / 2)
@@ -62,12 +65,10 @@ export const MediaScreen: React.FC = () => {
   );
 
   const onSelectLike = useCallback(
-    (favouriteMedia: Favourite) => () => {
-      setFavourites(
-        favourites ? [...favourites, favouriteMedia] : [favouriteMedia]
-      );
+    (favourite: Favourite) => () => {
+      onToggleLike(favourite);
     },
-    [setFavourites, favourites]
+    [onToggleLike]
   );
 
   const renderItem = useCallback(
@@ -86,6 +87,7 @@ export const MediaScreen: React.FC = () => {
           releaseDate={releaseDate}
           rating={voteAverage}
           width={width}
+          isLiked={favourites.find((f) => f.id === id) !== undefined}
           onPress={onSelectCell}
           onLikePress={onSelectLike({
             id,
@@ -98,7 +100,7 @@ export const MediaScreen: React.FC = () => {
         />
       );
     },
-    [width, onSelectCell, onSelectLike]
+    [width, onSelectCell, onSelectLike, favourites]
   );
 
   const keyExtractor = useCallback((item: Movie, index: number) => {
