@@ -1,16 +1,28 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { Dimensions, FlatList, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { Colors, Spacing } from "../../components/theme";
 import { Favourite } from "../../models";
+import { FavouriteParamList } from "../../navigation";
 import { MediaCell } from "../Home";
 import { useFavouriteState } from "./useFavouriteState";
 
 export const FavouriteScreen: React.FC = () => {
+  const { push } = useNavigation<StackNavigationProp<FavouriteParamList>>();
   const { favourites, onToggleLike } = useFavouriteState();
 
-  const onPressCell = useCallback((id: number) => {
-    console.log("========== File: FavouriteScreen.tsx, Line: 16 ==========");
-  }, []);
+  const cellWidth = useMemo(
+    () => Dimensions.get("window").width - 2 * Spacing.m,
+    []
+  );
+
+  const onPressCell = useCallback(
+    (id: number) => {
+      push("MediaDetails", { id });
+    },
+    [push]
+  );
 
   const onPressLike = useCallback(
     (favourite: Favourite) => () => {
@@ -30,14 +42,14 @@ export const FavouriteScreen: React.FC = () => {
           title={item.title}
           releaseDate={item.releaseDate}
           rating={item.voteAverage}
-          width={Dimensions.get("window").width - 2 * Spacing.m}
+          width={cellWidth}
           isLiked={favourites.find((f) => f.id === item.id) !== undefined}
           onPress={onPressCell}
           onLikePress={onPressLike(item)}
         />
       );
     },
-    [onPressCell, onPressLike, favourites]
+    [onPressCell, onPressLike, favourites, cellWidth]
   );
 
   return (
@@ -58,7 +70,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     justifyContent: "center",
     alignItems: "center",
-    margin: Spacing.l,
+    marginTop: Spacing.l,
   },
   cellContainer: {
     marginBottom: Spacing.l,

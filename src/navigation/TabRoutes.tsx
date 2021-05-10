@@ -7,6 +7,7 @@ import { Text } from "../components/Typography";
 import { Colors } from "../components/theme";
 import { DiscoverRoutes } from "./DiscoverRoutes";
 import { FavouriteScreen } from "../screens/Favourite";
+import { FavouriteRoutes } from "./FavouriteRoutes";
 
 export type TabParamList = {
   Discover: undefined;
@@ -46,7 +47,7 @@ export const TabRoutes: React.FC = () => {
         />
         <Tabs.Screen
           name="Favourite"
-          component={FavouriteScreen}
+          component={FavouriteRoutes}
           options={{
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="ios-bookmark-outline" size={size} color={color} />
