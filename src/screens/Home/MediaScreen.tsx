@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect, useMemo, useRef } from "react";
+import React, { useCallback, useMemo, useRef } from "react";
 import { StyleSheet, Dimensions, FlatList } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
-import { DiscoverParamList, TabParamList } from "../../navigation";
+import { DiscoverParamList } from "../../navigation";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PaginatedList } from "../../components/PaginatedList";
 import { QueryContainer } from "../../components/QueryContainer";

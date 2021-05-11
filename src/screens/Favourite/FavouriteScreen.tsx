@@ -9,8 +9,7 @@ import { MediaCell } from "../Home";
 import { useFavouriteState } from "./useFavouriteState";
 import { useRootTabScrollToTop } from "../../hooks";
 
-// Commit useRootTabScrollToTop
-// MediaDetails screen subscribe to like changes
+// Fix require cycle between MediaScreen and FavouriteScreen
 // useObservableState
 
 export const FavouriteScreen: React.FC = () => {
@@ -21,7 +20,7 @@ export const FavouriteScreen: React.FC = () => {
   useRootTabScrollToTop(listRef);
 
   const cellWidth = useMemo(
-    () => Dimensions.get("window").width - 2 * Spacing.m,
+    () => Dimensions.get("window").width - 2 * Spacing.l,
     []
   );
 

@@ -7,6 +7,7 @@ import { useMediaDetails } from "./useMediaDetails";
 import { Colors } from "../../components/theme";
 import { DiscoverParamList } from "../../navigation";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { Favourite } from "../../models";
 
 export const MediaDetailsScreen: React.FC = () => {
   const {
@@ -21,15 +22,19 @@ export const MediaDetailsScreen: React.FC = () => {
     cast,
     recommendations,
     refetch,
+    onToggleLike,
   } = useMediaDetails(id);
 
   const onSelectGenre = useCallback((genreId: number) => {
     console.log("==== Value of genreId:", genreId);
   }, []);
 
-  const onSelectFavourite = useCallback(() => {
-    console.log("========== File: MediaDetailsScreen.tsx, Line: 16 ==========");
-  }, []);
+  const onSelectFavourite = useCallback(
+    (favourite: Favourite) => () => {
+      onToggleLike(favourite);
+    },
+    [onToggleLike]
+  );
 
   const onSelectPlayTrailer = useCallback(() => {
     console.log("========== File: MediaDetailsScreen.tsx, Line: 19 ==========");
@@ -72,7 +77,14 @@ export const MediaDetailsScreen: React.FC = () => {
           cast={cast}
           recommendations={recommendations}
           onSelectGenre={onSelectGenre}
-          onSelectFavourite={onSelectFavourite}
+          onSelectFavourite={onSelectFavourite({
+            id: details.id,
+            title: details.title,
+            posterPath: details.posterPath,
+            backdropPath: details.backdropPath,
+            releaseDate: details.releaseDate,
+            voteAverage: details.voteAverage,
+          })}
           onSelectPlayTrailer={onSelectPlayTrailer}
           onSelectCast={onSelectCast}
           onSelectRecommended={onSelectRecommended}

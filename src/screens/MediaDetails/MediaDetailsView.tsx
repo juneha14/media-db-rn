@@ -14,7 +14,7 @@ import { useImageUri } from "../../hooks";
 import { Box } from "../../components/Box";
 
 interface MediaDetailsViewProps {
-  infoDetails: MovieDetails;
+  infoDetails: MovieDetails & { isLiked?: boolean };
   cast?: Cast[];
   recommendations?: Movie[];
   onSelectGenre: (id: number) => void;
@@ -95,6 +95,7 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
           tagline={infoDetails.tagline}
           overview={infoDetails.overview}
           genres={infoDetails.genres}
+          isLiked={infoDetails.isLiked}
           onSelectGenre={onSelectGenre}
           onSelectFavourite={onSelectFavourite}
           onSelectPlayTrailer={onSelectPlayTrailer}
