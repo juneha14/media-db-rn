@@ -9,33 +9,16 @@ import { PaginatedList } from "../../components/PaginatedList";
 import { QueryContainer } from "../../components/QueryContainer";
 import { MediaCell } from "./MediaCell";
 import { Colors, Spacing } from "../../components/theme";
-import { usePagination } from "../../hooks";
+import { usePagination, useRootTabScrollToTop } from "../../hooks";
 import { Favourite, Movie } from "../../models";
 import { useFavouriteState } from "../Favourite";
 
 export const MediaScreen: React.FC = () => {
-  const {
-    push,
-    dangerouslyGetParent,
-    addListener,
-    dangerouslyGetState,
-  } = useNavigation<StackNavigationProp<DiscoverParamList>>();
   const { top } = useSafeAreaInsets();
+  const { push } = useNavigation<StackNavigationProp<DiscoverParamList>>();
+
   const listRef = useRef<FlatList<Movie> | null>(null);
-
-  useEffect(() => {
-    const unsubscribe = dangerouslyGetParent<
-      BottomTabNavigationProp<TabParamList>
-    >().addListener("tabPress", () => {
-      const { index } = dangerouslyGetState();
-      if (index === 0) {
-        // We are in the root list screen. Scroll to the top when tab is pressed again.
-        listRef.current?.scrollToOffset({ animated: true, offset: 0 });
-      }
-    });
-
-    return unsubscribe;
-  }, [addListener, dangerouslyGetParent, dangerouslyGetState]);
+  useRootTabScrollToTop(listRef);
 
   const {
     isLoading,
@@ -49,10 +32,6 @@ export const MediaScreen: React.FC = () => {
   } = usePagination<Movie>("NowPlayingMovies", { page: 1 });
 
   const { favourites, onToggleLike } = useFavouriteState();
-
-  useEffect(() => {
-    console.log("==== Value of favourites:", favourites);
-  }, [favourites]);
 
   const width = useMemo(() => {
     // (screenWidth / 2) - (paddingHorizontal / 2 + marginHorizontal / 2)

@@ -6,7 +6,6 @@ import { Box } from "../components/Box";
 import { Text } from "../components/Typography";
 import { Colors } from "../components/theme";
 import { DiscoverRoutes } from "./DiscoverRoutes";
-import { FavouriteScreen } from "../screens/Favourite";
 import { FavouriteRoutes } from "./FavouriteRoutes";
 
 export type TabParamList = {

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useRef } from "react";
 import { Dimensions, FlatList, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -7,10 +7,18 @@ import { Favourite } from "../../models";
 import { FavouriteParamList } from "../../navigation";
 import { MediaCell } from "../Home";
 import { useFavouriteState } from "./useFavouriteState";
+import { useRootTabScrollToTop } from "../../hooks";
+
+// Commit useRootTabScrollToTop
+// MediaDetails screen subscribe to like changes
+// useObservableState
 
 export const FavouriteScreen: React.FC = () => {
   const { push } = useNavigation<StackNavigationProp<FavouriteParamList>>();
   const { favourites, onToggleLike } = useFavouriteState();
+
+  const listRef = useRef<FlatList<Favourite> | null>(null);
+  useRootTabScrollToTop(listRef);
 
   const cellWidth = useMemo(
     () => Dimensions.get("window").width - 2 * Spacing.m,
@@ -54,6 +62,7 @@ export const FavouriteScreen: React.FC = () => {
 
   return (
     <FlatList
+      ref={(input) => (listRef.current = input)}
       style={styles.container}
       contentContainerStyle={styles.contentContainer}
       keyExtractor={(item) => String(item.id)}

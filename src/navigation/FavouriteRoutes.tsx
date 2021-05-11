@@ -1,6 +1,5 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
-import { color } from "react-native-reanimated";
 import { Colors } from "../components/theme";
 import { FavouriteScreen } from "../screens/Favourite";
 import { MediaDetailsScreen } from "../screens/MediaDetails";
