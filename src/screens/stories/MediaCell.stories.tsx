@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { storiesOf } from "@storybook/react-native";
 import { ContentViewDark } from "../../../storybook/ContentView";
-import { MediaCell } from "../Home/MediaCell";
+import { MediaCell } from "../shared";
 
 storiesOf("Views", module)
   .addDecorator(ContentViewDark)

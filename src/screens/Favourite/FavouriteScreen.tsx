@@ -5,11 +5,9 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { Colors, Spacing } from "../../components/theme";
 import { Favourite } from "../../models";
 import { FavouriteParamList } from "../../navigation";
-import { MediaCell } from "../Home";
-import { useFavouriteState } from "./useFavouriteState";
 import { useRootTabScrollToTop } from "../../hooks";
+import { MediaCell, useFavouriteState } from "../shared";
 
-// Fix require cycle between MediaScreen and FavouriteScreen
 // useObservableState
 
 export const FavouriteScreen: React.FC = () => {

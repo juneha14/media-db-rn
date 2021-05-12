@@ -8,10 +8,10 @@ import { Container } from "../../components/Container";
 import { Spacing } from "../../components/theme";
 import { Header } from "./Header";
 import { PosterBackdrop } from "./PosterBackdrop";
-import { MediaCell } from "../Home";
 import { Cast, MovieDetails, Movie } from "../../models";
 import { useImageUri } from "../../hooks";
 import { Box } from "../../components/Box";
+import { MediaCell } from "../shared";
 
 interface MediaDetailsViewProps {
   infoDetails: MovieDetails & { isLiked?: boolean };

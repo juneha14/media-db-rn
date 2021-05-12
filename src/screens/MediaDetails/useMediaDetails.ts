@@ -9,7 +9,7 @@ import {
   PaginatedResponse,
 } from "../../models";
 import { convertToCamelCase } from "../../utils";
-import { useFavouriteState } from "../Favourite";
+import { useFavouriteState } from "../shared";
 
 interface State {
   loading: boolean;

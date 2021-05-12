@@ -6,11 +6,10 @@ import { DiscoverParamList } from "../../navigation";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PaginatedList } from "../../components/PaginatedList";
 import { QueryContainer } from "../../components/QueryContainer";
-import { MediaCell } from "./MediaCell";
 import { Colors, Spacing } from "../../components/theme";
 import { usePagination, useRootTabScrollToTop } from "../../hooks";
 import { Favourite, Movie } from "../../models";
-import { useFavouriteState } from "../Favourite";
+import { MediaCell, useFavouriteState } from "../shared";
 
 export const MediaScreen: React.FC = () => {
   const { top } = useSafeAreaInsets();
