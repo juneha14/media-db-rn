@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { usePersistedState } from "../../hooks";
 import { Favourite } from "../../models";
 
@@ -8,14 +8,10 @@ interface State {
 }
 
 export const useFavouriteState = (): State => {
-  const [favourites, setFavourites, clear] = usePersistedState<Favourite[]>(
+  const [favourites, setFavourites] = usePersistedState<Favourite[]>(
     "LikedMedia",
     []
   );
-
-  useEffect(() => {
-    // clear();
-  }, [clear]);
 
   const onToggleLike = useCallback(
     (favourite: Favourite) => {

@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useObservableState } from "./useObservableState";
 
 const PersistenceKeys: Readonly<Record<string, string>> = {
   LikedMedia: "liked-media",
@@ -10,10 +11,10 @@ export function usePersistedState<Value>(
   defaultValue?: Value
 ): [
   value: Value | undefined,
-  setPersistedValue: (value: Value | undefined) => void,
+  setPersistedValue: (value: Value) => void,
   clearPersistedValue: () => void
 ] {
-  const [value, setValue] = useState<Value | undefined>(defaultValue);
+  const [value, setValue] = useObservableState(key, defaultValue);
   const defaultValueJson = JSON.stringify(defaultValue);
 
   useEffect(() => {
@@ -33,16 +34,16 @@ export function usePersistedState<Value>(
     };
 
     if (defaultValueJson !== undefined) getPersistedValue();
-  }, [key, defaultValueJson]);
+  }, [key, defaultValueJson, setValue]);
 
   // TODO: think of a way to expose `prev` value
   const setPersistedValue = useCallback(
-    (newValue: Value | undefined) => {
+    (newValue: Value) => {
       const json = JSON.stringify(newValue);
       AsyncStorage.setItem(key, json);
       setValue(newValue);
     },
-    [key]
+    [key, setValue]
   );
 
   const clearPersistedValue = useCallback(() => {
