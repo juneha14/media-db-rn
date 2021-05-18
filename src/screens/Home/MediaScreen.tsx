@@ -1,13 +1,14 @@
 import React, { useCallback, useMemo, useRef } from "react";
-import { StyleSheet, Dimensions, FlatList } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { StyleSheet, Dimensions } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
+import { useNavigation, useScrollToTop } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { DiscoverParamList } from "../../navigation";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PaginatedList } from "../../components/PaginatedList";
 import { QueryContainer } from "../../components/QueryContainer";
 import { Colors, Spacing } from "../../components/theme";
-import { usePagination, useRootTabScrollToTop } from "../../hooks";
+import { usePagination } from "../../hooks";
 import { Favourite, Movie } from "../../models";
 import { MediaCell, useFavouriteState } from "../shared";
 
@@ -16,7 +17,7 @@ export const MediaScreen: React.FC = () => {
   const { push } = useNavigation<StackNavigationProp<DiscoverParamList>>();
 
   const listRef = useRef<FlatList<Movie> | null>(null);
-  useRootTabScrollToTop(listRef);
+  useScrollToTop(listRef);
 
   const {
     isLoading,
