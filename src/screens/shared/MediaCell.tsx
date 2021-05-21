@@ -14,8 +14,9 @@ interface MediaCellProps {
   rating: number;
   width?: number;
   height?: number;
+  isLiked?: boolean;
   onPress: (id: number) => void;
-  onLikePress?: (pressed: boolean) => void;
+  onLikePress?: () => void;
   style?: StyleProp<ViewStyle>;
 }
 
@@ -29,6 +30,7 @@ export const MediaCell: React.FC<MediaCellProps> = React.memo(
     rating,
     width,
     height,
+    isLiked,
     onPress,
     onLikePress,
     style,
@@ -74,6 +76,7 @@ export const MediaCell: React.FC<MediaCellProps> = React.memo(
                 cellSize && imageSize ? cellSize.x + imageSize.width - 27 : 0,
             }}
             iconSize="medium"
+            selected={isLiked}
             onPress={onLikePress}
           />
         )}

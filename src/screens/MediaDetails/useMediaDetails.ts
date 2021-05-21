@@ -3,19 +3,22 @@ import { fetchRequest } from "../../api/service";
 import {
   Cast,
   Credit,
+  Favourite,
   Movie,
   MovieDetails,
   PaginatedResponse,
 } from "../../models";
 import { convertToCamelCase } from "../../utils";
+import { useFavouriteState } from "../shared";
 
 interface State {
   loading: boolean;
   error?: string;
-  details?: MovieDetails;
+  details?: MovieDetails & { isLiked: boolean };
   cast?: Cast[];
   recommendations?: Movie[];
   refetch: () => void;
+  onToggleLike: (favourite: Favourite) => void;
 }
 
 export const useMediaDetails = (movieId: number): State => {
@@ -24,6 +27,7 @@ export const useMediaDetails = (movieId: number): State => {
   const [details, setDetails] = useState<MovieDetails>();
   const [cast, setCast] = useState<Cast[]>();
   const [recommendations, setRecommendations] = useState<Movie[]>();
+  const { favourites, onToggleLike } = useFavouriteState();
 
   const fetch = useCallback(async () => {
     const details = fetchRequest("MovieDetails", { movieId });
@@ -66,9 +70,13 @@ export const useMediaDetails = (movieId: number): State => {
   return {
     loading,
     error,
-    details,
+    details: details && {
+      ...details,
+      isLiked: favourites.find((f) => f.id === movieId) !== undefined,
+    },
     cast,
     recommendations,
     refetch,
+    onToggleLike,
   };
 };

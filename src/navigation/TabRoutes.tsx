@@ -6,6 +6,7 @@ import { Box } from "../components/Box";
 import { Text } from "../components/Typography";
 import { Colors } from "../components/theme";
 import { DiscoverRoutes } from "./DiscoverRoutes";
+import { FavouriteRoutes } from "./FavouriteRoutes";
 
 export type TabParamList = {
   Discover: undefined;
@@ -45,7 +46,7 @@ export const TabRoutes: React.FC = () => {
         />
         <Tabs.Screen
           name="Favourite"
-          component={FavouriteScreen}
+          component={FavouriteRoutes}
           options={{
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="ios-bookmark-outline" size={size} color={color} />
@@ -68,21 +69,6 @@ const SearchScreen = () => {
       }}
     >
       <Text variant="body">Search screen</Text>
-    </Box>
-  );
-};
-
-const FavouriteScreen = () => {
-  return (
-    <Box
-      style={{
-        flex: 1,
-        backgroundColor: Colors.SurfaceBackground,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text variant="body">Favourite screen</Text>
     </Box>
   );
 };

@@ -1,10 +1,6 @@
 import React, { useRef } from "react";
-import {
-  FlatList,
-  FlatListProps,
-  RefreshControl,
-  StyleSheet,
-} from "react-native";
+import { FlatListProps, RefreshControl, StyleSheet } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 import { LoadingIndicator } from "../LoadingIndicator";
 import { Colors, Spacing } from "../theme";
 import { noop } from "lodash";

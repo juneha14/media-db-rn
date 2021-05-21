@@ -21,6 +21,7 @@ interface HeaderProps {
   tagline: string | null;
   overview: string | null;
   genres: Genre[];
+  isLiked?: boolean;
   onSelectGenre: (id: number) => void;
   onSelectFavourite: () => void;
   onSelectPlayTrailer?: () => void;
@@ -37,6 +38,7 @@ export const Header: React.FC<HeaderProps> = ({
   overview,
   hasVideo,
   genres,
+  isLiked = false,
   onSelectGenre,
   onSelectFavourite,
   onSelectPlayTrailer,
@@ -77,6 +79,7 @@ export const Header: React.FC<HeaderProps> = ({
           iconSize="medium"
           encloseInBorder
           caption="Favourite"
+          selected={isLiked}
           onPress={onSelectFavourite}
         />
         {hasVideo ? (

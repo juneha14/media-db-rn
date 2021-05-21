@@ -25,11 +25,13 @@ export const Container: React.FC<ContainerProps> = React.memo(
 
     return (
       <>
-        <BackArrow
-          style={{ position: "absolute", left: left + 15, top, zIndex: 100 }}
-          size="large"
-          onPress={onNavigateBack}
-        />
+        {onNavigateBack && (
+          <BackArrow
+            style={{ position: "absolute", left: left + 15, top, zIndex: 100 }}
+            size="large"
+            onPress={onNavigateBack}
+          />
+        )}
         <Box
           style={[
             styles.container,

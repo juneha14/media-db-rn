@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { StyleProp, ViewStyle, Pressable } from "react-native";
 import { noop } from "lodash";
 import { IconLabel } from "./IconLabel";
@@ -8,13 +8,26 @@ interface FavouriteIconProps {
   iconSize: IconSize;
   encloseInBorder?: boolean;
   caption?: string;
+  selected?: boolean;
   onPress?: (pressed: boolean) => void;
   style?: StyleProp<ViewStyle>;
 }
 
 export const FavouriteIcon: React.FC<FavouriteIconProps> = React.memo(
-  ({ iconSize, encloseInBorder, caption, onPress, style }) => {
-    const [pressed, setPressed] = useState(false);
+  ({
+    iconSize,
+    encloseInBorder,
+    caption,
+    selected = false,
+    onPress,
+    style,
+  }) => {
+    const [pressed, setPressed] = useState(selected);
+
+    useEffect(() => {
+      setPressed(selected);
+    }, [selected]);
+
     const onPressed = useCallback(() => {
       setPressed((pressed) => {
         onPress ? onPress(!pressed) : noop;
