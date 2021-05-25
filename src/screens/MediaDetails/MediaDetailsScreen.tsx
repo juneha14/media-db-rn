@@ -56,7 +56,7 @@ export const MediaDetailsScreen: React.FC = () => {
   }, []);
 
   const onSelectSeeAllRecommended = useCallback(() => {
-    console.log("========== File: MediaDetailsScreen.tsx, Line: 31 ==========");
+    push("MediaList");
   }, []);
 
   const onNavigateBack = useCallback(() => {
