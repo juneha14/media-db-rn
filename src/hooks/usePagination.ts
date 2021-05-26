@@ -100,7 +100,7 @@ export function usePagination<
 
   const fetchNextPage = useCallback(
     (params: P) => {
-      if (next_page.current > total_pages.current) return;
+      if (next_page.current >= total_pages.current) return;
 
       setFetching(true);
       setTimeout(() => {

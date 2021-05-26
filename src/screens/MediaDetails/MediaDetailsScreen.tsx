@@ -56,8 +56,8 @@ export const MediaDetailsScreen: React.FC = () => {
   }, []);
 
   const onSelectSeeAllRecommended = useCallback(() => {
-    push("MediaList");
-  }, []);
+    push("RecommendedList", { recommended: recommendations ?? [] });
+  }, [push, recommendations]);
 
   const onNavigateBack = useCallback(() => {
     pop();
