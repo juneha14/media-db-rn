@@ -3,9 +3,11 @@ import { Endpoint, EndpointParamList, fetchRequest } from "../api/service";
 import { convertToCamelCase } from "../utils";
 
 interface FetchResponse<T> {
-  isLoading?: boolean;
+  isLoading: boolean;
+  isRefreshing: boolean;
+  error?: string;
   data?: T;
-  errorMessage?: string;
+  refresh: () => void;
 }
 
 export function useFetch<Response, T extends Endpoint = Endpoint>(
@@ -19,30 +21,43 @@ export function useFetch<Response, T extends Endpoint = Endpoint>(
   // https://twitter.com/dan_abramov/status/1104414272753487872
   const fetchConfig = JSON.stringify(params);
 
-  const [state, setState] = useState<FetchResponse<Response>>({
-    isLoading: true,
-  });
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState();
+  const [data, setData] = useState<Response>();
 
   const fetch = useCallback(async () => {
-    setState({ isLoading: true });
-
     try {
       const params = JSON.parse(fetchConfig);
       const json = await fetchRequest(endpoint, params);
       const data = convertToCamelCase(json);
-
-      setTimeout(() => {
-        setState({ data });
-      }, 200);
+      setData(data);
     } catch (error) {
-      console.error("[useFetch] Failed to fetch due to error:", error);
-      setState({ errorMessage: error.message });
+      console.error("[useFetch] Failed to fetch due to error:", error.message);
+      setError(error.message);
     }
   }, [endpoint, fetchConfig]);
 
   useEffect(() => {
-    fetch();
+    setLoading(true);
+    setTimeout(() => {
+      fetch().then(() => setLoading(false));
+    }, 500);
   }, [fetch]);
 
-  return state;
+  const refresh = useCallback(() => {
+    setRefreshing(true);
+    setError(undefined);
+    setTimeout(() => {
+      fetch().then(() => setRefreshing(false));
+    }, 500);
+  }, [fetch]);
+
+  return {
+    isLoading: loading,
+    isRefreshing: refreshing,
+    error,
+    data,
+    refresh,
+  };
 }

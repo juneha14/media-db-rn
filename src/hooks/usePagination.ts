@@ -63,7 +63,10 @@ export function usePagination<
         total_pages.current = totalPages;
         total_results.current = totalResults;
       } catch (error) {
-        console.error("[usePagination] Failed to fetch due to error:", error);
+        console.error(
+          "[usePagination] Failed to fetch due to error:",
+          error.message
+        );
         setError(error.message);
       }
     },
