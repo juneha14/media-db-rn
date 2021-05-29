@@ -1,2 +1,2 @@
 export { ContentPreview } from "./ContentPreview";
-export { PreviewList } from "./PreviewList";
+export { PreviewList, PreviewDataItem } from "./PreviewList";

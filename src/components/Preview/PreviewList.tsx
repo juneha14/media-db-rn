@@ -4,16 +4,19 @@ import { FlatList } from "react-native-gesture-handler";
 import { Colors, Spacing } from "../theme";
 import { ContentPreview, ContentPreviewProps } from "./ContentPreview";
 
-type Data = Omit<ContentPreviewProps, "style">;
+export type PreviewDataItem = Omit<ContentPreviewProps, "style">;
 interface PreviewListProps {
-  data: Data[];
+  data?: PreviewDataItem[];
   style?: StyleProp<ViewStyle>;
 }
 
 export const PreviewList: React.FC<PreviewListProps> = React.memo(
   ({ data, style }) => {
-    const keyExtractor = useCallback((item: Data) => String(item.imgUrl), []);
-    const renderItem = useCallback(({ item }: { item: Data }) => {
+    const keyExtractor = useCallback(
+      (item: PreviewDataItem) => item.imgUrl + item.title + item.description,
+      []
+    );
+    const renderItem = useCallback(({ item }: { item: PreviewDataItem }) => {
       return <ContentPreview style={styles.previewRow} {...item} />;
     }, []);
 

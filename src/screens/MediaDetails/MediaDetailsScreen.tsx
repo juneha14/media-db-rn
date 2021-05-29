@@ -52,12 +52,12 @@ export const MediaDetailsScreen: React.FC = () => {
   );
 
   const onSelectSeeAllCast = useCallback(() => {
-    console.log("========== File: MediaDetailsScreen.tsx, Line: 28 ==========");
-  }, []);
+    push("CreditList", { id });
+  }, [push, id]);
 
   const onSelectSeeAllRecommended = useCallback(() => {
-    push("RecommendedList", { recommended: recommendations ?? [] });
-  }, [push, recommendations]);
+    push("RecommendedList", { id });
+  }, [push, id]);
 
   const onNavigateBack = useCallback(() => {
     pop();
