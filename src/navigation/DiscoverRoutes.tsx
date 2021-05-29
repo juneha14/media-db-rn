@@ -1,16 +1,15 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import { Movie } from "../models";
 import { MediaScreen } from "../screens/Home";
-import { MediaDetailsScreen } from "../screens/MediaDetails";
-import { RecommendedScreen } from "../screens/Recommended";
 import { Colors } from "../components/theme";
+import {
+  MediaDetailsParamList,
+  MediaDetailsRoutes,
+} from "./MediaDetailsRoutes";
 
 export type DiscoverParamList = {
   MediaList: undefined;
-  MediaDetails: { id: number };
-  RecommendedList: { recommended: Movie[] };
-};
+} & MediaDetailsParamList;
 
 const Stack = createStackNavigator<DiscoverParamList>();
 
@@ -29,18 +28,7 @@ export const DiscoverRoutes: React.FC = () => {
         component={MediaScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
-        name="MediaDetails"
-        component={MediaDetailsScreen}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="RecommendedList"
-        component={RecommendedScreen}
-        options={{
-          headerTitle: "Recommendations",
-        }}
-      />
+      {MediaDetailsRoutes(Stack)}
     </Stack.Navigator>
   );
 };
