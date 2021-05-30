@@ -8,7 +8,6 @@ import { Credit } from "../../models";
 import { DiscoverParamList } from "../../navigation";
 
 // View pager to handle both cast and credit
-// Favourite routes also need the same screens as Discover routes - can we extract the common ones into a separate route?
 
 export const CreditsScreen: React.FC = () => {
   const {

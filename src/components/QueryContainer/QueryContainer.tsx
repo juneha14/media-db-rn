@@ -69,7 +69,7 @@ export function QueryContainer<S extends ContentContainerStyle>(
     );
   }
 
-  return <Box>{props.children}</Box>;
+  return <>{props.children}</>;
 }
 
 function isRefreshableProps<S>(
