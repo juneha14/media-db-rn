@@ -1,16 +1,16 @@
 import React, { useCallback, useMemo, useRef } from "react";
-import { StyleSheet, Dimensions } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation, useScrollToTop } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { DiscoverParamList } from "../../navigation";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PaginatedList } from "../../components/PaginatedList";
 import { QueryContainer } from "../../components/QueryContainer";
-import { Colors, Spacing } from "../../components/theme";
 import { usePagination } from "../../hooks";
 import { Favourite, Movie } from "../../models";
 import { MediaCell, useFavouriteState } from "../shared";
+import { Colors, Spacing } from "../../components/theme";
 
 export const MediaScreen: React.FC = () => {
   const { top } = useSafeAreaInsets();
@@ -33,8 +33,7 @@ export const MediaScreen: React.FC = () => {
   const { favourites, onToggleLike } = useFavouriteState();
 
   const width = useMemo(() => {
-    // (screenWidth / 2) - (paddingHorizontal / 2 + marginHorizontal / 2)
-    return Dimensions.get("window").width / 2 - 15;
+    return Dimensions.get("window").width / 2 - 15; // (screenWidth / 2) - (paddingHorizontal / 2 + marginHorizontal / 2)
   }, []);
 
   const onSelectCell = useCallback(

@@ -10,6 +10,8 @@ export interface CaptionProps {
   descriptionColor?: keyof typeof Colors;
   rightAccessory?: JSX.Element;
   rightAccessoryPosition?: "center" | "top-left";
+  numberOfTitleLines?: number;
+  numberOfDescriptionLines?: number;
   style?: StyleProp<ViewStyle>;
 }
 
@@ -20,6 +22,8 @@ export const Caption: React.FC<CaptionProps> = React.memo(
     descriptionColor = Colors.TextSubdued,
     rightAccessory,
     rightAccessoryPosition = "top-left",
+    numberOfTitleLines,
+    numberOfDescriptionLines,
     style,
   }) => {
     return (
@@ -34,10 +38,16 @@ export const Caption: React.FC<CaptionProps> = React.memo(
         ]}
       >
         <Box style={styles.leftContainer}>
-          <Text variant="captionHeadingSmall">{title}</Text>
+          <Text
+            variant="captionHeadingSmall"
+            numberOfLines={numberOfTitleLines}
+          >
+            {title}
+          </Text>
           {description ? (
             <Text
               variant="body"
+              numberOfLines={numberOfDescriptionLines}
               style={[{ color: descriptionColor }, styles.captionDescription]}
             >
               {description}

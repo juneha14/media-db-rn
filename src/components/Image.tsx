@@ -56,7 +56,7 @@ export const Image: React.FC<ImageProps> = React.memo(
     return (
       <Box style={style}>
         <RNImage
-          style={[{ ...size, ...imageBorderStyle }, imageStyle]}
+          style={[imageStyle, { ...size, ...imageBorderStyle }]}
           onLayout={onLayout}
           source={uri ? { uri } : Images.placeholderImage}
           resizeMode={uri ? "cover" : "center"}

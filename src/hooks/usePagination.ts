@@ -63,7 +63,10 @@ export function usePagination<
         total_pages.current = totalPages;
         total_results.current = totalResults;
       } catch (error) {
-        console.error("[usePagination] Failed to fetch due to error:", error);
+        console.error(
+          "[usePagination] Failed to fetch due to error:",
+          error.message
+        );
         setError(error.message);
       }
     },
@@ -100,7 +103,7 @@ export function usePagination<
 
   const fetchNextPage = useCallback(
     (params: P) => {
-      if (next_page.current > total_pages.current) return;
+      if (next_page.current >= total_pages.current) return;
 
       setFetching(true);
       setTimeout(() => {

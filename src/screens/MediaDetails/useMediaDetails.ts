@@ -42,7 +42,7 @@ export const useMediaDetails = (movieId: number): State => {
         setDetails(details);
         setCast((credits as Credit).cast.slice(0, 8));
         setRecommendations(
-          (recommendations as PaginatedResponse<Movie[]>).results
+          (recommendations as PaginatedResponse<Movie[]>).results.slice(0, 8)
         );
       })
       .catch((error) => {
