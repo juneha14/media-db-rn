@@ -10,9 +10,11 @@ type CarouselFlatListProps<Item> = Pick<
   | "showsHorizontalScrollIndicator"
   | "snapToInterval"
   | "ListEmptyComponent"
+  | "onScroll"
 >;
 
 interface CarouselProps<Item> extends CarouselFlatListProps<Item> {
+  carouselRef?: React.MutableRefObject<FlatList<Item> | null>;
   contentContainerStyle?: StyleProp<ViewStyle>;
   style?: StyleProp<ViewStyle>;
 }
@@ -25,11 +27,14 @@ export function Carousel<Item>({
   snapToInterval,
   pagingEnabled = false,
   ListEmptyComponent,
+  onScroll,
+  carouselRef,
   contentContainerStyle,
   style,
 }: CarouselProps<Item>): JSX.Element {
   return (
     <FlatList
+      ref={(input) => (carouselRef ? (carouselRef.current = input) : undefined)}
       keyExtractor={keyExtractor}
       style={style}
       contentContainerStyle={contentContainerStyle}
@@ -40,6 +45,7 @@ export function Carousel<Item>({
       pagingEnabled={pagingEnabled}
       snapToInterval={snapToInterval}
       decelerationRate="fast"
+      onScroll={onScroll}
       ListEmptyComponent={ListEmptyComponent}
     />
   );
