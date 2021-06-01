@@ -11,6 +11,7 @@ type CarouselFlatListProps<Item> = Pick<
   | "snapToInterval"
   | "ListEmptyComponent"
   | "onScroll"
+  | "onMomentumScrollBegin"
 >;
 
 interface CarouselProps<Item> extends CarouselFlatListProps<Item> {
@@ -28,6 +29,7 @@ export function Carousel<Item>({
   pagingEnabled = false,
   ListEmptyComponent,
   onScroll,
+  onMomentumScrollBegin,
   carouselRef,
   contentContainerStyle,
   style,
@@ -46,6 +48,7 @@ export function Carousel<Item>({
       snapToInterval={snapToInterval}
       decelerationRate="fast"
       onScroll={onScroll}
+      onMomentumScrollBegin={onMomentumScrollBegin}
       ListEmptyComponent={ListEmptyComponent}
     />
   );

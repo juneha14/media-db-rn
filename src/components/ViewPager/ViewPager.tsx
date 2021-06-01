@@ -35,6 +35,7 @@ export const ViewPager: React.FC<ViewPagerProps> = React.memo(
 
     const [layout, onLayout] = useLayout();
     const carouselRef = useRef<FlatList<JSX.Element> | null>(null);
+    const swipedToPaginate = useRef(false);
 
     const onSelectBar = useCallback((index: number) => {
       setIndex(index);
@@ -45,17 +46,25 @@ export const ViewPager: React.FC<ViewPagerProps> = React.memo(
       ({ item }: { item: JSX.Element }) => {
         return <Box style={{ width: layout?.width }}>{item}</Box>;
       },
-      [layout?.width]
+      [layout]
     );
 
     const onPaginate = useCallback(
       (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-        const pageWidth = layout?.width ?? 1;
-        const offsetX = event.nativeEvent.contentOffset.x;
-        const index = round(offsetX / pageWidth, 0);
-        setIndex(index);
+        if (swipedToPaginate.current) {
+          swipedToPaginate.current = false;
+          const pageWidth = layout?.width ?? 1;
+          const offsetX = event.nativeEvent.contentOffset.x;
+          const index = round(offsetX / pageWidth, 0);
+          setIndex(index);
+        }
       },
-      [layout?.width]
+      [layout]
+    );
+
+    const onBeginSwipeToPaginate = useCallback(
+      () => (swipedToPaginate.current = true),
+      []
     );
 
     return (
@@ -69,6 +78,7 @@ export const ViewPager: React.FC<ViewPagerProps> = React.memo(
           pagingEnabled
           snapToInterval={layout?.width}
           onScroll={onPaginate}
+          onMomentumScrollBegin={onBeginSwipeToPaginate}
         />
       </Box>
     );
