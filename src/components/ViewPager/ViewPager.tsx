@@ -13,7 +13,7 @@ import { Box } from "../Box";
 import { Carousel } from "../Carousel";
 import { Text } from "../Typography";
 import { Colors, Spacing } from "../theme";
-import { round } from "lodash";
+import { getCurrentScrollPagePosition } from "../../utils";
 
 type PageData = {
   title: string;
@@ -40,6 +40,7 @@ export const ViewPager: React.FC<ViewPagerProps> = React.memo(
     const onSelectBar = useCallback((index: number) => {
       setIndex(index);
       carouselRef.current?.scrollToIndex({ index, animated: true });
+      swipedToPaginate.current = false;
     }, []);
 
     const renderItem = useCallback(
@@ -49,21 +50,27 @@ export const ViewPager: React.FC<ViewPagerProps> = React.memo(
       [layout]
     );
 
+    const onBeginSwipeToPaginate = useCallback(
+      () => (swipedToPaginate.current = true),
+      []
+    );
+
     const onPaginate = useCallback(
       (event: NativeSyntheticEvent<NativeScrollEvent>) => {
         if (swipedToPaginate.current) {
           swipedToPaginate.current = false;
-          const pageWidth = layout?.width ?? 1;
-          const offsetX = event.nativeEvent.contentOffset.x;
-          const index = round(offsetX / pageWidth, 0);
+          const index = getCurrentScrollPagePosition(event);
           setIndex(index);
         }
       },
-      [layout]
+      []
     );
 
-    const onBeginSwipeToPaginate = useCallback(
-      () => (swipedToPaginate.current = true),
+    const onEndSwipeToPaginate = useCallback(
+      (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+        const index = getCurrentScrollPagePosition(event);
+        setIndex(index);
+      },
       []
     );
 
@@ -77,8 +84,9 @@ export const ViewPager: React.FC<ViewPagerProps> = React.memo(
           renderItem={renderItem}
           pagingEnabled
           snapToInterval={layout?.width}
-          onScroll={onPaginate}
           onMomentumScrollBegin={onBeginSwipeToPaginate}
+          onScroll={onPaginate}
+          onMomentumScrollEnd={onEndSwipeToPaginate}
         />
       </Box>
     );
