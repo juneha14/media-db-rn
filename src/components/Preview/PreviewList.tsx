@@ -13,7 +13,8 @@ interface PreviewListProps {
 export const PreviewList: React.FC<PreviewListProps> = React.memo(
   ({ data, style }) => {
     const keyExtractor = useCallback(
-      (item: PreviewDataItem) => item.imgUrl + item.title + item.description,
+      (item: PreviewDataItem, index: number) =>
+        item.imgUrl + item.title + item.description + String(index),
       []
     );
     const renderItem = useCallback(({ item }: { item: PreviewDataItem }) => {
