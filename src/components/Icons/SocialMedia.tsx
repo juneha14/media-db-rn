@@ -4,7 +4,7 @@ import { Colors } from "../theme";
 import { Icon, IconName, IconSize } from "./Icon";
 import { noop } from "lodash";
 
-type SocialMedia = "twitter" | "instagram" | "facebook";
+export type SocialMedia = "twitter" | "instagram" | "facebook";
 
 interface SocialMediaLinkProps {
   type: SocialMedia;
