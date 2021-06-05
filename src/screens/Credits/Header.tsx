@@ -23,7 +23,7 @@ export const Header: React.FC<HeaderProps> = ({
   style,
 }) => {
   const onLinkPress = useCallback(
-    (url: string | null) => () => {
+    (url: string | null) => {
       onSocialMediaLinkPress(url);
     },
     [onSocialMediaLinkPress]
