@@ -34,7 +34,6 @@ export const Avatar: React.FC<AvatarProps> = React.memo(
           imageStyle={{
             justifyContent: "center",
             alignItems: "center",
-            borderRadius: size / 2,
             marginBottom: textPosition === "bottom" ? Spacing.m : undefined,
             marginRight: textPosition === "right" ? Spacing.m : undefined,
           }}
@@ -42,6 +41,7 @@ export const Avatar: React.FC<AvatarProps> = React.memo(
           width={size}
           height={size}
           shouldRoundCorners={false}
+          shouldRoundImage
         />
         <Box>
           {title && (
