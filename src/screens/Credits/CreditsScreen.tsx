@@ -19,10 +19,8 @@ export const CreditsScreen: React.FC = () => {
   });
 
   const onPress = useCallback(
-    (id: number) => () => {
-      console.log("==== Value of id:", id);
-    },
-    []
+    (id: number) => () => push("CreditDetails", { id }),
+    [push]
   );
 
   const castPage = useMemo(() => {

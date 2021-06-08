@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { StyleSheet } from "react-native";
-import { useRoute, RouteProp } from "@react-navigation/native";
+import { useRoute, RouteProp, useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { DiscoverParamList } from "../../navigation";
 import { Header } from "./Header";
 import { About } from "./About";
@@ -12,11 +13,14 @@ import { QueryContainer } from "../../components/QueryContainer";
 import { Container } from "../../components/Container";
 
 // black background and each section that has different color that stretches all the way but with its own padding
+// add external linking
+// generic screen to show list of content preview items
 
 export const CreditsDetailsScreen: React.FC = () => {
   const {
     params: { id },
   } = useRoute<RouteProp<DiscoverParamList, "CreditDetails">>();
+  const { push, pop } = useNavigation<StackNavigationProp<DiscoverParamList>>();
 
   const {
     loading,
@@ -26,6 +30,12 @@ export const CreditsDetailsScreen: React.FC = () => {
     knownForMedia,
   } = useCreditDetails(id);
 
+  const onNavigateBack = useCallback(() => pop(), [pop]);
+  const onSelectMedia = useCallback(
+    (id: number) => push("MediaDetails", { id }),
+    [push]
+  );
+
   return (
     <QueryContainer
       wrapperStyle="wrapped"
@@ -33,14 +43,7 @@ export const CreditsDetailsScreen: React.FC = () => {
       isErrored={error !== undefined}
     >
       {personDetails && socialMediaLinks && knownForMedia && (
-        <Container
-          ignoreTopPadding
-          onNavigateBack={() =>
-            console.log(
-              "========== File: CreditsDetailsScreen.tsx, Line: 37 =========="
-            )
-          }
-        >
+        <Container ignoreTopPadding onNavigateBack={onNavigateBack}>
           <Header
             imgUrl={personDetails.profilePath}
             title={personDetails.name}
@@ -76,11 +79,7 @@ export const CreditsDetailsScreen: React.FC = () => {
           >
             <KnownForList
               media={knownForMedia ?? []}
-              onSelectMedia={() =>
-                console.log(
-                  "========== File: CreditsDetailsScreen.tsx, Line: 66 =========="
-                )
-              }
+              onSelectMedia={onSelectMedia}
             />
           </Section>
         </Container>

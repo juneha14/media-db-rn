@@ -40,9 +40,10 @@ export const MediaDetailsScreen: React.FC = () => {
     console.log("========== File: MediaDetailsScreen.tsx, Line: 19 ==========");
   }, []);
 
-  const onSelectCast = useCallback((castId: number) => {
-    console.log("==== Value of castId:", castId);
-  }, []);
+  const onSelectCast = useCallback(
+    (castId: number) => push("CreditDetails", { id: castId }),
+    [push]
+  );
 
   const onSelectRecommended = useCallback(
     (id: number) => {

@@ -5,12 +5,13 @@ import React from "react";
 import { StackNavigationOptions } from "@react-navigation/stack";
 import { MediaDetailsScreen } from "../screens/MediaDetails";
 import { RecommendedScreen } from "../screens/Recommended";
-import { CreditsScreen } from "../screens/Credits";
+import { CreditsDetailsScreen, CreditsScreen } from "../screens/Credits";
 
 export type MediaDetailsParamList = {
   MediaDetails: { id: number };
   RecommendedList: { id: number };
   CreditList: { id: number };
+  CreditDetails: { id: number };
 };
 
 type RouteConfig = { component: React.FC; options: StackNavigationOptions };
@@ -27,6 +28,10 @@ const mediaDetailsScreens: Record<keyof MediaDetailsParamList, RouteConfig> = {
   CreditList: {
     component: CreditsScreen,
     options: { headerTitle: "Credits" },
+  },
+  CreditDetails: {
+    component: CreditsDetailsScreen,
+    options: { headerShown: false },
   },
 };
 
