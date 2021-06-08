@@ -1,15 +1,15 @@
 import React, { useCallback } from "react";
 import { StyleProp, StyleSheet, ViewStyle } from "react-native";
 import { Box } from "../../components/Box";
-import { Movie } from "../../models";
 import { ContentPreview } from "../../components/Preview";
 import { Rating } from "../../components/Rating";
 import { Spacing } from "../../components/theme";
 import { Carousel } from "../../components/Carousel";
 import { chunk } from "lodash";
+import { KnownForMedia } from "./utils";
 
 interface KnownForListProps {
-  media: Movie[];
+  media: KnownForMedia[];
   onSelectMedia: (id: number) => void;
   style?: StyleProp<ViewStyle>;
 }
@@ -19,11 +19,10 @@ export const KnownForList: React.FC<KnownForListProps> = ({
   onSelectMedia,
   style,
 }) => {
-  const foo = [...media, ...media];
-  const chunkedCols = chunk(foo, 3);
+  const chunked = chunk(media, 3);
 
   const renderItem = useCallback(
-    ({ item, index }: { item: Movie[]; index: number }) => {
+    ({ item, index }: { item: KnownForMedia[]; index: number }) => {
       return (
         <Box
           style={[
@@ -54,7 +53,7 @@ export const KnownForList: React.FC<KnownForListProps> = ({
     <Carousel
       style={style}
       keyExtractor={(_, index) => `chunked-media-${index}`}
-      data={chunkedCols}
+      data={chunked}
       renderItem={renderItem}
       pagingEnabled
       snapToInterval={340 + Spacing.m}

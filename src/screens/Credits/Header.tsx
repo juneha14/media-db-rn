@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
 import { StyleProp, StyleSheet, ViewStyle } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Avatar } from "../../components/Avatar";
 import { Box } from "../../components/Box";
 import { SocialMedia, SocialMediaLink } from "../../components/Icons";
@@ -22,6 +23,8 @@ export const Header: React.FC<HeaderProps> = ({
   onSocialMediaLinkPress,
   style,
 }) => {
+  const { top } = useSafeAreaInsets();
+
   const onLinkPress = useCallback(
     (url: string | null) => {
       onSocialMediaLinkPress(url);
@@ -30,9 +33,9 @@ export const Header: React.FC<HeaderProps> = ({
   );
 
   return (
-    <Box style={[styles.container, style]}>
+    <Box style={[styles.container, style, { paddingTop: top }]}>
       <Avatar
-        url="/yzfxLMcBMusKzZp9f1Z9Ags8WML.jpg"
+        url={imgUrl}
         size={120}
         title={title}
         subtitle={subtitle}
@@ -57,6 +60,7 @@ export const Header: React.FC<HeaderProps> = ({
 
 const styles = StyleSheet.create({
   container: {
+    paddingBottom: Spacing.m,
     backgroundColor: Colors.SurfaceForeground,
   },
   socialMediaContainer: {

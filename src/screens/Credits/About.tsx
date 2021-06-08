@@ -6,8 +6,8 @@ import { Text } from "../../components/Typography";
 
 interface AboutProps {
   biography: string;
-  birthday: string | null;
-  birthPlace: string | null;
+  birthday: string;
+  birthPlace: string;
   popularity: number;
   style?: StyleProp<ViewStyle>;
 }
@@ -28,16 +28,12 @@ export const About: React.FC<AboutProps> = ({
       </Text>
       {!collapsed ? (
         <Box style={styles.about}>
-          {birthday && (
-            <ShortInfo title="Birthday" description={birthday} showDivider />
-          )}
-          {birthPlace && (
-            <ShortInfo
-              title="Place of birth"
-              description={birthPlace}
-              showDivider
-            />
-          )}
+          <ShortInfo title="Birthday" description={birthday} showDivider />
+          <ShortInfo
+            title="Place of birth"
+            description={birthPlace}
+            showDivider
+          />
           <ShortInfo
             title="Popularity"
             description={String(popularity)}
@@ -97,7 +93,6 @@ const styles = StyleSheet.create({
   },
   shortInfo: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 5,
   },
