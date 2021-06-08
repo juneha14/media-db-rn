@@ -63,6 +63,21 @@ client.getMovieRecommendations = async (movieId: number) => {
   return client(url);
 };
 
+client.getPersonDetails = async (personId: number) => {
+  const url = constructUrl(`/person/${personId}`);
+  return client(url);
+};
+
+client.getPersonExternalLinks = async (personId: number) => {
+  const url = constructUrl(`/person/${personId}/external_ids`);
+  return client(url);
+};
+
+client.getPersonCombinedCredits = async (personId: number) => {
+  const url = constructUrl(`/person/${personId}/combined_credits`);
+  return client(url);
+};
+
 // Helpers
 
 type ResourcePath = string;
