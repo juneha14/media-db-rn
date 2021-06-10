@@ -23,7 +23,7 @@ export const About: React.FC<AboutProps> = ({
 
   return (
     <Box style={style}>
-      <Text variant="body" numberOfLines={collapsed ? 2 : 0}>
+      <Text variant="body" numberOfLines={collapsed ? 3 : 0}>
         {biography}
       </Text>
       {!collapsed ? (
@@ -64,13 +64,13 @@ const ShortInfo = ({
 }) => {
   return (
     <Box
-      style={[
-        styles.shortInfo,
-        {
-          borderRightWidth: showDivider ? 1 : undefined,
-          borderRightColor: showDivider ? Colors.Border : undefined,
-        },
-      ]}
+      style={{
+        flex: 1,
+        alignItems: "center",
+        paddingHorizontal: 5,
+        borderRightWidth: showDivider ? 1 : undefined,
+        borderRightColor: showDivider ? Colors.Border : undefined,
+      }}
     >
       <Text style={{ marginBottom: Spacing.s }} variant="body">
         {title}
@@ -90,11 +90,6 @@ const styles = StyleSheet.create({
   about: {
     flexDirection: "row",
     marginTop: Spacing.l,
-  },
-  shortInfo: {
-    flex: 1,
-    alignItems: "center",
-    paddingHorizontal: 5,
   },
   showMore: {
     marginTop: Spacing.m,

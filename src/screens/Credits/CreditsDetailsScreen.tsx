@@ -5,17 +5,15 @@ import { useRoute, RouteProp, useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { DiscoverParamList } from "../../navigation";
 import { Header } from "./Header";
-import { About } from "./About";
 import { KnownForList } from "./KnownForList";
 import { useCreditDetails } from "./useCreditDetails";
 import { Section } from "../../components/Section";
-import { Colors, Spacing } from "../../components/theme";
+import { Spacing } from "../../components/theme";
 import { QueryContainer } from "../../components/QueryContainer";
-import { Container } from "../../components/Container";
 
 // black background and each section that has different color that stretches all the way but with its own padding
-// add external linking
 // generic screen to show list of content preview items
+// query container error state does not have navigation back
 
 export const CreditsDetailsScreen: React.FC = () => {
   const {
@@ -48,30 +46,22 @@ export const CreditsDetailsScreen: React.FC = () => {
       isErrored={error !== undefined}
     >
       {personDetails && socialMediaLinks && knownForMedia && (
-        <Container ignoreTopPadding onNavigateBack={onNavigateBack}>
+        <>
           <Header
             imgUrl={personDetails.profilePath}
-            title={personDetails.name}
-            subtitle={personDetails.knownForDepartment}
+            name={personDetails.name}
+            department={personDetails.knownForDepartment}
             socialMediaLinks={socialMediaLinks}
+            biography={personDetails.biography}
+            birthday={personDetails.birthday}
+            birthPlace={personDetails.placeOfBirth}
+            popularity={personDetails.popularity}
             onSocialMediaLinkPress={onSelectSocialMediaLink}
           />
-          {personDetails.biography.length > 0 &&
-          personDetails.placeOfBirth &&
-          personDetails.birthday ? (
-            <Section style={styles.about} title="About">
-              <About
-                biography={personDetails.biography}
-                birthPlace={personDetails.placeOfBirth}
-                birthday={personDetails.birthday}
-                popularity={personDetails.popularity}
-              />
-            </Section>
-          ) : null}
           <Section
             style={styles.knownFor}
             title="Known for"
-            accessoryTitle={knownForMedia ? "See all" : undefined}
+            accessoryTitle={knownForMedia.length > 3 ? "See all" : undefined}
             onAccessoryPress={() =>
               console.log(
                 "========== File: CreditsDetailsScreen.tsx, Line: 65 =========="
@@ -83,19 +73,14 @@ export const CreditsDetailsScreen: React.FC = () => {
               onSelectMedia={onSelectMedia}
             />
           </Section>
-        </Container>
+        </>
       )}
     </QueryContainer>
   );
 };
 
 const styles = StyleSheet.create({
-  about: {
-    marginTop: Spacing.l,
-    backgroundColor: Colors.SurfaceForeground,
-  },
   knownFor: {
-    marginTop: Spacing.l,
-    backgroundColor: Colors.SurfaceForeground,
+    padding: Spacing.defaultMargin,
   },
 });

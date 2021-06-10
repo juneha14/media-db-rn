@@ -121,6 +121,7 @@ export const TextVariants: Record<
 type Space = 0.5 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 13 | 16;
 const spacing = (space: Space): number => 8 * space;
 export const Spacing = {
+  defaultMargin: spacing(2),
   xl: spacing(3),
   l: spacing(2),
   m: spacing(1),

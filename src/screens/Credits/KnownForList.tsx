@@ -3,10 +3,10 @@ import { StyleProp, StyleSheet, ViewStyle } from "react-native";
 import { Box } from "../../components/Box";
 import { ContentPreview } from "../../components/Preview";
 import { Rating } from "../../components/Rating";
-import { Spacing } from "../../components/theme";
+import { Colors, Spacing } from "../../components/theme";
 import { Carousel } from "../../components/Carousel";
-import { chunk } from "lodash";
 import { KnownForMedia } from "./utils";
+import { chunk } from "lodash";
 
 interface KnownForListProps {
   media: KnownForMedia[];
@@ -22,31 +22,39 @@ export const KnownForList: React.FC<KnownForListProps> = ({
   const chunked = chunk(media, 3);
 
   const renderItem = useCallback(
-    ({ item, index }: { item: KnownForMedia[]; index: number }) => {
+    ({ item }: { item: KnownForMedia[] }) => {
       return (
         <Box
           style={[
             styles.contentPreviewGroup,
-            { marginLeft: index === 0 ? Spacing.m : undefined },
+            {
+              flex: chunked.length > 1 ? undefined : 1,
+              width: chunked.length > 1 ? 340 : undefined,
+            },
           ]}
         >
-          {item.map(({ id, posterPath, title, releaseDate, voteAverage }) => {
-            return (
-              <ContentPreview
-                style={[styles.contentPreviewRow]}
-                key={id}
-                imgUrl={posterPath}
-                title={title}
-                description={releaseDate}
-                rightAccessory={<Rating rating={voteAverage} />}
-                onPress={() => onSelectMedia(id)}
-              />
-            );
-          })}
+          {item.map(
+            ({ id, posterPath, title, releaseDate, voteAverage }, index) => {
+              const indexInRange = index > 0 && index < item.length - 1;
+              return (
+                <ContentPreview
+                  style={{
+                    paddingVertical: indexInRange ? Spacing.m : undefined,
+                  }}
+                  key={id}
+                  imgUrl={posterPath}
+                  title={title}
+                  description={releaseDate}
+                  rightAccessory={<Rating rating={voteAverage} />}
+                  onPress={() => onSelectMedia(id)}
+                />
+              );
+            }
+          )}
         </Box>
       );
     },
-    [onSelectMedia]
+    [onSelectMedia, chunked]
   );
 
   return (
@@ -63,10 +71,8 @@ export const KnownForList: React.FC<KnownForListProps> = ({
 
 const styles = StyleSheet.create({
   contentPreviewGroup: {
-    width: 340,
     marginRight: Spacing.m,
-  },
-  contentPreviewRow: {
-    paddingVertical: Spacing.m,
+    borderRadius: 4,
+    backgroundColor: Colors.SurfaceForeground,
   },
 });

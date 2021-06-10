@@ -5,7 +5,7 @@ import { Carousel } from "../../components/Carousel";
 import { CaptionImage } from "../../components/CaptionImage";
 import { Text } from "../../components/Typography";
 import { Container } from "../../components/Container";
-import { Spacing } from "../../components/theme";
+import { Colors, Spacing } from "../../components/theme";
 import { Header } from "./Header";
 import { PosterBackdrop } from "./PosterBackdrop";
 import { Cast, MovieDetails, Movie } from "../../models";
@@ -82,56 +82,59 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
         posterUrl={infoDetails.posterPath}
         backdropUrl={infoDetails.backdropPath}
       />
-      <Container ignoreTopPadding onNavigateBack={onNavigateBack}>
-        <Header
-          style={{ marginBottom: Spacing.l }}
-          id={infoDetails.id}
-          title={infoDetails.title}
-          releaseDate={infoDetails.releaseDate}
-          runtime={infoDetails.runtime}
-          rating={infoDetails.voteAverage}
-          ratingsCount={infoDetails.voteCount}
-          hasVideo={infoDetails.video}
-          tagline={infoDetails.tagline}
-          overview={infoDetails.overview}
-          genres={infoDetails.genres}
-          isLiked={infoDetails.isLiked}
-          onSelectGenre={onSelectGenre}
-          onSelectFavourite={onSelectFavourite}
-          onSelectPlayTrailer={onSelectPlayTrailer}
-        />
-        <Section
-          style={{ marginBottom: Spacing.l }}
-          title="Cast"
-          accessoryTitle={cast?.length ?? 0 > 0 ? "See all" : undefined}
-          onAccessoryPress={onSelectSeeAllCast}
-        >
-          <Carousel
-            keyExtractor={(item) => String(item.id)}
-            data={cast}
-            renderItem={renderCast}
-            ListEmptyComponent={
-              <Text variant="body">Cast information unavailable</Text>
-            }
-          />
-        </Section>
-        <Section
-          title="Recommended"
-          accessoryTitle={
-            recommendations?.length ?? 0 > 0 ? "See all" : undefined
+      {/* <Container ignoreTopPadding onNavigateBack={onNavigateBack}> */}
+      <Header
+        style={{
+          marginBottom: Spacing.l,
+          backgroundColor: Colors.SurfaceForeground,
+        }}
+        id={infoDetails.id}
+        title={infoDetails.title}
+        releaseDate={infoDetails.releaseDate}
+        runtime={infoDetails.runtime}
+        rating={infoDetails.voteAverage}
+        ratingsCount={infoDetails.voteCount}
+        hasVideo={infoDetails.video}
+        tagline={infoDetails.tagline}
+        overview={infoDetails.overview}
+        genres={infoDetails.genres}
+        isLiked={infoDetails.isLiked}
+        onSelectGenre={onSelectGenre}
+        onSelectFavourite={onSelectFavourite}
+        onSelectPlayTrailer={onSelectPlayTrailer}
+      />
+      <Section
+        style={{ marginBottom: Spacing.l }}
+        title="Cast"
+        accessoryTitle={cast?.length ?? 0 > 0 ? "See all" : undefined}
+        onAccessoryPress={onSelectSeeAllCast}
+      >
+        <Carousel
+          keyExtractor={(item) => String(item.id)}
+          data={cast}
+          renderItem={renderCast}
+          ListEmptyComponent={
+            <Text variant="body">Cast information unavailable</Text>
           }
-          onAccessoryPress={onSelectSeeAllRecommended}
-        >
-          <Carousel
-            keyExtractor={(item) => String(item.id)}
-            data={recommendations}
-            renderItem={renderRecommendations}
-            ListEmptyComponent={
-              <Text variant="body">Recommended movies unavailable</Text>
-            }
-          />
-        </Section>
-      </Container>
+        />
+      </Section>
+      <Section
+        title="Recommended"
+        accessoryTitle={
+          recommendations?.length ?? 0 > 0 ? "See all" : undefined
+        }
+        onAccessoryPress={onSelectSeeAllRecommended}
+      >
+        <Carousel
+          keyExtractor={(item) => String(item.id)}
+          data={recommendations}
+          renderItem={renderRecommendations}
+          ListEmptyComponent={
+            <Text variant="body">Recommended movies unavailable</Text>
+          }
+        />
+      </Section>
+      {/* </Container> */}
     </Box>
   );
 };

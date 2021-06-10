@@ -5,22 +5,31 @@ import { Avatar } from "../../components/Avatar";
 import { Box } from "../../components/Box";
 import { SocialMediaLink } from "../../components/Icons";
 import { Colors, Spacing } from "../../components/theme";
+import { About } from "./About";
 import { SocialMediaLinks } from "./utils";
 
 interface HeaderProps {
   imgUrl: string | null;
-  title: string;
-  subtitle?: string;
+  name: string;
+  department?: string;
   socialMediaLinks: SocialMediaLinks;
+  biography: string;
+  birthday: string | null;
+  birthPlace: string | null;
+  popularity: number;
   onSocialMediaLinkPress: (url: string) => void;
   style?: StyleProp<ViewStyle>;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   imgUrl,
-  title,
-  subtitle,
+  name,
+  department,
   socialMediaLinks,
+  biography,
+  birthday,
+  birthPlace,
+  popularity,
   onSocialMediaLinkPress,
   style,
 }) => {
@@ -34,12 +43,12 @@ export const Header: React.FC<HeaderProps> = ({
   );
 
   return (
-    <Box style={[styles.container, style, { paddingTop: top }]}>
+    <Box style={[styles.container, { paddingTop: top }, style]}>
       <Avatar
         url={imgUrl}
         size={120}
-        title={title}
-        subtitle={subtitle}
+        title={name}
+        subtitle={department}
         textPosition="bottom"
       />
       <Box style={styles.socialMediaContainer}>
@@ -55,6 +64,15 @@ export const Header: React.FC<HeaderProps> = ({
           );
         })}
       </Box>
+      {biography.length > 0 && birthday && birthPlace && (
+        <About
+          style={styles.about}
+          biography={biography}
+          birthday={birthday}
+          birthPlace={birthPlace}
+          popularity={popularity}
+        />
+      )}
     </Box>
   );
 };
@@ -72,5 +90,9 @@ const styles = StyleSheet.create({
   socialMedia: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  about: {
+    paddingHorizontal: Spacing.defaultMargin,
+    marginTop: Spacing.l,
   },
 });

@@ -23,8 +23,8 @@ export const ContentPreview: React.FC<ContentPreviewProps> = React.memo(
     title,
     description,
     rightAccessory,
-    imgWidth = 90,
-    imgHeight = 90,
+    imgWidth = 80,
+    imgHeight = 80,
     roundImage = false,
     onPress,
     style,
@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
+    borderRadius: 4,
     backgroundColor: Colors.SurfaceForeground,
   },
   caption: {

@@ -27,7 +27,7 @@ export const useCreditDetails = (id: number): State => {
   const fetch = useCallback(async () => {
     const personDetails = fetchRequest("PersonDetails", { personId: id });
     const externalLinks = fetchRequest("PersonExternalIds", { personId: id });
-    const credits = fetchRequest("PersonCombinedCredits", { personId: id });
+    const credits = fetchRequest("PersonMovieCredits", { personId: id });
 
     return Promise.all([personDetails, externalLinks, credits])
       .then((jsons) => {
