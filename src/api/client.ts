@@ -73,8 +73,8 @@ client.getPersonExternalLinks = async (personId: number) => {
   return client(url);
 };
 
-client.getPersonCombinedCredits = async (personId: number) => {
-  const url = constructUrl(`/person/${personId}/combined_credits`);
+client.getPersonMovieCredits = async (personId: number) => {
+  const url = constructUrl(`/person/${personId}/movie_credits`);
   return client(url);
 };
 

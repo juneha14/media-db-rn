@@ -9,7 +9,7 @@ export type EndpointParamList = {
   MovieRecommendations: { movieId: number };
   PersonDetails: { personId: number };
   PersonExternalIds: { personId: number };
-  PersonCombinedCredits: { personId: number };
+  PersonMovieCredits: { personId: number };
 };
 
 export type Endpoint = keyof EndpointParamList;
@@ -43,9 +43,9 @@ export async function fetchRequest<T extends Endpoint>(
       const { personId } = params as EndpointParamList["PersonExternalIds"];
       return client.getPersonExternalLinks(personId);
     }
-    case "PersonCombinedCredits": {
-      const { personId } = params as EndpointParamList["PersonCombinedCredits"];
-      return client.getPersonCombinedCredits(personId);
+    case "PersonMovieCredits": {
+      const { personId } = params as EndpointParamList["PersonMovieCredits"];
+      return client.getPersonMovieCredits(personId);
     }
   }
 }
