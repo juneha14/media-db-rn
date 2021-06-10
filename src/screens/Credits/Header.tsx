@@ -3,15 +3,16 @@ import { StyleProp, StyleSheet, ViewStyle } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Avatar } from "../../components/Avatar";
 import { Box } from "../../components/Box";
-import { SocialMedia, SocialMediaLink } from "../../components/Icons";
+import { SocialMediaLink } from "../../components/Icons";
 import { Colors, Spacing } from "../../components/theme";
+import { SocialMediaLinks } from "./utils";
 
 interface HeaderProps {
   imgUrl: string | null;
   title: string;
   subtitle?: string;
-  socialMediaLinks: { type: SocialMedia; url: string | null }[];
-  onSocialMediaLinkPress: (url: string | null) => void;
+  socialMediaLinks: SocialMediaLinks;
+  onSocialMediaLinkPress: (url: string) => void;
   style?: StyleProp<ViewStyle>;
 }
 
@@ -26,7 +27,7 @@ export const Header: React.FC<HeaderProps> = ({
   const { top } = useSafeAreaInsets();
 
   const onLinkPress = useCallback(
-    (url: string | null) => {
+    (url: string) => {
       onSocialMediaLinkPress(url);
     },
     [onSocialMediaLinkPress]
@@ -65,11 +66,10 @@ const styles = StyleSheet.create({
   },
   socialMediaContainer: {
     flexDirection: "row",
-    alignItems: "center",
+    justifyContent: "space-evenly",
     marginTop: Spacing.l,
   },
   socialMedia: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },

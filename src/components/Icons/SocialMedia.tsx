@@ -8,36 +8,32 @@ export type SocialMedia = "twitter" | "instagram" | "facebook";
 
 interface SocialMediaLinkProps {
   type: SocialMedia;
-  url: string | null;
+  url: string;
   size?: IconSize;
-  onPress?: (url: string | null) => void;
+  onPress?: (url: string) => void;
   style?: StyleProp<ViewStyle>;
 }
 
-export const SocialMediaLink: React.FC<SocialMediaLinkProps> = ({
-  type,
-  url,
-  size = "medium",
-  onPress,
-  style,
-}) => {
-  const onPressed = useCallback(
-    (url: string | null) => () => {
-      onPress ? onPress(url) : noop;
-    },
-    [onPress]
-  );
+export const SocialMediaLink: React.FC<SocialMediaLinkProps> = React.memo(
+  ({ type, url, size = "medium", onPress, style }) => {
+    const onPressed = useCallback(
+      (url: string) => () => {
+        onPress ? onPress(url) : noop;
+      },
+      [onPress]
+    );
 
-  return (
-    <Pressable style={style} onPress={onPressed(url)}>
-      <Icon
-        name={iconNameForType[type]}
-        size={size}
-        color={Colors.IconInteractive}
-      />
-    </Pressable>
-  );
-};
+    return (
+      <Pressable style={style} onPress={onPressed(url)}>
+        <Icon
+          name={iconNameForType[type]}
+          size={size}
+          color={Colors.IconInteractive}
+        />
+      </Pressable>
+    );
+  }
+);
 
 const iconNameForType: Record<SocialMedia, IconName> = {
   twitter: "ios-logo-twitter",

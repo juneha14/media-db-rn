@@ -10,19 +10,19 @@ export function mapToSocialMediaLinks(links: ExternalLinks): SocialMediaLinks {
   if (links.twitterId)
     socialMedia.push({
       type: "twitter",
-      url: `twitter.com/${links.twitterId}`,
+      url: `https://twitter.com/${links.twitterId}`,
     });
 
   if (links.instagramId)
     socialMedia.push({
       type: "instagram",
-      url: `instagram.com/${links.instagramId}`,
+      url: `https://instagram.com/${links.instagramId}`,
     });
 
   if (links.facebookId)
     socialMedia.push({
       type: "facebook",
-      url: `facebook.com/${links.facebookId}`,
+      url: `https://facebook.com/${links.facebookId}`,
     });
 
   return socialMedia;

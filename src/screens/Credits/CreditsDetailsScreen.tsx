@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
 import { StyleSheet } from "react-native";
+import * as WebBrowser from "expo-web-browser";
 import { useRoute, RouteProp, useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { DiscoverParamList } from "../../navigation";
@@ -35,6 +36,10 @@ export const CreditsDetailsScreen: React.FC = () => {
     (id: number) => push("MediaDetails", { id }),
     [push]
   );
+  const onSelectSocialMediaLink = useCallback(
+    (url: string) => WebBrowser.openBrowserAsync(url),
+    []
+  );
 
   return (
     <QueryContainer
@@ -49,11 +54,7 @@ export const CreditsDetailsScreen: React.FC = () => {
             title={personDetails.name}
             subtitle={personDetails.knownForDepartment}
             socialMediaLinks={socialMediaLinks}
-            onSocialMediaLinkPress={() =>
-              console.log(
-                "========== File: CreditsDetailsScreen.tsx, Line: 29 =========="
-              )
-            }
+            onSocialMediaLinkPress={onSelectSocialMediaLink}
           />
           {personDetails.biography.length > 0 &&
           personDetails.placeOfBirth &&
