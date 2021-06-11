@@ -15,6 +15,7 @@ interface State {
   personDetails?: PersonDetails;
   socialMediaLinks?: SocialMediaLinks;
   knownForMedia?: KnownForMedia[];
+  refetch: () => void;
 }
 
 export const useCreditDetails = (id: number): State => {
@@ -54,11 +55,20 @@ export const useCreditDetails = (id: number): State => {
     }, 500);
   }, [fetch]);
 
+  const refetch = useCallback(() => {
+    setLoading(true);
+    setError(undefined);
+    setTimeout(() => {
+      fetch().then(() => setLoading(false));
+    }, 500);
+  }, [fetch]);
+
   return {
     loading,
     error,
     personDetails: details,
     socialMediaLinks: links,
     knownForMedia: media,
+    refetch,
   };
 };

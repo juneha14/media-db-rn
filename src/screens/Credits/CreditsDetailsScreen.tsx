@@ -12,11 +12,6 @@ import { Spacing } from "../../components/theme";
 import { QueryContainer } from "../../components/QueryContainer";
 import { BackNavigationButton } from "../shared";
 
-// black background and each section that has different color that stretches all the way but with its own padding
-// generic screen to show list of content preview items
-// query container error state does not have navigation back
-// retry when error container is shown
-
 export const CreditsDetailsScreen: React.FC = () => {
   const {
     params: { id },
@@ -29,6 +24,7 @@ export const CreditsDetailsScreen: React.FC = () => {
     personDetails,
     socialMediaLinks,
     knownForMedia,
+    refetch,
   } = useCreditDetails(id);
 
   const onNavigateBack = useCallback(() => pop(), [pop]);
@@ -48,6 +44,7 @@ export const CreditsDetailsScreen: React.FC = () => {
         wrapperStyle="wrapped"
         isLoading={loading}
         isErrored={error !== undefined}
+        onRetryQuery={refetch}
       >
         {personDetails && socialMediaLinks && knownForMedia && (
           <>

@@ -11,6 +11,7 @@ export interface ContentPreviewProps {
   description?: string;
   rightAccessory?: JSX.Element;
   roundImage?: boolean;
+  roundBorder?: boolean;
   imgWidth?: number;
   imgHeight?: number;
   onPress?: () => void;
@@ -26,12 +27,20 @@ export const ContentPreview: React.FC<ContentPreviewProps> = React.memo(
     imgWidth = 80,
     imgHeight = 80,
     roundImage = false,
+    roundBorder = true,
     onPress,
     style,
   }) => {
     const imgUri = useImageUri("poster", "Original", imgUrl);
     return (
-      <Pressable style={[styles.container, style]} onPress={onPress}>
+      <Pressable
+        style={[
+          styles.container,
+          { borderRadius: roundBorder ? 4 : undefined },
+          style,
+        ]}
+        onPress={onPress}
+      >
         <Image
           imageStyle={{ borderRadius: roundImage ? imgWidth / 2 : undefined }}
           uri={imgUri}
@@ -56,7 +65,6 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignItems: "center",
-    borderRadius: 4,
     backgroundColor: Colors.SurfaceForeground,
   },
   caption: {

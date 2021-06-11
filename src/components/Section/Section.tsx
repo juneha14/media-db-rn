@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   headingContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: Spacing.s,
+    marginBottom: Spacing.m,
   },
   title: {
     flexShrink: 1,
