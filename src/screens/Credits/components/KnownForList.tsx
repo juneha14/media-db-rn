@@ -1,11 +1,11 @@
 import React, { useCallback } from "react";
 import { Dimensions, StyleProp, StyleSheet, ViewStyle } from "react-native";
-import { Box } from "../../components/Box";
-import { ContentPreview } from "../../components/Preview";
-import { Rating } from "../../components/Rating";
-import { Spacing } from "../../components/theme";
-import { Carousel } from "../../components/Carousel";
-import { KnownForMedia } from "./utils";
+import { Box } from "../../../components/Box";
+import { ContentPreview } from "../../../components/Preview";
+import { Rating } from "../../../components/Rating";
+import { Spacing } from "../../../components/theme";
+import { Carousel } from "../../../components/Carousel";
+import { KnownForMedia } from "../utils";
 import { chunk } from "lodash";
 
 const NUM_ROWS_IN_GROUP = 3;

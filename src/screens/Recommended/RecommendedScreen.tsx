@@ -14,10 +14,9 @@ export const RecommendedScreen: React.FC = () => {
   } = useRoute<RouteProp<DiscoverParamList, "RecommendedList">>();
   const { push } = useNavigation<StackNavigationProp<DiscoverParamList>>();
 
-  const { isLoading, error, data } = useFetch<PaginatedResponse<Movie[]>>(
-    "MovieRecommendations",
-    { movieId: id }
-  );
+  const { isLoading, error, data, refresh } = useFetch<
+    PaginatedResponse<Movie[]>
+  >("MovieRecommendations", { movieId: id });
 
   const onSelectMovie = useCallback(
     (id: number) => () => push("MediaDetails", { id }),
@@ -29,6 +28,7 @@ export const RecommendedScreen: React.FC = () => {
       wrapperStyle="unwrapped"
       isLoading={isLoading}
       isErrored={error !== undefined}
+      onRetryQuery={refresh}
     >
       <PreviewList
         data={data?.results.map((movie) => ({

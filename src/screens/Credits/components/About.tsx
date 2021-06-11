@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Pressable, StyleProp, StyleSheet, ViewStyle } from "react-native";
-import { Box } from "../../components/Box";
-import { Colors, Spacing } from "../../components/theme";
-import { Text } from "../../components/Typography";
+import { Box } from "../../../components/Box";
+import { Colors, Spacing } from "../../../components/theme";
+import { Text } from "../../../components/Typography";
 
 interface AboutProps {
   biography: string;

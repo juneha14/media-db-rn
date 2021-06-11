@@ -1,12 +1,12 @@
 import React, { useCallback } from "react";
 import { StyleProp, StyleSheet, ViewStyle } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Avatar } from "../../components/Avatar";
-import { Box } from "../../components/Box";
-import { SocialMediaLink } from "../../components/Icons";
-import { Colors, Spacing } from "../../components/theme";
+import { Avatar } from "../../../components/Avatar";
+import { Box } from "../../../components/Box";
+import { SocialMediaLink } from "../../../components/Icons";
+import { Colors, Spacing } from "../../../components/theme";
 import { About } from "./About";
-import { SocialMediaLinks } from "./utils";
+import { SocialMediaLinks } from "../utils";
 
 interface HeaderProps {
   imgUrl: string | null;
