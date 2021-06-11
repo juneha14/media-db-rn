@@ -10,10 +10,12 @@ import { useCreditDetails } from "./useCreditDetails";
 import { Section } from "../../components/Section";
 import { Spacing } from "../../components/theme";
 import { QueryContainer } from "../../components/QueryContainer";
+import { BackNavigationButton } from "../shared";
 
 // black background and each section that has different color that stretches all the way but with its own padding
 // generic screen to show list of content preview items
 // query container error state does not have navigation back
+// retry when error container is shown
 
 export const CreditsDetailsScreen: React.FC = () => {
   const {
@@ -40,42 +42,45 @@ export const CreditsDetailsScreen: React.FC = () => {
   );
 
   return (
-    <QueryContainer
-      wrapperStyle="wrapped"
-      isLoading={loading}
-      isErrored={error !== undefined}
-    >
-      {personDetails && socialMediaLinks && knownForMedia && (
-        <>
-          <Header
-            imgUrl={personDetails.profilePath}
-            name={personDetails.name}
-            department={personDetails.knownForDepartment}
-            socialMediaLinks={socialMediaLinks}
-            biography={personDetails.biography}
-            birthday={personDetails.birthday}
-            birthPlace={personDetails.placeOfBirth}
-            popularity={personDetails.popularity}
-            onSocialMediaLinkPress={onSelectSocialMediaLink}
-          />
-          <Section
-            style={styles.knownFor}
-            title="Known for"
-            accessoryTitle={knownForMedia.length > 3 ? "See all" : undefined}
-            onAccessoryPress={() =>
-              console.log(
-                "========== File: CreditsDetailsScreen.tsx, Line: 65 =========="
-              )
-            }
-          >
-            <KnownForList
-              media={knownForMedia ?? []}
-              onSelectMedia={onSelectMedia}
+    <>
+      <BackNavigationButton onNavigateBack={onNavigateBack} />
+      <QueryContainer
+        wrapperStyle="wrapped"
+        isLoading={loading}
+        isErrored={error !== undefined}
+      >
+        {personDetails && socialMediaLinks && knownForMedia && (
+          <>
+            <Header
+              imgUrl={personDetails.profilePath}
+              name={personDetails.name}
+              department={personDetails.knownForDepartment}
+              socialMediaLinks={socialMediaLinks}
+              biography={personDetails.biography}
+              birthday={personDetails.birthday}
+              birthPlace={personDetails.placeOfBirth}
+              popularity={personDetails.popularity}
+              onSocialMediaLinkPress={onSelectSocialMediaLink}
             />
-          </Section>
-        </>
-      )}
-    </QueryContainer>
+            <Section
+              style={styles.knownFor}
+              title="Known for"
+              accessoryTitle={knownForMedia.length > 3 ? "See all" : undefined}
+              onAccessoryPress={() =>
+                console.log(
+                  "========== File: CreditsDetailsScreen.tsx, Line: 65 =========="
+                )
+              }
+            >
+              <KnownForList
+                media={knownForMedia ?? []}
+                onSelectMedia={onSelectMedia}
+              />
+            </Section>
+          </>
+        )}
+      </QueryContainer>
+    </>
   );
 };
 

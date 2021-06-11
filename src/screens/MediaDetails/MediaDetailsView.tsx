@@ -4,14 +4,12 @@ import { Section } from "../../components/Section";
 import { Carousel } from "../../components/Carousel";
 import { CaptionImage } from "../../components/CaptionImage";
 import { Text } from "../../components/Typography";
-import { Container } from "../../components/Container";
 import { Colors, Spacing } from "../../components/theme";
+import { MediaCell } from "../shared";
 import { Header } from "./Header";
 import { PosterBackdrop } from "./PosterBackdrop";
 import { Cast, MovieDetails, Movie } from "../../models";
 import { useImageUri } from "../../hooks";
-import { Box } from "../../components/Box";
-import { MediaCell } from "../shared";
 
 interface MediaDetailsViewProps {
   infoDetails: MovieDetails & { isLiked?: boolean };
@@ -24,8 +22,6 @@ interface MediaDetailsViewProps {
   onSelectRecommended: (id: number) => void;
   onSelectSeeAllCast: () => void;
   onSelectSeeAllRecommended: () => void;
-  onNavigateBack?: () => void;
-  style?: StyleProp<ViewStyle>;
 }
 
 export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
@@ -39,8 +35,6 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
   onSelectRecommended,
   onSelectSeeAllCast,
   onSelectSeeAllRecommended,
-  onNavigateBack,
-  style,
 }) => {
   const renderCast = useCallback(
     ({ item }: { item: Cast }) => {
@@ -77,15 +71,15 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
   );
 
   return (
-    <Box style={style}>
+    <>
       <PosterBackdrop
         posterUrl={infoDetails.posterPath}
         backdropUrl={infoDetails.backdropPath}
       />
-      {/* <Container ignoreTopPadding onNavigateBack={onNavigateBack}> */}
       <Header
         style={{
-          marginBottom: Spacing.l,
+          paddingHorizontal: Spacing.defaultMargin,
+          paddingBottom: Spacing.m,
           backgroundColor: Colors.SurfaceForeground,
         }}
         id={infoDetails.id}
@@ -104,7 +98,10 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
         onSelectPlayTrailer={onSelectPlayTrailer}
       />
       <Section
-        style={{ marginBottom: Spacing.l }}
+        style={{
+          paddingHorizontal: Spacing.defaultMargin,
+          marginTop: Spacing.l,
+        }}
         title="Cast"
         accessoryTitle={cast?.length ?? 0 > 0 ? "See all" : undefined}
         onAccessoryPress={onSelectSeeAllCast}
@@ -119,6 +116,10 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
         />
       </Section>
       <Section
+        style={{
+          paddingHorizontal: Spacing.defaultMargin,
+          marginTop: Spacing.l,
+        }}
         title="Recommended"
         accessoryTitle={
           recommendations?.length ?? 0 > 0 ? "See all" : undefined
@@ -134,8 +135,7 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
           }
         />
       </Section>
-      {/* </Container> */}
-    </Box>
+    </>
   );
 };
 

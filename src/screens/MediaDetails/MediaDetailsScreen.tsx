@@ -1,13 +1,12 @@
 import React, { useCallback } from "react";
-import { StyleSheet } from "react-native";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { DiscoverParamList } from "../../navigation";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { QueryContainer } from "../../components/QueryContainer";
 import { MediaDetailsView } from "./MediaDetailsView";
 import { useMediaDetails } from "./useMediaDetails";
-import { Colors } from "../../components/theme";
-import { DiscoverParamList } from "../../navigation";
-import { StackNavigationProp } from "@react-navigation/stack";
 import { Favourite } from "../../models";
+import { BackNavigationButton } from "../shared";
 
 export const MediaDetailsScreen: React.FC = () => {
   const {
@@ -65,41 +64,36 @@ export const MediaDetailsScreen: React.FC = () => {
   }, [pop]);
 
   return (
-    <QueryContainer
-      wrapperStyle="wrapped"
-      isLoading={loading}
-      isErrored={error !== undefined || !details}
-      onRetryQuery={refetch}
-    >
-      {details && (
-        <MediaDetailsView
-          style={styles.container}
-          infoDetails={details}
-          cast={cast}
-          recommendations={recommendations}
-          onSelectGenre={onSelectGenre}
-          onSelectFavourite={onSelectFavourite({
-            id: details.id,
-            title: details.title,
-            posterPath: details.posterPath,
-            backdropPath: details.backdropPath,
-            releaseDate: details.releaseDate,
-            voteAverage: details.voteAverage,
-          })}
-          onSelectPlayTrailer={onSelectPlayTrailer}
-          onSelectCast={onSelectCast}
-          onSelectRecommended={onSelectRecommended}
-          onSelectSeeAllCast={onSelectSeeAllCast}
-          onSelectSeeAllRecommended={onSelectSeeAllRecommended}
-          onNavigateBack={onNavigateBack}
-        />
-      )}
-    </QueryContainer>
+    <>
+      <BackNavigationButton onNavigateBack={onNavigateBack} />
+      <QueryContainer
+        wrapperStyle="wrapped"
+        isLoading={loading}
+        isErrored={error !== undefined || !details}
+        onRetryQuery={refetch}
+      >
+        {details && (
+          <MediaDetailsView
+            infoDetails={details}
+            cast={cast}
+            recommendations={recommendations}
+            onSelectGenre={onSelectGenre}
+            onSelectFavourite={onSelectFavourite({
+              id: details.id,
+              title: details.title,
+              posterPath: details.posterPath,
+              backdropPath: details.backdropPath,
+              releaseDate: details.releaseDate,
+              voteAverage: details.voteAverage,
+            })}
+            onSelectPlayTrailer={onSelectPlayTrailer}
+            onSelectCast={onSelectCast}
+            onSelectRecommended={onSelectRecommended}
+            onSelectSeeAllCast={onSelectSeeAllCast}
+            onSelectSeeAllRecommended={onSelectSeeAllRecommended}
+          />
+        )}
+      </QueryContainer>
+    </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colors.SurfaceBackground,
-  },
-});
