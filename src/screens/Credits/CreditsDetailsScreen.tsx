@@ -4,8 +4,8 @@ import * as WebBrowser from "expo-web-browser";
 import { useRoute, RouteProp, useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { DiscoverParamList } from "../../navigation";
-import { Header } from "./Header";
-import { KnownForList } from "./KnownForList";
+import { Header } from "./components/Header";
+import { KnownForList } from "./components/KnownForList";
 import { useCreditDetails } from "./useCreditDetails";
 import { Section } from "../../components/Section";
 import { Spacing } from "../../components/theme";
@@ -36,6 +36,9 @@ export const CreditsDetailsScreen: React.FC = () => {
     (url: string) => WebBrowser.openBrowserAsync(url),
     []
   );
+  const onSelectSeeAllKnownForMedia = useCallback(() => {
+    if (knownForMedia) push("CreditKnownForList", { media: knownForMedia });
+  }, [push, knownForMedia]);
 
   return (
     <>
@@ -63,11 +66,7 @@ export const CreditsDetailsScreen: React.FC = () => {
               style={styles.knownFor}
               title="Known for"
               accessoryTitle={knownForMedia.length > 3 ? "See all" : undefined}
-              onAccessoryPress={() =>
-                console.log(
-                  "========== File: CreditsDetailsScreen.tsx, Line: 65 =========="
-                )
-              }
+              onAccessoryPress={onSelectSeeAllKnownForMedia}
             >
               <KnownForList
                 media={knownForMedia ?? []}
