@@ -8,16 +8,17 @@ import { Colors, Spacing } from "../../components/theme";
 import { MediaCell } from "../shared";
 import { Header } from "./Header";
 import { PosterBackdrop } from "./PosterBackdrop";
-import { Cast, MovieDetails, Movie } from "../../models";
+import { Cast, MovieDetails, Movie, VideoLink } from "../../models";
 import { useImageUri } from "../../hooks";
 
 interface MediaDetailsViewProps {
   infoDetails: MovieDetails & { isLiked?: boolean };
   cast?: Cast[];
   recommendations?: Movie[];
+  videos?: VideoLink[];
   onSelectGenre: (id: number) => void;
   onSelectFavourite: () => void;
-  onSelectPlayTrailer?: () => void;
+  onSelectPlayTrailer?: (url: string) => void;
   onSelectCast: (id: number) => void;
   onSelectRecommended: (id: number) => void;
   onSelectSeeAllCast: () => void;
@@ -28,6 +29,7 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
   infoDetails,
   cast,
   recommendations,
+  videos,
   onSelectGenre,
   onSelectFavourite,
   onSelectPlayTrailer,
@@ -88,7 +90,7 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
         runtime={infoDetails.runtime}
         rating={infoDetails.voteAverage}
         ratingsCount={infoDetails.voteCount}
-        hasVideo={infoDetails.video}
+        trailer={videos?.find((video) => video.type === "Trailer")?.url}
         tagline={infoDetails.tagline}
         overview={infoDetails.overview}
         genres={infoDetails.genres}

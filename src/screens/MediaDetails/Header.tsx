@@ -17,14 +17,14 @@ interface HeaderProps {
   runtime: number | null;
   rating: number;
   ratingsCount: number;
-  hasVideo: boolean;
   tagline: string | null;
   overview: string | null;
   genres: Genre[];
+  trailer?: string;
   isLiked?: boolean;
   onSelectGenre: (id: number) => void;
   onSelectFavourite: () => void;
-  onSelectPlayTrailer?: () => void;
+  onSelectPlayTrailer?: (url: string) => void;
   style?: StyleProp<ViewStyle>;
 }
 
@@ -36,8 +36,8 @@ export const Header: React.FC<HeaderProps> = ({
   ratingsCount,
   tagline,
   overview,
-  hasVideo,
   genres,
+  trailer,
   isLiked = false,
   onSelectGenre,
   onSelectFavourite,
@@ -53,6 +53,13 @@ export const Header: React.FC<HeaderProps> = ({
       onSelectGenre(id);
     },
     [onSelectGenre]
+  );
+
+  const onPlayTrailer = useCallback(
+    (url?: string) => () => {
+      if (url && onSelectPlayTrailer) onSelectPlayTrailer(url);
+    },
+    [onSelectPlayTrailer]
   );
 
   return (
@@ -82,13 +89,13 @@ export const Header: React.FC<HeaderProps> = ({
           selected={isLiked}
           onPress={onSelectFavourite}
         />
-        {hasVideo ? (
+        {trailer && (
           <PlayIcon
             iconSize="medium"
             caption="Play Trailer"
-            onPress={onSelectPlayTrailer}
+            onPress={onPlayTrailer(trailer)}
           />
-        ) : null}
+        )}
       </Box>
       <Section title="Overview">
         <Text
