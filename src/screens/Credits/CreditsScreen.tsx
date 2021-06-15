@@ -14,15 +14,13 @@ export const CreditsScreen: React.FC = () => {
   } = useRoute<RouteProp<DiscoverParamList, "CreditList">>();
   const { push } = useNavigation<StackNavigationProp<DiscoverParamList>>();
 
-  const { isLoading, error, data } = useFetch<Credit>("MovieCredits", {
+  const { isLoading, error, data, refresh } = useFetch<Credit>("MovieCredits", {
     movieId: id,
   });
 
   const onPress = useCallback(
-    (id: number) => () => {
-      console.log("==== Value of id:", id);
-    },
-    []
+    (id: number) => () => push("CreditDetails", { id }),
+    [push]
   );
 
   const castPage = useMemo(() => {
@@ -60,6 +58,7 @@ export const CreditsScreen: React.FC = () => {
       wrapperStyle="unwrapped"
       isLoading={isLoading ?? false}
       isErrored={error !== undefined}
+      onRetryQuery={refresh}
     >
       {castPage && crewPage && <ViewPager pages={[castPage, crewPage]} />}
     </QueryContainer>

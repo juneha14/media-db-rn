@@ -20,6 +20,7 @@ export interface ImageProps {
   width?: number;
   height?: number;
   orientation?: Orientation;
+  shouldRoundImage?: boolean;
   shouldRoundCorners?: boolean;
   onLayout?: (event: LayoutChangeEvent) => void;
   imageStyle?: StyleProp<ImageStyle>;
@@ -32,6 +33,7 @@ export const Image: React.FC<ImageProps> = React.memo(
     width,
     height,
     orientation,
+    shouldRoundImage = false,
     shouldRoundCorners = true,
     onLayout,
     imageStyle,
@@ -50,7 +52,11 @@ export const Image: React.FC<ImageProps> = React.memo(
         : undefined,
     };
     const imageBorderStyle: ImageStyle = {
-      borderRadius: shouldRoundCorners ? 4 : 0,
+      borderRadius: shouldRoundImage
+        ? (size.width ?? 0) / 2
+        : shouldRoundCorners
+        ? 4
+        : 0,
     };
 
     return (

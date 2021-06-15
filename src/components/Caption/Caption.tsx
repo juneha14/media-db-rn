@@ -12,6 +12,7 @@ export interface CaptionProps {
   rightAccessoryPosition?: "center" | "top-left";
   numberOfTitleLines?: number;
   numberOfDescriptionLines?: number;
+  textContainerStyle?: StyleProp<ViewStyle>;
   style?: StyleProp<ViewStyle>;
 }
 
@@ -24,6 +25,7 @@ export const Caption: React.FC<CaptionProps> = React.memo(
     rightAccessoryPosition = "top-left",
     numberOfTitleLines,
     numberOfDescriptionLines,
+    textContainerStyle,
     style,
   }) => {
     return (
@@ -37,7 +39,7 @@ export const Caption: React.FC<CaptionProps> = React.memo(
           style,
         ]}
       >
-        <Box style={styles.leftContainer}>
+        <Box style={[styles.leftContainer, textContainerStyle]}>
           <Text
             variant="captionHeadingSmall"
             numberOfLines={numberOfTitleLines}

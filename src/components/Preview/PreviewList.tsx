@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.SurfaceBackground,
   },
   previewRow: {
-    padding: Spacing.m,
+    paddingHorizontal: Spacing.defaultMargin,
+    paddingVertical: Spacing.m,
   },
 });

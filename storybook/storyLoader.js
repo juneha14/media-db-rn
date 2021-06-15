@@ -4,6 +4,7 @@
 // https://github.com/elderfo/react-native-storybook-loader.git
 
 function loadStories() {
+  require("../src/components/Avatar/Avatar.stories");
   require("../src/components/Caption/Caption.stories");
   require("../src/components/CaptionImage/CaptionImage.stories");
   require("../src/components/Carousel/Carousel.stories");
@@ -16,12 +17,14 @@ function loadStories() {
   require("../src/components/Tags/Tags.stories");
   require("../src/components/Typography/Typography.stories");
   require("../src/components/ViewPager/ViewPager.stories");
+  require("../src/screens/stories/CreditDetails.stories");
   require("../src/screens/stories/MediaCell.stories");
   require("../src/screens/stories/MediaDetails.stories");
   require("../src/screens/stories/Screens.stories");
 }
 
 const stories = [
+  "../src/components/Avatar/Avatar.stories",
   "../src/components/Caption/Caption.stories",
   "../src/components/CaptionImage/CaptionImage.stories",
   "../src/components/Carousel/Carousel.stories",
@@ -34,6 +37,7 @@ const stories = [
   "../src/components/Tags/Tags.stories",
   "../src/components/Typography/Typography.stories",
   "../src/components/ViewPager/ViewPager.stories",
+  "../src/screens/stories/CreditDetails.stories",
   "../src/screens/stories/MediaCell.stories",
   "../src/screens/stories/MediaDetails.stories",
   "../src/screens/stories/Screens.stories",

@@ -9,6 +9,7 @@ type CarouselFlatListProps<Item> = Pick<
   | "pagingEnabled"
   | "showsHorizontalScrollIndicator"
   | "snapToInterval"
+  | "snapToAlignment"
   | "ListEmptyComponent"
   | "onScroll"
   | "onMomentumScrollBegin"
@@ -27,6 +28,7 @@ export function Carousel<Item>({
   renderItem,
   showsHorizontalScrollIndicator = false,
   snapToInterval,
+  snapToAlignment = "center",
   pagingEnabled = false,
   ListEmptyComponent,
   onScroll,
@@ -48,6 +50,7 @@ export function Carousel<Item>({
       showsHorizontalScrollIndicator={showsHorizontalScrollIndicator}
       pagingEnabled={pagingEnabled}
       snapToInterval={snapToInterval}
+      snapToAlignment={snapToAlignment}
       decelerationRate="fast"
       onScroll={onScroll}
       onMomentumScrollBegin={onMomentumScrollBegin}

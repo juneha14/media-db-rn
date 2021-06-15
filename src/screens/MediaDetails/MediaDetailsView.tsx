@@ -4,14 +4,12 @@ import { Section } from "../../components/Section";
 import { Carousel } from "../../components/Carousel";
 import { CaptionImage } from "../../components/CaptionImage";
 import { Text } from "../../components/Typography";
-import { Container } from "../../components/Container";
-import { Spacing } from "../../components/theme";
+import { Colors, Spacing } from "../../components/theme";
+import { MediaCell } from "../shared";
 import { Header } from "./Header";
 import { PosterBackdrop } from "./PosterBackdrop";
 import { Cast, MovieDetails, Movie } from "../../models";
 import { useImageUri } from "../../hooks";
-import { Box } from "../../components/Box";
-import { MediaCell } from "../shared";
 
 interface MediaDetailsViewProps {
   infoDetails: MovieDetails & { isLiked?: boolean };
@@ -24,8 +22,6 @@ interface MediaDetailsViewProps {
   onSelectRecommended: (id: number) => void;
   onSelectSeeAllCast: () => void;
   onSelectSeeAllRecommended: () => void;
-  onNavigateBack?: () => void;
-  style?: StyleProp<ViewStyle>;
 }
 
 export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
@@ -39,8 +35,6 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
   onSelectRecommended,
   onSelectSeeAllCast,
   onSelectSeeAllRecommended,
-  onNavigateBack,
-  style,
 }) => {
   const renderCast = useCallback(
     ({ item }: { item: Cast }) => {
@@ -77,62 +71,71 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
   );
 
   return (
-    <Box style={style}>
+    <>
       <PosterBackdrop
         posterUrl={infoDetails.posterPath}
         backdropUrl={infoDetails.backdropPath}
       />
-      <Container ignoreTopPadding onNavigateBack={onNavigateBack}>
-        <Header
-          style={{ marginBottom: Spacing.l }}
-          id={infoDetails.id}
-          title={infoDetails.title}
-          releaseDate={infoDetails.releaseDate}
-          runtime={infoDetails.runtime}
-          rating={infoDetails.voteAverage}
-          ratingsCount={infoDetails.voteCount}
-          hasVideo={infoDetails.video}
-          tagline={infoDetails.tagline}
-          overview={infoDetails.overview}
-          genres={infoDetails.genres}
-          isLiked={infoDetails.isLiked}
-          onSelectGenre={onSelectGenre}
-          onSelectFavourite={onSelectFavourite}
-          onSelectPlayTrailer={onSelectPlayTrailer}
-        />
-        <Section
-          style={{ marginBottom: Spacing.l }}
-          title="Cast"
-          accessoryTitle={cast?.length ?? 0 > 0 ? "See all" : undefined}
-          onAccessoryPress={onSelectSeeAllCast}
-        >
-          <Carousel
-            keyExtractor={(item) => String(item.id)}
-            data={cast}
-            renderItem={renderCast}
-            ListEmptyComponent={
-              <Text variant="body">Cast information unavailable</Text>
-            }
-          />
-        </Section>
-        <Section
-          title="Recommended"
-          accessoryTitle={
-            recommendations?.length ?? 0 > 0 ? "See all" : undefined
+      <Header
+        style={{
+          paddingHorizontal: Spacing.defaultMargin,
+          paddingBottom: Spacing.m,
+          backgroundColor: Colors.SurfaceForeground,
+        }}
+        id={infoDetails.id}
+        title={infoDetails.title}
+        releaseDate={infoDetails.releaseDate}
+        runtime={infoDetails.runtime}
+        rating={infoDetails.voteAverage}
+        ratingsCount={infoDetails.voteCount}
+        hasVideo={infoDetails.video}
+        tagline={infoDetails.tagline}
+        overview={infoDetails.overview}
+        genres={infoDetails.genres}
+        isLiked={infoDetails.isLiked}
+        onSelectGenre={onSelectGenre}
+        onSelectFavourite={onSelectFavourite}
+        onSelectPlayTrailer={onSelectPlayTrailer}
+      />
+      <Section
+        style={{
+          paddingHorizontal: Spacing.defaultMargin,
+          marginTop: Spacing.l,
+        }}
+        title="Cast"
+        accessoryTitle={cast?.length ?? 0 > 0 ? "See all" : undefined}
+        onAccessoryPress={onSelectSeeAllCast}
+      >
+        <Carousel
+          keyExtractor={(item) => String(item.id)}
+          data={cast}
+          renderItem={renderCast}
+          ListEmptyComponent={
+            <Text variant="body">Cast information unavailable</Text>
           }
-          onAccessoryPress={onSelectSeeAllRecommended}
-        >
-          <Carousel
-            keyExtractor={(item) => String(item.id)}
-            data={recommendations}
-            renderItem={renderRecommendations}
-            ListEmptyComponent={
-              <Text variant="body">Recommended movies unavailable</Text>
-            }
-          />
-        </Section>
-      </Container>
-    </Box>
+        />
+      </Section>
+      <Section
+        style={{
+          paddingHorizontal: Spacing.defaultMargin,
+          marginTop: Spacing.l,
+        }}
+        title="Recommended"
+        accessoryTitle={
+          recommendations?.length ?? 0 > 0 ? "See all" : undefined
+        }
+        onAccessoryPress={onSelectSeeAllRecommended}
+      >
+        <Carousel
+          keyExtractor={(item) => String(item.id)}
+          data={recommendations}
+          renderItem={renderRecommendations}
+          ListEmptyComponent={
+            <Text variant="body">Recommended movies unavailable</Text>
+          }
+        />
+      </Section>
+    </>
   );
 };
 
