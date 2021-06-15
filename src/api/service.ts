@@ -7,6 +7,7 @@ export type EndpointParamList = {
   MovieDetails: { movieId: number };
   MovieCredits: { movieId: number };
   MovieRecommendations: { movieId: number };
+  MovieVideos: { movieId: number };
   PersonDetails: { personId: number };
   PersonExternalIds: { personId: number };
   PersonMovieCredits: { personId: number };
@@ -34,6 +35,10 @@ export async function fetchRequest<T extends Endpoint>(
     case "MovieRecommendations": {
       const { movieId } = params as EndpointParamList["MovieRecommendations"];
       return client.getMovieRecommendations(movieId);
+    }
+    case "MovieVideos": {
+      const { movieId } = params as EndpointParamList["MovieVideos"];
+      return client.getMovieVideos(movieId);
     }
     case "PersonDetails": {
       const { personId } = params as EndpointParamList["PersonDetails"];
