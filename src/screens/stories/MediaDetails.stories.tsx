@@ -31,7 +31,7 @@ storiesOf("Views", module)
       runtime={99}
       rating={8.5}
       ratingsCount={900}
-      hasVideo
+      trailer="https://youtube.com/watch?v=SUXWAEX2jlg"
       tagline="One will fall"
       overview="In a time when monsters walk the Earth, humanity’s fight for its future sets Godzilla and Kong on a collision course that will see the two most powerful forces of nature on the planet collide in a spectacular battle for the ages"
       genres={[

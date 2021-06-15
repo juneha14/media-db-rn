@@ -2,7 +2,6 @@ import React from "react";
 import { storiesOf } from "@storybook/react-native";
 import { ContentViewDark } from "../../../storybook/ContentView";
 import { Avatar } from "./Avatar";
-import { CreditsDetailsScreen } from "../../screens/Credits";
 
 const url = "/yzfxLMcBMusKzZp9f1Z9Ags8WML.jpg";
 
@@ -32,7 +31,4 @@ storiesOf("Avatar", module)
         textPosition="bottom"
       />
     );
-  })
-  .add("screen", () => {
-    return <CreditsDetailsScreen />;
   });
