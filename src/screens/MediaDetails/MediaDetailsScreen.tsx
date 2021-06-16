@@ -26,9 +26,11 @@ export const MediaDetailsScreen: React.FC = () => {
     onToggleLike,
   } = useMediaDetails(id);
 
-  const onSelectGenre = useCallback((genreId: number) => {
-    console.log("==== Value of genreId:", genreId);
-  }, []);
+  const onSelectGenre = useCallback(
+    (genreId: number) =>
+      push("GenreDetails", { genre: { id: genreId, name: "Action" } }),
+    [push]
+  );
 
   const onSelectFavourite = useCallback(
     (favourite: Favourite) => () => {
