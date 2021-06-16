@@ -7,6 +7,8 @@ import {
   Movie,
   MovieDetails,
   PaginatedResponse,
+  VideoLink,
+  Videos,
 } from "../../models";
 import { convertToCamelCase } from "../../utils";
 import { useFavouriteState } from "../shared";
@@ -17,6 +19,7 @@ interface State {
   details?: MovieDetails & { isLiked: boolean };
   cast?: Cast[];
   recommendations?: Movie[];
+  videos?: VideoLink[];
   refetch: () => void;
   onToggleLike: (favourite: Favourite) => void;
 }
@@ -24,19 +27,22 @@ interface State {
 export const useMediaDetails = (movieId: number): State => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>();
+
   const [details, setDetails] = useState<MovieDetails>();
   const [cast, setCast] = useState<Cast[]>();
   const [recommendations, setRecommendations] = useState<Movie[]>();
+  const [videos, setVideos] = useState<VideoLink[]>();
   const { favourites, onToggleLike } = useFavouriteState();
 
   const fetch = useCallback(async () => {
     const details = fetchRequest("MovieDetails", { movieId });
     const credits = fetchRequest("MovieCredits", { movieId });
     const recommendations = fetchRequest("MovieRecommendations", { movieId });
+    const vidoes = fetchRequest("MovieVideos", { movieId });
 
-    return Promise.all([details, credits, recommendations])
+    return Promise.all([details, credits, recommendations, vidoes])
       .then((jsons) => {
-        const [details, credits, recommendations] = jsons.map((json) =>
+        const [details, credits, recommendations, videos] = jsons.map((json) =>
           convertToCamelCase(json)
         );
         setDetails(details);
@@ -44,6 +50,7 @@ export const useMediaDetails = (movieId: number): State => {
         setRecommendations(
           (recommendations as PaginatedResponse<Movie[]>).results.slice(0, 8)
         );
+        setVideos(mapToVideoLinks(videos));
       })
       .catch((error) => {
         console.error(
@@ -76,7 +83,21 @@ export const useMediaDetails = (movieId: number): State => {
     },
     cast,
     recommendations,
+    videos,
     refetch,
     onToggleLike,
   };
 };
+
+// Utils
+
+function mapToVideoLinks(videos: Videos): VideoLink[] {
+  const links: VideoLink[] = videos.results
+    .filter((video) => video.site === "YouTube")
+    .map((video) => ({
+      url: `https://youtube.com/watch?v=${video.key}`,
+      type: video.type,
+    }));
+
+  return links;
+}

@@ -63,6 +63,11 @@ client.getMovieRecommendations = async (movieId: number) => {
   return client(url);
 };
 
+client.getMovieVideos = async (movieId: number) => {
+  const url = constructUrl(`/movie/${movieId}/videos`);
+  return client(url);
+};
+
 client.getPersonDetails = async (personId: number) => {
   const url = constructUrl(`/person/${personId}`);
   return client(url);

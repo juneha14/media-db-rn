@@ -1,7 +1,8 @@
 import React, { useCallback } from "react";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { DiscoverParamList } from "../../navigation";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { DiscoverParamList } from "../../navigation";
+import * as WebBrowser from "expo-web-browser";
 import { QueryContainer } from "../../components/QueryContainer";
 import { MediaDetailsView } from "./MediaDetailsView";
 import { useMediaDetails } from "./useMediaDetails";
@@ -20,6 +21,7 @@ export const MediaDetailsScreen: React.FC = () => {
     details,
     cast,
     recommendations,
+    videos,
     refetch,
     onToggleLike,
   } = useMediaDetails(id);
@@ -35,9 +37,10 @@ export const MediaDetailsScreen: React.FC = () => {
     [onToggleLike]
   );
 
-  const onSelectPlayTrailer = useCallback(() => {
-    console.log("========== File: MediaDetailsScreen.tsx, Line: 19 ==========");
-  }, []);
+  const onSelectPlayTrailer = useCallback(
+    (url: string) => WebBrowser.openBrowserAsync(url),
+    []
+  );
 
   const onSelectCast = useCallback(
     (castId: number) => push("CreditDetails", { id: castId }),
@@ -77,6 +80,7 @@ export const MediaDetailsScreen: React.FC = () => {
             infoDetails={details}
             cast={cast}
             recommendations={recommendations}
+            videos={videos}
             onSelectGenre={onSelectGenre}
             onSelectFavourite={onSelectFavourite({
               id: details.id,
