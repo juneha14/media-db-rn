@@ -1,0 +1,1 @@
+export { GenreScreen } from "./GenreScreen";
