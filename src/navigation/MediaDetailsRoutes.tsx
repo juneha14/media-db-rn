@@ -10,7 +10,10 @@ import {
   CreditsScreen,
   CreditsKnownForScreen,
 } from "../screens/Credits";
+import { GenreScreen } from "../screens/Genre";
+
 import { KnownForMedia } from "../screens/Credits/utils";
+import { Genre } from "../models";
 
 export type MediaDetailsParamList = {
   MediaDetails: { id: number };
@@ -18,9 +21,10 @@ export type MediaDetailsParamList = {
   CreditList: { id: number };
   CreditDetails: { id: number };
   CreditKnownForList: { media: KnownForMedia[] };
+  GenreDetails: { genre: Genre };
 };
 
-type RouteConfig = { component: React.FC; options: StackNavigationOptions };
+type RouteConfig = { component: React.FC; options?: StackNavigationOptions };
 
 const mediaDetailsScreens: Record<keyof MediaDetailsParamList, RouteConfig> = {
   MediaDetails: {
@@ -42,6 +46,10 @@ const mediaDetailsScreens: Record<keyof MediaDetailsParamList, RouteConfig> = {
   CreditKnownForList: {
     component: CreditsKnownForScreen,
     options: { headerTitle: "Known for" },
+  },
+  GenreDetails: {
+    component: GenreScreen,
+    options: undefined, // Header title is based off of genre's name. Configured within the screen
   },
 };
 

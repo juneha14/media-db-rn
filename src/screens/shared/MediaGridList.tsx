@@ -22,6 +22,7 @@ interface MediaGridListProps {
   onFetchNextPage?: () => void;
   onRefresh?: () => void;
   gridRef?: (ref: FlatList<Movie> | null) => void;
+  ignoresTopPadding?: boolean;
 }
 
 export const MediaGridList: React.FC<MediaGridListProps> = ({
@@ -34,6 +35,7 @@ export const MediaGridList: React.FC<MediaGridListProps> = ({
   onFetchNextPage,
   onRefresh,
   gridRef,
+  ignoresTopPadding = false,
 }) => {
   const { favourites, onToggleLike } = useFavouriteState();
 
@@ -101,7 +103,10 @@ export const MediaGridList: React.FC<MediaGridListProps> = ({
       <PaginatedList
         style={styles.container}
         listRef={gridRef}
-        contentContainerStyle={[styles.contentContainer, { paddingTop: top }]}
+        contentContainerStyle={[
+          styles.contentContainer,
+          { paddingTop: ignoresTopPadding ? undefined : top },
+        ]}
         isFetching={isFetching}
         refreshing={isRefreshing}
         keyExtractor={keyExtractor}

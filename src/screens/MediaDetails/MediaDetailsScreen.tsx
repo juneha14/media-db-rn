@@ -6,7 +6,7 @@ import * as WebBrowser from "expo-web-browser";
 import { QueryContainer } from "../../components/QueryContainer";
 import { MediaDetailsView } from "./MediaDetailsView";
 import { useMediaDetails } from "./useMediaDetails";
-import { Favourite } from "../../models";
+import { Favourite, Genre } from "../../models";
 import { BackNavigationButton } from "../shared";
 
 export const MediaDetailsScreen: React.FC = () => {
@@ -27,15 +27,12 @@ export const MediaDetailsScreen: React.FC = () => {
   } = useMediaDetails(id);
 
   const onSelectGenre = useCallback(
-    (genreId: number) =>
-      push("GenreDetails", { genre: { id: genreId, name: "Action" } }),
+    (genre: Genre) => push("GenreDetails", { genre }),
     [push]
   );
 
   const onSelectFavourite = useCallback(
-    (favourite: Favourite) => () => {
-      onToggleLike(favourite);
-    },
+    (favourite: Favourite) => () => onToggleLike(favourite),
     [onToggleLike]
   );
 
@@ -50,23 +47,21 @@ export const MediaDetailsScreen: React.FC = () => {
   );
 
   const onSelectRecommended = useCallback(
-    (id: number) => {
-      push("MediaDetails", { id });
-    },
+    (id: number) => push("MediaDetails", { id }),
     [push]
   );
 
-  const onSelectSeeAllCast = useCallback(() => {
-    push("CreditList", { id });
-  }, [push, id]);
+  const onSelectSeeAllCast = useCallback(() => push("CreditList", { id }), [
+    push,
+    id,
+  ]);
 
-  const onSelectSeeAllRecommended = useCallback(() => {
-    push("RecommendedList", { id });
-  }, [push, id]);
+  const onSelectSeeAllRecommended = useCallback(
+    () => push("RecommendedList", { id }),
+    [push, id]
+  );
 
-  const onNavigateBack = useCallback(() => {
-    pop();
-  }, [pop]);
+  const onNavigateBack = useCallback(() => pop(), [pop]);
 
   return (
     <>

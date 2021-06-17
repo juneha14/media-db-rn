@@ -8,7 +8,7 @@ import { Colors, Spacing } from "../../components/theme";
 import { MediaCell } from "../shared";
 import { Header } from "./Header";
 import { PosterBackdrop } from "./PosterBackdrop";
-import { Cast, MovieDetails, Movie, VideoLink } from "../../models";
+import { Cast, MovieDetails, Movie, VideoLink, Genre } from "../../models";
 import { useImageUri } from "../../hooks";
 
 interface MediaDetailsViewProps {
@@ -16,7 +16,7 @@ interface MediaDetailsViewProps {
   cast?: Cast[];
   recommendations?: Movie[];
   videos?: VideoLink[];
-  onSelectGenre: (id: number) => void;
+  onSelectGenre: (genre: Genre) => void;
   onSelectFavourite: () => void;
   onSelectPlayTrailer?: (url: string) => void;
   onSelectCast: (id: number) => void;
