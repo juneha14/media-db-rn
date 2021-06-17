@@ -68,6 +68,8 @@ client.getMovieVideos = async (movieId: number) => {
   return client(url);
 };
 
+// People
+
 client.getPersonDetails = async (personId: number) => {
   const url = constructUrl(`/person/${personId}`);
   return client(url);
@@ -80,6 +82,13 @@ client.getPersonExternalLinks = async (personId: number) => {
 
 client.getPersonMovieCredits = async (personId: number) => {
   const url = constructUrl(`/person/${personId}/movie_credits`);
+  return client(url);
+};
+
+// Discover
+
+client.discoverMovies = async (page = 1, genreIds?: number[]) => {
+  const url = constructUrl(`/discover/movie`, { page, with_genres: genreIds });
   return client(url);
 };
 
