@@ -18,43 +18,43 @@ const Tabs = createBottomTabNavigator<TabParamList>();
 
 export const TabRoutes: React.FC = () => {
   return (
-    <NavigationContainer>
-      <Tabs.Navigator
-        tabBarOptions={{
-          activeTintColor: Colors.IconOnPrimary,
-          inactiveTintColor: Colors.IconSubdued,
-          style: { backgroundColor: Colors.SurfaceForeground },
+    // <NavigationContainer>
+    <Tabs.Navigator
+      tabBarOptions={{
+        activeTintColor: Colors.IconOnPrimary,
+        inactiveTintColor: Colors.IconSubdued,
+        style: { backgroundColor: Colors.SurfaceForeground },
+      }}
+    >
+      <Tabs.Screen
+        name="Discover"
+        component={DiscoverRoutes}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="ios-home-outline" size={size} color={color} />
+          ),
         }}
-      >
-        <Tabs.Screen
-          name="Discover"
-          component={DiscoverRoutes}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="ios-home-outline" size={size} color={color} />
-            ),
-          }}
-        />
-        <Tabs.Screen
-          name="Search"
-          component={SearchScreen}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="ios-search-outline" size={size} color={color} />
-            ),
-          }}
-        />
-        <Tabs.Screen
-          name="Favourite"
-          component={FavouriteRoutes}
-          options={{
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="ios-bookmark-outline" size={size} color={color} />
-            ),
-          }}
-        />
-      </Tabs.Navigator>
-    </NavigationContainer>
+      />
+      <Tabs.Screen
+        name="Search"
+        component={SearchScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="ios-search-outline" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="Favourite"
+        component={FavouriteRoutes}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="ios-bookmark-outline" size={size} color={color} />
+          ),
+        }}
+      />
+    </Tabs.Navigator>
+    // </NavigationContainer>
   );
 };
 

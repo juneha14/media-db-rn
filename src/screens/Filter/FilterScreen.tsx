@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Pressable, StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Box } from "../../components/Box";
 import { Caption } from "../../components/Caption";
 import { CheckmarkIcon } from "../../components/Icons";
@@ -46,7 +47,7 @@ export const FilterScreen: React.FC = () => {
           ]}
         />
         <OptionGroup
-          headerTitle="Date"
+          headerTitle="Release Date"
           options={[
             {
               option: "date_desc",
@@ -141,10 +142,16 @@ const FooterActionButtons = ({
   onClearAllPress: () => void;
   onApplyPress: () => void;
 }) => {
+  const { bottom } = useSafeAreaInsets();
   return (
     <>
       <Divider includeLeftMargin={false} />
-      <Box style={styles.footerContainer}>
+      <Box
+        style={[
+          styles.footerContainer,
+          { paddingBottom: bottom + Spacing.m, paddingTop: Spacing.m },
+        ]}
+      >
         <Pressable onPress={onClearAllPress}>
           <Text variant="body">Clear all</Text>
         </Pressable>
@@ -183,7 +190,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    height: 70,
     paddingHorizontal: Spacing.defaultMargin,
     backgroundColor: Colors.SurfaceBackground,
   },

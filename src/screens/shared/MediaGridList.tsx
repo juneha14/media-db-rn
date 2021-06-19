@@ -11,6 +11,7 @@ import { MediaCell } from "./MediaCell";
 import { Colors, Spacing } from "../../components/theme";
 import { useFavouriteState } from "./useFavouriteState";
 import { FlatList } from "react-native-gesture-handler";
+import { AppParamList } from "../../navigation/AppRoutes";
 
 interface MediaGridListProps {
   isLoading: boolean;
@@ -40,15 +41,26 @@ export const MediaGridList: React.FC<MediaGridListProps> = ({
   const { favourites, onToggleLike } = useFavouriteState();
 
   const { top } = useSafeAreaInsets();
-  const { push } = useNavigation<StackNavigationProp<DiscoverParamList>>();
+  //   const { push } = useNavigation<StackNavigationProp<DiscoverParamList>>();
+  const { navigate, push } = useNavigation<StackNavigationProp<AppParamList>>();
 
   const width = useMemo(
     () => Dimensions.get("window").width / 2 - 15, // (screenWidth / 2) - (paddingHorizontal / 2 + marginHorizontal / 2)
     []
   );
 
+  //   const onSelectCell = useCallback(
+  //     (id: number) => push("MediaDetails", { id }),
+  //     [push]
+  //   );
   const onSelectCell = useCallback(
-    (id: number) => push("MediaDetails", { id }),
+    (id: number) =>
+      navigate("Filter", {
+        onSelectSortOption: () =>
+          console.log(
+            "========== File: MediaGridList.tsx, Line: 57 =========="
+          ),
+      }),
     [push]
   );
 
