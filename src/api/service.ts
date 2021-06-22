@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { client } from "./client";
+import { RemoteSortOption } from "../models";
 
 export type EndpointParamList = {
   NowPlayingMovies: { page: number };
@@ -13,7 +14,11 @@ export type EndpointParamList = {
   PersonExternalIds: { personId: number };
   PersonMovieCredits: { personId: number };
 
-  DiscoverMovies: { page: number; genreIds: number[] };
+  DiscoverMovies: {
+    page: number;
+    genreIds: number[];
+    sortOption?: RemoteSortOption;
+  };
 };
 
 export type Endpoint = keyof EndpointParamList;
@@ -58,8 +63,12 @@ export async function fetchRequest<T extends Endpoint>(
     }
 
     case "DiscoverMovies": {
-      const { page, genreIds } = params as EndpointParamList["DiscoverMovies"];
-      return client.discoverMovies(page, genreIds);
+      const {
+        page,
+        genreIds,
+        sortOption,
+      } = params as EndpointParamList["DiscoverMovies"];
+      return client.discoverMovies(page, genreIds, sortOption);
     }
   }
 }

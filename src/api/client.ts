@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
+import { RemoteSortOption } from "../models";
+
 const API_KEY = "37bbcf6f05e7c353e1715488f9c723a1";
 const baseUrl = "https://api.themoviedb.org/3";
 
@@ -87,8 +89,16 @@ client.getPersonMovieCredits = async (personId: number) => {
 
 // Discover
 
-client.discoverMovies = async (page = 1, genreIds?: number[]) => {
-  const url = constructUrl(`/discover/movie`, { page, with_genres: genreIds });
+client.discoverMovies = async (
+  page = 1,
+  genreIds?: number[],
+  sortOption?: RemoteSortOption
+) => {
+  const url = constructUrl(`/discover/movie`, {
+    page,
+    with_genres: genreIds,
+    sort_by: sortOption,
+  });
   return client(url);
 };
 
