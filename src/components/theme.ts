@@ -64,6 +64,8 @@ export const Colors = {
   IconInteractive: Palette.Blue.Primary,
   IconHighlight: `#35ADB9`,
 
+  SystemBlue: `#0a84ff`,
+
   Transparent: Palette.Transparent,
   None: undefined,
 };

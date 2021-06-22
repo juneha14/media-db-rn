@@ -6,7 +6,7 @@ import { Spacing } from "../theme";
 import { Icon, IconProps } from "./Icon";
 
 interface IconLabelProps extends Omit<IconProps, "style"> {
-  label: string;
+  label?: string;
   labelPosition: "below" | "right";
   style?: StyleProp<ViewStyle>;
 }
@@ -25,7 +25,7 @@ export const IconLabel: React.FC<IconLabelProps> = React.memo(
         ]}
       >
         <Icon {...iconProps} />
-        {label.length > 0 ? (
+        {label ? (
           <Text
             style={{
               marginTop: labelPosition === "below" ? Spacing.s : undefined,

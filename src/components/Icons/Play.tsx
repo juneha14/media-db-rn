@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 import { StyleProp, ViewStyle, Pressable } from "react-native";
 import { IconSize } from "./Icon";
 import { IconLabel } from "./IconLabel";
