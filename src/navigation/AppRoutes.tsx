@@ -48,6 +48,13 @@ const modalScreenOptions: StackNavigationOptions = {
   },
 };
 
+// Create navigation bar items - set within the screen using navigation setOptions
+// ModalParamList
+// Custom useNavigation, useParams hooks
+// Cannot pass in function as param - non-serializable
+// Add filter functionality to Genre details screen
+// Filter icon on top right navigation bar item indicating that filter has been applied
+
 type ModalParamList = {
-  Filter: { onSelectSortOption: (option: string) => void };
+  Filter: undefined;
 };

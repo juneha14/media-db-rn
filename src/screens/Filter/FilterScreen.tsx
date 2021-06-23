@@ -1,23 +1,39 @@
-import React, { useState } from "react";
+import React, { useLayoutEffect } from "react";
 import { Pressable, StyleSheet } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { AppParamList } from "../../navigation/AppRoutes";
+import { NavigationBarItem } from "../../components/Navigation";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { ScrollView } from "react-native-gesture-handler";
 import { Box } from "../../components/Box";
 import { Caption } from "../../components/Caption";
 import { CheckmarkIcon } from "../../components/Icons";
 import { Colors, Spacing } from "../../components/theme";
 import { Text } from "../../components/Typography";
-
-type SortOption =
-  | "popular"
-  | "rating_asc"
-  | "rating_desc"
-  | "date_asc"
-  | "date_desc"
-  | "none";
+import { useObservableState } from "../../hooks/useObservableState";
+import { SortOption } from "../../models";
 
 export const FilterScreen: React.FC = () => {
-  const [selectedOption, setSelectedOption] = useState<SortOption>("none");
+  const { setOptions, pop } = useNavigation<
+    StackNavigationProp<AppParamList>
+  >();
+
+  const [selectedOption, setSelectedOption] = useObservableState<SortOption>(
+    "sort-option"
+  );
+
+  useLayoutEffect(() => {
+    setOptions({
+      headerLeft: () => (
+        <NavigationBarItem
+          title="Cancel"
+          position="left"
+          onPress={() => pop()}
+        />
+      ),
+    });
+  }, [setOptions, pop]);
 
   return (
     <>
@@ -64,9 +80,7 @@ export const FilterScreen: React.FC = () => {
       </ScrollView>
       <FooterActionButtons
         onClearAllPress={() => setSelectedOption("none")}
-        onApplyPress={() =>
-          console.log("========== File: FilterScreen.tsx, Line: 64 ==========")
-        }
+        onApplyPress={() => pop()}
       />
     </>
   );
