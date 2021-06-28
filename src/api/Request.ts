@@ -43,7 +43,7 @@ export class Request {
     return this.state;
   }
 
-  async perform(): Promise<any> {
+  async fetch(): Promise<any> {
     const abortController = new AbortController();
     const { signal } = abortController;
     this.abortController = abortController;
@@ -64,7 +64,7 @@ export class Request {
 
       if (res.ok) {
         console.debug("Successfully finished fetch request with id:", this.id);
-        this.updateInternalState("finished");
+        await this.updateInternalState("finished");
         return data;
       }
       throw new Error(res.statusText);
@@ -73,7 +73,7 @@ export class Request {
         `Failed to ${metaData.method} from ${this.url} wit id: ${this.id} due to error:`,
         error
       );
-      this.updateInternalState("errored");
+      await this.updateInternalState("errored");
       return Promise.reject(error.message);
     }
   }
@@ -84,7 +84,7 @@ export class Request {
     this.abortController?.abort();
   }
 
-  private updateInternalState(newState: RequestState) {
+  private async updateInternalState(newState: RequestState) {
     this.stateMutex.runExclusive(() => {
       this.state = newState;
     });

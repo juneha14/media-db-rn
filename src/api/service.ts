@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { client } from "./client";
 import { RemoteSortOption } from "../models";
+import { Request } from "./Request";
 
 export type EndpointParamList = {
   NowPlayingMovies: { page: number };
@@ -23,10 +23,10 @@ export type EndpointParamList = {
 
 export type Endpoint = keyof EndpointParamList;
 
-export async function fetchRequest<T extends Endpoint>(
+export function fetchRequest<T extends Endpoint>(
   endpoint: T,
   params: EndpointParamList[T]
-): Promise<any> {
+): Request {
   switch (endpoint) {
     case "NowPlayingMovies": {
       const { page } = params as EndpointParamList["NowPlayingMovies"];
@@ -69,6 +69,10 @@ export async function fetchRequest<T extends Endpoint>(
         sortOption,
       } = params as EndpointParamList["DiscoverMovies"];
       return client.discoverMovies(page, genreIds, sortOption);
+    }
+
+    default: {
+      return new Request("");
     }
   }
 }
