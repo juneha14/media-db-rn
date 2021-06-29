@@ -60,7 +60,10 @@ export const GenreScreen: React.FC = () => {
       isErrored={errorMessage !== undefined}
       onRetryError={() => refresh(true)}
       isFetching={isFetching}
-      onFetchNextPage={() => fetchNextPage({ page: nextPage })}
+      onFetchNextPage={() => {
+        console.log("==== Value of nextPage:", nextPage);
+        fetchNextPage({ page: nextPage });
+      }}
       isRefreshing={isRefreshing}
       onRefresh={() => refresh(false)}
       data={allData}

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Endpoint, EndpointParamList, fetchRequest } from "../api/service";
-import { convertToCamelCase } from "../utils";
+import { Endpoint, EndpointParamList, fetchRequest, Request } from "../api";
+import { convertToCamelCase, MutableCollection } from "../utils";
 import { PaginatedResponse } from "../models";
 
 interface State<Data, Param> {
@@ -32,12 +32,9 @@ export function usePagination<
   const total_pages = useRef(0);
   const total_results = useRef(0);
 
-  // Flag used to determine if we are currently resetting the fetched results
-  // Due to the batching (and unpredictable) behaviour of `setState`, we check if we are resetting before updating the `allData` state after fetching
-  const resetting = useRef(false);
+  const requests = useRef(new MutableCollection<Request>([]));
 
   const reset = useCallback(() => {
-    resetting.current = true;
     next_page.current = 1;
     total_pages.current = 0;
     total_results.current = 0;
@@ -47,17 +44,28 @@ export function usePagination<
   }, []);
 
   const fetch = useCallback(
-    async (params: P) => {
+    async (params: P, reset = false) => {
+      const inFlightRequests = await requests.current.getItems();
+      if (inFlightRequests.length > 0) {
+        inFlightRequests.forEach((r) => r.cancel());
+      }
+
+      const request = fetchRequest(endpoint, params);
+      await requests.current.setItems([request]);
+
       try {
-        const json = await fetchRequest(endpoint, params);
+        const json = await request.fetch();
+        if (request.getState() !== "finished") return;
+
+        const pendingRequests = await requests.current.remove(request);
+        if (pendingRequests.length > 0) return;
+
         const { page, totalPages, results, totalResults } = convertToCamelCase(
           json
         ) as PaginatedResponse<D[]>;
 
         setPagedData(results);
-        setAllData((allData) =>
-          resetting.current ? results : [...allData, ...results]
-        );
+        setAllData((allData) => (reset ? results : [...allData, ...results]));
 
         next_page.current = page + 1;
         total_pages.current = totalPages;
@@ -76,12 +84,16 @@ export function usePagination<
   const paramConfig = JSON.stringify(initialParams);
 
   useEffect(() => {
+    reset();
     setLoading(true);
+
     const params = JSON.parse(paramConfig);
     setTimeout(() => {
-      fetch(params).then(() => setLoading(false));
+      fetch(params, true).then(() => {
+        setLoading(false);
+      });
     }, 500);
-  }, [fetch, paramConfig]);
+  }, [reset, fetch, paramConfig]);
 
   const refresh = useCallback(
     (isRetry: boolean) => {
@@ -91,8 +103,7 @@ export function usePagination<
 
       const params = JSON.parse(paramConfig);
       setTimeout(() => {
-        fetch(params).then(() => {
-          resetting.current = false;
+        fetch(params, true).then(() => {
           setLoading(false);
           setRefreshing(false);
         });
@@ -105,12 +116,15 @@ export function usePagination<
     (params: P) => {
       if (next_page.current >= total_pages.current) return;
 
+      const oldParams = JSON.parse(paramConfig) as P;
+      const newParams = { ...oldParams, ...params };
+
       setFetching(true);
       setTimeout(() => {
-        fetch(params).then(() => setFetching(false));
+        fetch(newParams).then(() => setFetching(false));
       }, 1000);
     },
-    [fetch]
+    [fetch, paramConfig]
   );
 
   return {

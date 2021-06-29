@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Endpoint, EndpointParamList, fetchRequest } from "../api/service";
+import { Endpoint, EndpointParamList, fetchRequest } from "../api";
 import { convertToCamelCase } from "../utils";
 
 interface FetchResponse<T> {
@@ -29,7 +29,7 @@ export function useFetch<Response, T extends Endpoint = Endpoint>(
   const fetch = useCallback(async () => {
     try {
       const params = JSON.parse(fetchConfig);
-      const json = await fetchRequest(endpoint, params);
+      const json = await fetchRequest(endpoint, params).fetch();
       const data = convertToCamelCase(json);
       setData(data);
     } catch (error) {

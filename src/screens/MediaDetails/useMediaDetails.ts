@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { fetchRequest } from "../../api/service";
+import { fetchRequest } from "../../api";
 import {
   Cast,
   Credit,
@@ -38,9 +38,14 @@ export const useMediaDetails = (movieId: number): State => {
     const details = fetchRequest("MovieDetails", { movieId });
     const credits = fetchRequest("MovieCredits", { movieId });
     const recommendations = fetchRequest("MovieRecommendations", { movieId });
-    const vidoes = fetchRequest("MovieVideos", { movieId });
+    const videos = fetchRequest("MovieVideos", { movieId });
 
-    return Promise.all([details, credits, recommendations, vidoes])
+    return Promise.all([
+      details.fetch(),
+      credits.fetch(),
+      recommendations.fetch(),
+      videos.fetch(),
+    ])
       .then((jsons) => {
         const [details, credits, recommendations, videos] = jsons.map((json) =>
           convertToCamelCase(json)
