@@ -1,6 +1,6 @@
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { Pressable, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AppParamList } from "../../navigation/AppRoutes";
 import { NavigationBarItem } from "../../components/Navigation";
@@ -11,16 +11,20 @@ import { Caption } from "../../components/Caption";
 import { CheckmarkIcon } from "../../components/Icons";
 import { Colors, Spacing } from "../../components/theme";
 import { Text } from "../../components/Typography";
-import { useObservableState } from "../../hooks/useObservableState";
 import { SortOption } from "../../models";
+import { DiscoverParamList } from "../../navigation";
 
 export const FilterScreen: React.FC = () => {
   const { setOptions, pop } = useNavigation<
     StackNavigationProp<AppParamList>
   >();
+  const { navigate } = useNavigation<StackNavigationProp<DiscoverParamList>>();
+  const {
+    params: { option },
+  } = useRoute<RouteProp<AppParamList, "Filter">>();
 
-  const [selectedOption, setSelectedOption] = useObservableState<SortOption>(
-    "sort-option"
+  const [selectedOption, setSelectedOption] = useState<SortOption>(
+    option ?? "popular"
   );
 
   useLayoutEffect(() => {
@@ -80,7 +84,9 @@ export const FilterScreen: React.FC = () => {
       </ScrollView>
       <FooterActionButtons
         onClearAllPress={() => setSelectedOption("none")}
-        onApplyPress={() => pop()}
+        onApplyPress={() =>
+          navigate("GenreDetails", { sortOption: selectedOption })
+        }
       />
     </>
   );

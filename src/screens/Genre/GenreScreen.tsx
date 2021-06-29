@@ -6,37 +6,30 @@ import { AppParamList } from "../../navigation/AppRoutes";
 import { NavigationBarItem } from "../../components/Navigation";
 import { MediaGridList } from "../shared/MediaGridList";
 import { usePagination } from "../../hooks";
-import { Movie, remoteSortOptionForOption, SortOption } from "../../models";
-import { useObservableState } from "../../hooks/useObservableState";
-
-// Sort by: rating, date, popularity
+import { Movie, remoteSortOptionForOption } from "../../models";
 
 export const GenreScreen: React.FC = () => {
   const {
-    params: {
-      genre: { id, name },
-    },
+    params: { genre, sortOption },
   } = useRoute<RouteProp<DiscoverParamList, "GenreDetails">>();
   const { setOptions, navigate } = useNavigation<
     StackNavigationProp<AppParamList>
   >();
 
-  const [sortOptionParam] = useObservableState<SortOption>("sort-option");
-
   useLayoutEffect(
     () =>
       setOptions({
-        headerTitle: name,
+        headerTitle: genre?.name,
         headerRight: () => (
           <NavigationBarItem
             title="Filter"
             iconName="ios-filter-outline"
             position="right"
-            onPress={() => navigate("Filter")}
+            onPress={() => navigate("Filter", { option: sortOption })}
           />
         ),
       }),
-    [name, setOptions, navigate]
+    [genre, sortOption, setOptions, navigate]
   );
 
   const {
@@ -50,8 +43,8 @@ export const GenreScreen: React.FC = () => {
     refresh,
   } = usePagination<Movie>("DiscoverMovies", {
     page: 1,
-    genreIds: [id],
-    sortOption: remoteSortOptionForOption[sortOptionParam ?? "none"],
+    genreIds: [genre?.id ?? 0],
+    sortOption: remoteSortOptionForOption[sortOption ?? "popular"],
   });
 
   return (

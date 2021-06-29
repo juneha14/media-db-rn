@@ -8,7 +8,7 @@ import {
 import { TabRoutes } from "./TabRoutes";
 import { FilterScreen } from "../screens/Filter";
 import { Colors } from "../components/theme";
-import { Text } from "../components/Typography";
+import { SortOption } from "../models";
 
 export type AppParamList = ModalParamList & { Tabs: undefined };
 
@@ -30,7 +30,7 @@ export const AppRoutes: React.FC = () => {
         <Stack.Screen
           name="Filter"
           component={FilterScreen}
-          options={{ headerLeft: () => <Text variant="body">Hello</Text> }}
+          options={{ headerTitle: "Sort by" }}
         />
       </Stack.Navigator>
     </NavigationContainer>
@@ -48,13 +48,6 @@ const modalScreenOptions: StackNavigationOptions = {
   },
 };
 
-// Create navigation bar items - set within the screen using navigation setOptions
-// ModalParamList
-// Custom useNavigation, useParams hooks
-// Cannot pass in function as param - non-serializable
-// Add filter functionality to Genre details screen
-// Filter icon on top right navigation bar item indicating that filter has been applied
-
 type ModalParamList = {
-  Filter: undefined;
+  Filter: { option?: SortOption };
 };

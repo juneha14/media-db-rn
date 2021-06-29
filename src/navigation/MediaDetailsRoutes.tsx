@@ -13,7 +13,7 @@ import {
 import { GenreScreen } from "../screens/Genre";
 
 import { KnownForMedia } from "../screens/Credits/utils";
-import { Genre } from "../models";
+import { Genre, SortOption } from "../models";
 
 export type MediaDetailsParamList = {
   MediaDetails: { id: number };
@@ -21,7 +21,7 @@ export type MediaDetailsParamList = {
   CreditList: { id: number };
   CreditDetails: { id: number };
   CreditKnownForList: { media: KnownForMedia[] };
-  GenreDetails: { genre: Genre };
+  GenreDetails: { genre?: Genre; sortOption?: SortOption };
 };
 
 type RouteConfig = { component: React.FC; options?: StackNavigationOptions };
