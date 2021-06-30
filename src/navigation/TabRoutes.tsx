@@ -1,14 +1,13 @@
 import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { DiscoverRoutes } from "./DiscoverRoutes";
+import { FavouriteRoutes } from "./FavouriteRoutes";
 import { Ionicons } from "@expo/vector-icons";
 import { Box } from "../components/Box";
 import { Text } from "../components/Typography";
 import { Colors } from "../components/theme";
-import { DiscoverRoutes } from "./DiscoverRoutes";
-import { FavouriteRoutes } from "./FavouriteRoutes";
 
-export type TabParamList = {
+type TabParamList = {
   Discover: undefined;
   Search: undefined;
   Favourite: undefined;
@@ -18,7 +17,6 @@ const Tabs = createBottomTabNavigator<TabParamList>();
 
 export const TabRoutes: React.FC = () => {
   return (
-    // <NavigationContainer>
     <Tabs.Navigator
       tabBarOptions={{
         activeTintColor: Colors.IconOnPrimary,
@@ -54,7 +52,6 @@ export const TabRoutes: React.FC = () => {
         }}
       />
     </Tabs.Navigator>
-    // </NavigationContainer>
   );
 };
 

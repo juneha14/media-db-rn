@@ -1,15 +1,15 @@
-import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
-import { Colors } from "../components/theme";
-import { FavouriteScreen } from "../screens/Favourite";
+import { createStackNavigator } from "@react-navigation/stack";
 import {
   MediaDetailsParamList,
   MediaDetailsRoutes,
 } from "./MediaDetailsRoutes";
+import { StackRouteParamList } from "./Routes";
+import { FavouriteScreen } from "../screens/Favourite";
+import { Colors } from "../components/theme";
 
-export type FavouriteParamList = {
-  FavouriteList: undefined;
-} & MediaDetailsParamList;
+type FavouriteParamList = Pick<StackRouteParamList, "FavouriteList"> &
+  MediaDetailsParamList;
 
 const Stack = createStackNavigator<FavouriteParamList>();
 

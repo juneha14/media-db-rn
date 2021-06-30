@@ -3,6 +3,7 @@
 
 import React from "react";
 import { StackNavigationOptions } from "@react-navigation/stack";
+import { StackRouteParamList } from "./Routes";
 import { MediaDetailsScreen } from "../screens/MediaDetails";
 import { RecommendedScreen } from "../screens/Recommended";
 import {
@@ -12,17 +13,15 @@ import {
 } from "../screens/Credits";
 import { GenreScreen } from "../screens/Genre";
 
-import { KnownForMedia } from "../screens/Credits/utils";
-import { Genre, SortOption } from "../models";
-
-export type MediaDetailsParamList = {
-  MediaDetails: { id: number };
-  RecommendedList: { id: number };
-  CreditList: { id: number };
-  CreditDetails: { id: number };
-  CreditKnownForList: { media: KnownForMedia[] };
-  GenreDetails: { genre?: Genre; sortOption?: SortOption };
-};
+export type MediaDetailsParamList = Pick<
+  StackRouteParamList,
+  | "MediaDetails"
+  | "RecommendedList"
+  | "CreditList"
+  | "CreditDetails"
+  | "CreditKnownForList"
+  | "GenreDetails"
+>;
 
 type RouteConfig = { component: React.FC; options?: StackNavigationOptions };
 

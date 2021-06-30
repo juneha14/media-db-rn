@@ -1,17 +1,17 @@
 import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
 import {
   createStackNavigator,
   StackNavigationOptions,
   TransitionPresets,
 } from "@react-navigation/stack";
+import { NavigationContainer } from "@react-navigation/native";
+import { ModalRouteParamList } from "./Routes";
 import { TabRoutes } from "./TabRoutes";
+
 import { FilterScreen } from "../screens/Filter";
 import { Colors } from "../components/theme";
-import { SortOption } from "../models";
 
-export type AppParamList = ModalParamList & { Tabs: undefined };
-
+type AppParamList = ModalRouteParamList & { Tabs: undefined };
 const Stack = createStackNavigator<AppParamList>();
 
 export const AppRoutes: React.FC = () => {
@@ -46,8 +46,4 @@ const modalScreenOptions: StackNavigationOptions = {
     backgroundColor: Colors.SurfaceBackgroundPressed,
     shadowColor: Colors.Border, // Border underneath the navigation header
   },
-};
-
-type ModalParamList = {
-  Filter: { option?: SortOption };
 };

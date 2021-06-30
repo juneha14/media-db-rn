@@ -6,10 +6,10 @@ import {
   MediaDetailsParamList,
   MediaDetailsRoutes,
 } from "./MediaDetailsRoutes";
+import { StackRouteParamList } from "./Routes";
 
-export type DiscoverParamList = {
-  MediaList: undefined;
-} & MediaDetailsParamList;
+type DiscoverParamList = Pick<StackRouteParamList, "MediaList"> &
+  MediaDetailsParamList;
 
 const Stack = createStackNavigator<DiscoverParamList>();
 
