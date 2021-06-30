@@ -81,7 +81,7 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
       <Header
         style={{
           paddingHorizontal: Spacing.defaultMargin,
-          paddingBottom: Spacing.m,
+          paddingBottom: Spacing.l,
           backgroundColor: Colors.SurfaceForeground,
         }}
         id={infoDetails.id}

@@ -1,9 +1,6 @@
 import React, { useCallback } from "react";
 import { StyleSheet } from "react-native";
 import * as WebBrowser from "expo-web-browser";
-import { useRoute, RouteProp, useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { DiscoverParamList } from "../../navigation";
 import { Header } from "./components/Header";
 import { KnownForList } from "./components/KnownForList";
 import { useCreditDetails } from "./useCreditDetails";
@@ -11,12 +8,13 @@ import { Section } from "../../components/Section";
 import { Spacing } from "../../components/theme";
 import { QueryContainer } from "../../components/QueryContainer";
 import { BackNavigationButton } from "../shared";
+import { useAppStackNavigation, useRouteParams } from "../../hooks";
 
 export const CreditsDetailsScreen: React.FC = () => {
   const {
     params: { id },
-  } = useRoute<RouteProp<DiscoverParamList, "CreditDetails">>();
-  const { push, pop } = useNavigation<StackNavigationProp<DiscoverParamList>>();
+  } = useRouteParams<"CreditDetails">();
+  const { push, pop } = useAppStackNavigation();
 
   const {
     loading,

@@ -1,18 +1,15 @@
 import React, { useCallback, useMemo } from "react";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
 import { PreviewList } from "../../components/Preview";
 import { QueryContainer } from "../../components/QueryContainer";
-import { useFetch } from "../../hooks";
+import { useAppStackNavigation, useFetch, useRouteParams } from "../../hooks";
 import { Credit } from "../../models";
-import { DiscoverParamList } from "../../navigation";
 import { ViewPager } from "../../components/ViewPager";
 
 export const CreditsScreen: React.FC = () => {
   const {
     params: { id },
-  } = useRoute<RouteProp<DiscoverParamList, "CreditList">>();
-  const { push } = useNavigation<StackNavigationProp<DiscoverParamList>>();
+  } = useRouteParams<"CreditList">();
+  const { push } = useAppStackNavigation();
 
   const { isLoading, error, data, refresh } = useFetch<Credit>("MovieCredits", {
     movieId: id,

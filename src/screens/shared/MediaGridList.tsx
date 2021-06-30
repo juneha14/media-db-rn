@@ -1,16 +1,14 @@
 import React, { useCallback, useMemo } from "react";
 import { Dimensions, StyleSheet } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { DiscoverParamList } from "../../navigation";
 import { PaginatedList } from "../../components/PaginatedList";
 import { QueryContainer } from "../../components/QueryContainer";
 import { Favourite, Movie } from "../../models";
 import { MediaCell } from "./MediaCell";
 import { Colors, Spacing } from "../../components/theme";
 import { useFavouriteState } from "./useFavouriteState";
-import { FlatList } from "react-native-gesture-handler";
+import { useAppStackNavigation } from "../../hooks";
 
 interface MediaGridListProps {
   isLoading: boolean;
@@ -40,7 +38,7 @@ export const MediaGridList: React.FC<MediaGridListProps> = ({
   const { favourites, onToggleLike } = useFavouriteState();
 
   const { top } = useSafeAreaInsets();
-  const { push } = useNavigation<StackNavigationProp<DiscoverParamList>>();
+  const { push } = useAppStackNavigation();
 
   const width = useMemo(
     () => Dimensions.get("window").width / 2 - 15, // (screenWidth / 2) - (paddingHorizontal / 2 + marginHorizontal / 2)

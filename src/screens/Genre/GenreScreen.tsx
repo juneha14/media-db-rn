@@ -1,20 +1,18 @@
 import React, { useLayoutEffect } from "react";
-import { useRoute, RouteProp, useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { DiscoverParamList } from "../../navigation";
-import { AppParamList } from "../../navigation/AppRoutes";
 import { NavigationBarItem } from "../../components/Navigation";
 import { MediaGridList } from "../shared/MediaGridList";
-import { usePagination } from "../../hooks";
+import {
+  useAppModalNavigation,
+  usePagination,
+  useRouteParams,
+} from "../../hooks";
 import { Movie, remoteSortOptionForOption } from "../../models";
 
 export const GenreScreen: React.FC = () => {
   const {
     params: { genre, sortOption },
-  } = useRoute<RouteProp<DiscoverParamList, "GenreDetails">>();
-  const { setOptions, navigate } = useNavigation<
-    StackNavigationProp<AppParamList>
-  >();
+  } = useRouteParams<"GenreDetails">();
+  const { setOptions, navigate } = useAppModalNavigation();
 
   useLayoutEffect(
     () =>
