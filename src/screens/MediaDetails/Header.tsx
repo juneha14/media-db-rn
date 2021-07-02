@@ -22,7 +22,7 @@ interface HeaderProps {
   genres: Genre[];
   trailer?: string;
   isLiked?: boolean;
-  onSelectGenre: (id: number) => void;
+  onSelectGenre: (genre: Genre) => void;
   onSelectFavourite: () => void;
   onSelectPlayTrailer?: (url: string) => void;
   style?: StyleProp<ViewStyle>;
@@ -49,9 +49,7 @@ export const Header: React.FC<HeaderProps> = ({
     : releaseDate;
 
   const onGenrePress = useCallback(
-    (id: number) => () => {
-      onSelectGenre(id);
-    },
+    (genre: Genre) => () => onSelectGenre(genre),
     [onSelectGenre]
   );
 
@@ -74,7 +72,7 @@ export const Header: React.FC<HeaderProps> = ({
         tags={genres.map((genre) => ({
           title: genre.name,
           borderColor: Colors.ActionPrimary,
-          onPress: onGenrePress(genre.id),
+          onPress: onGenrePress(genre),
         }))}
       />
       <Box style={styles.buttonsContainer}>

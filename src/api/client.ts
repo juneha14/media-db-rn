@@ -1,86 +1,72 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-empty-function */
+
+import { RemoteSortOption } from "../models";
+import { Request } from "./Request";
 
 const API_KEY = "37bbcf6f05e7c353e1715488f9c723a1";
 const baseUrl = "https://api.themoviedb.org/3";
 
-interface MetaData {
-  method: "GET" | "POST";
-  body?: string;
-  headers: Record<string, string>;
-}
-
-// Client
-
-export async function client(
-  url: string,
-  headers?: Record<string, string>,
-  body?: any
-): Promise<any> {
-  const metaData: MetaData = {
-    method: body ? "POST" : "GET",
-    headers: { ...headers, "Content-Type": "application/json" },
-  };
-
-  if (body) {
-    metaData.body = JSON.stringify(body);
-  }
-
-  try {
-    const res = await fetch(url, metaData);
-    const data = await res.json();
-
-    if (res.ok) return data;
-    throw new Error(res.statusText);
-  } catch (error) {
-    console.error(
-      `Failed to ${metaData.method} from ${url} due to error:`,
-      error
-    );
-    return Promise.reject(error.message);
-  }
-}
+export function client() {}
 
 // Movies
 
-client.getNowPlayingMovies = async (page = 1) => {
+client.getNowPlayingMovies = (page = 1) => {
   const url = constructUrl("/movie/now_playing", { page });
-  return client(url);
+  return new Request(url);
 };
 
-client.getMovieDetails = async (movieId: number) => {
+client.getMovieDetails = (movieId: number) => {
   const url = constructUrl(`/movie/${movieId}`, { movieId });
-  return client(url);
+  return new Request(url);
 };
 
-client.getMovieCredits = async (movieId: number) => {
+client.getMovieCredits = (movieId: number) => {
   const url = constructUrl(`/movie/${movieId}/credits`);
-  return client(url);
+  return new Request(url);
 };
 
-client.getMovieRecommendations = async (movieId: number) => {
+client.getMovieRecommendations = (movieId: number) => {
   const url = constructUrl(`/movie/${movieId}/recommendations`);
-  return client(url);
+  return new Request(url);
 };
 
-client.getMovieVideos = async (movieId: number) => {
+client.getMovieVideos = (movieId: number) => {
   const url = constructUrl(`/movie/${movieId}/videos`);
-  return client(url);
+  return new Request(url);
 };
 
-client.getPersonDetails = async (personId: number) => {
+// People
+
+client.getPersonDetails = (personId: number) => {
   const url = constructUrl(`/person/${personId}`);
-  return client(url);
+  return new Request(url);
 };
 
-client.getPersonExternalLinks = async (personId: number) => {
+client.getPersonExternalLinks = (personId: number) => {
   const url = constructUrl(`/person/${personId}/external_ids`);
-  return client(url);
+  return new Request(url);
 };
 
-client.getPersonMovieCredits = async (personId: number) => {
+client.getPersonMovieCredits = (personId: number) => {
   const url = constructUrl(`/person/${personId}/movie_credits`);
-  return client(url);
+  return new Request(url);
+};
+
+// Discover
+
+client.discoverMovies = (
+  page = 1,
+  genreIds?: number[],
+  sortOption?: RemoteSortOption
+) => {
+  const url = constructUrl(`/discover/movie`, {
+    page,
+    with_genres: genreIds,
+    sort_by: sortOption,
+  });
+  return new Request(url);
 };
 
 // Helpers

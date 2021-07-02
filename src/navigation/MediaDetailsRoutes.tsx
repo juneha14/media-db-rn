@@ -3,6 +3,7 @@
 
 import React from "react";
 import { StackNavigationOptions } from "@react-navigation/stack";
+import { StackRouteParamList } from "./Routes";
 import { MediaDetailsScreen } from "../screens/MediaDetails";
 import { RecommendedScreen } from "../screens/Recommended";
 import {
@@ -10,17 +11,19 @@ import {
   CreditsScreen,
   CreditsKnownForScreen,
 } from "../screens/Credits";
-import { KnownForMedia } from "../screens/Credits/utils";
+import { GenreScreen } from "../screens/Genre";
 
-export type MediaDetailsParamList = {
-  MediaDetails: { id: number };
-  RecommendedList: { id: number };
-  CreditList: { id: number };
-  CreditDetails: { id: number };
-  CreditKnownForList: { media: KnownForMedia[] };
-};
+export type MediaDetailsParamList = Pick<
+  StackRouteParamList,
+  | "MediaDetails"
+  | "RecommendedList"
+  | "CreditList"
+  | "CreditDetails"
+  | "CreditKnownForList"
+  | "GenreDetails"
+>;
 
-type RouteConfig = { component: React.FC; options: StackNavigationOptions };
+type RouteConfig = { component: React.FC; options?: StackNavigationOptions };
 
 const mediaDetailsScreens: Record<keyof MediaDetailsParamList, RouteConfig> = {
   MediaDetails: {
@@ -42,6 +45,10 @@ const mediaDetailsScreens: Record<keyof MediaDetailsParamList, RouteConfig> = {
   CreditKnownForList: {
     component: CreditsKnownForScreen,
     options: { headerTitle: "Known for" },
+  },
+  GenreDetails: {
+    component: GenreScreen,
+    options: undefined, // Header title is based off of genre's name. Configured within the screen
   },
 };
 

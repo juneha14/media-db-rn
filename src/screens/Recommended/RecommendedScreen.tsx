@@ -1,18 +1,15 @@
 import React, { useCallback } from "react";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { DiscoverParamList } from "../../navigation";
 import { QueryContainer } from "../../components/QueryContainer";
 import { PreviewList } from "../../components/Preview";
 import { Rating } from "../../components/Rating";
-import { useFetch } from "../../hooks";
+import { useAppStackNavigation, useFetch, useRouteParams } from "../../hooks";
 import { Movie, PaginatedResponse } from "../../models";
 
 export const RecommendedScreen: React.FC = () => {
   const {
     params: { id },
-  } = useRoute<RouteProp<DiscoverParamList, "RecommendedList">>();
-  const { push } = useNavigation<StackNavigationProp<DiscoverParamList>>();
+  } = useRouteParams<"RecommendedList">();
+  const { push } = useAppStackNavigation();
 
   const { isLoading, error, data, refresh } = useFetch<
     PaginatedResponse<Movie[]>

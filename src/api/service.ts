@@ -1,5 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { client } from "./client";
+import { RemoteSortOption } from "../models";
+import { Request } from "./Request";
 
 export type EndpointParamList = {
   NowPlayingMovies: { page: number };
@@ -8,17 +9,24 @@ export type EndpointParamList = {
   MovieCredits: { movieId: number };
   MovieRecommendations: { movieId: number };
   MovieVideos: { movieId: number };
+
   PersonDetails: { personId: number };
   PersonExternalIds: { personId: number };
   PersonMovieCredits: { personId: number };
+
+  DiscoverMovies: {
+    page: number;
+    genreIds: number[];
+    sortOption?: RemoteSortOption;
+  };
 };
 
 export type Endpoint = keyof EndpointParamList;
 
-export async function fetchRequest<T extends Endpoint>(
+export function fetchRequest<T extends Endpoint>(
   endpoint: T,
   params: EndpointParamList[T]
-): Promise<any> {
+): Request {
   switch (endpoint) {
     case "NowPlayingMovies": {
       const { page } = params as EndpointParamList["NowPlayingMovies"];
@@ -40,6 +48,7 @@ export async function fetchRequest<T extends Endpoint>(
       const { movieId } = params as EndpointParamList["MovieVideos"];
       return client.getMovieVideos(movieId);
     }
+
     case "PersonDetails": {
       const { personId } = params as EndpointParamList["PersonDetails"];
       return client.getPersonDetails(personId);
@@ -51,6 +60,19 @@ export async function fetchRequest<T extends Endpoint>(
     case "PersonMovieCredits": {
       const { personId } = params as EndpointParamList["PersonMovieCredits"];
       return client.getPersonMovieCredits(personId);
+    }
+
+    case "DiscoverMovies": {
+      const {
+        page,
+        genreIds,
+        sortOption,
+      } = params as EndpointParamList["DiscoverMovies"];
+      return client.discoverMovies(page, genreIds, sortOption);
+    }
+
+    default: {
+      return new Request("");
     }
   }
 }

@@ -7,3 +7,8 @@ export { PersonDetails } from "./PersonDetails";
 export { ExternalLinks } from "./ExternalLinks";
 export { PersonCredits } from "./PersonCredits";
 export { Videos, VideoLink } from "./Videos";
+export {
+  SortOption,
+  RemoteSortOption,
+  remoteSortOptionForOption,
+} from "./SortOption";

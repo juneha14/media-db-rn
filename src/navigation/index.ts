@@ -1,3 +1,4 @@
-export { TabRoutes, TabParamList } from "./TabRoutes";
-export { DiscoverParamList, DiscoverRoutes } from "./DiscoverRoutes";
-export { FavouriteParamList, FavouriteRoutes } from "./FavouriteRoutes";
+export { TabRoutes } from "./TabRoutes";
+export { DiscoverRoutes } from "./DiscoverRoutes";
+export { FavouriteRoutes } from "./FavouriteRoutes";
+export { Screens, StackRouteParamList, ModalRouteParamList } from "./Routes";

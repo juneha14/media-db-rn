@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { fetchRequest } from "../../api/service";
+import { fetchRequest } from "../../api";
 import { PersonDetails } from "../../models";
 import { convertToCamelCase } from "../../utils";
 import {
@@ -30,7 +30,11 @@ export const useCreditDetails = (id: number): State => {
     const externalLinks = fetchRequest("PersonExternalIds", { personId: id });
     const credits = fetchRequest("PersonMovieCredits", { personId: id });
 
-    return Promise.all([personDetails, externalLinks, credits])
+    return Promise.all([
+      personDetails.fetch(),
+      externalLinks.fetch(),
+      credits.fetch(),
+    ])
       .then((jsons) => {
         const [details, links, credits] = jsons.map((json) =>
           convertToCamelCase(json)

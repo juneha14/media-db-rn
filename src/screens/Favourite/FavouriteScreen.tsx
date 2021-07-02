@@ -1,15 +1,14 @@
 import React, { useCallback, useMemo, useRef } from "react";
 import { Dimensions, StyleSheet } from "react-native";
-import { useNavigation, useScrollToTop } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
+import { useScrollToTop } from "@react-navigation/native";
 import { Colors, Spacing } from "../../components/theme";
 import { Favourite } from "../../models";
-import { FavouriteParamList } from "../../navigation";
 import { MediaCell, useFavouriteState } from "../shared";
 import { FlatList } from "react-native-gesture-handler";
+import { useAppStackNavigation } from "../../hooks";
 
 export const FavouriteScreen: React.FC = () => {
-  const { push } = useNavigation<StackNavigationProp<FavouriteParamList>>();
+  const { push } = useAppStackNavigation();
   const { favourites, onToggleLike } = useFavouriteState();
 
   const listRef = useRef<FlatList<Favourite> | null>(null);
