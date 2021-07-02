@@ -18,7 +18,6 @@ export const IconLabel: React.FC<IconLabelProps> = React.memo(
         style={[
           {
             flexDirection: labelPosition === "right" ? "row" : "column",
-            justifyContent: "center",
             alignItems: "center",
           },
           style,
@@ -29,7 +28,7 @@ export const IconLabel: React.FC<IconLabelProps> = React.memo(
           <Text
             style={{
               marginTop: labelPosition === "below" ? Spacing.s : undefined,
-              marginLeft: labelPosition === "right" ? Spacing.s : undefined,
+              marginLeft: labelPosition === "right" ? Spacing.m : undefined,
             }}
             variant="body"
           >
