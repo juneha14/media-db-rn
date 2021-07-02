@@ -10,6 +10,7 @@ export type StackRouteParamList = {
   CreditKnownForList: { media: KnownForMedia[] };
   GenreDetails: { genre?: Genre; sortOption?: SortOption };
   FavouriteList: undefined;
+  Search: undefined;
 };
 
 export type ModalRouteParamList = {
