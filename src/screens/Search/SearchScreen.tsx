@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Pressable, StyleProp, StyleSheet, ViewStyle } from "react-native";
+import {
+  Keyboard,
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  ViewStyle,
+} from "react-native";
 import { ScrollView, TextInput } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Box } from "../../components/Box";
@@ -7,16 +13,20 @@ import { IconLabel } from "../../components/Icons";
 import { Icon, IconName } from "../../components/Icons/Icon";
 import { Colors, Spacing } from "../../components/theme";
 import { Text } from "../../components/Typography";
+import { SearchBar } from "./components/SearchBar";
 
-// Create search bar component
-// Add search bar component to navigation header
 // People list screen
 // Genre list screen
 
 export const SearchScreen: React.FC = () => {
+  const { top } = useSafeAreaInsets();
+
   return (
     <>
-      <SearchBar />
+      <SearchBar
+        style={{ paddingTop: top }}
+        onSubmit={(text) => console.log("==== Value of text:", text)}
+      />
       <ScrollView
         style={{
           backgroundColor: Colors.SurfaceBackground,
@@ -45,48 +55,6 @@ export const SearchScreen: React.FC = () => {
         />
       </ScrollView>
     </>
-  );
-};
-
-const SearchBar = () => {
-  const { top } = useSafeAreaInsets();
-  const [active, setActive] = useState(false);
-
-  return (
-    <Box
-      style={{
-        flexDirection: "row",
-        alignItems: "center",
-        paddingTop: top,
-        paddingBottom: Spacing.m,
-        paddingHorizontal: Spacing.m,
-        backgroundColor: Colors.SurfaceNeutral,
-      }}
-    >
-      <Box
-        style={{
-          flexGrow: 1,
-          flexDirection: "row",
-          alignItems: "center",
-          padding: Spacing.m,
-          marginRight: Spacing.m,
-          borderRadius: 4,
-          backgroundColor: Colors.SurfaceForeground,
-        }}
-      >
-        <Icon name="ios-search-outline" size="small" />
-        <TextInput
-          style={{ color: Colors.TextNeutral, marginLeft: Spacing.m }}
-          placeholder="Search for movies, actors, etc."
-          placeholderTextColor={Colors.TextNeutral}
-          enablesReturnKeyAutomatically
-        />
-        <Box />
-      </Box>
-      <Pressable style={{ flexShrink: 1, justifyContent: "flex-end" }}>
-        <Text variant="body">Cancel</Text>
-      </Pressable>
-    </Box>
   );
 };
 
@@ -188,11 +156,10 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.defaultMargin,
     backgroundColor: Colors.SurfaceForeground,
   },
-  recentSearches: {
-    marginVertical: Spacing.l,
-  },
+  recentSearches: {},
   sectionContainer: {
     paddingHorizontal: Spacing.defaultMargin,
+    marginTop: Spacing.l,
     backgroundColor: Colors.SurfaceForeground,
   },
 });
