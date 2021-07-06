@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { Box } from "../../../components/Box";
 import { Text } from "../../../components/Typography";
-import { Icon } from "../../../components/Icons";
+import { Icon, RemoveIcon } from "../../../components/Icons";
 import { Spacing, Colors } from "../../../components/theme";
 
 interface SearchBarProps {
@@ -50,6 +50,7 @@ export const SearchBar: React.FC<SearchBarProps> = React.memo(
           <TextInput
             ref={textInputRef}
             style={styles.textInput}
+            autoCorrect={false}
             placeholder="Search for movies, actors, etc."
             placeholderTextColor={Colors.TextNeutral}
             enablesReturnKeyAutomatically
@@ -58,9 +59,7 @@ export const SearchBar: React.FC<SearchBarProps> = React.memo(
             onSubmitEditing={onSubmitValue(text)}
           />
           {text.length > 0 && (
-            <Pressable onPress={onClearTextPress}>
-              <Icon name="ios-close-outline" size="small" />
-            </Pressable>
+            <RemoveIcon size="small" onPress={onClearTextPress} />
           )}
           <Box />
         </Box>
@@ -88,7 +87,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: Spacing.m,
     marginRight: Spacing.m,
-    borderRadius: 4,
+    borderRadius: 5,
     backgroundColor: Colors.SurfaceNeutral,
   },
   textInput: {
