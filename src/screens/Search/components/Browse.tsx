@@ -2,18 +2,19 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { Box } from "../../../components/Box";
 import { Spacing, Colors } from "../../../components/theme";
+import { useAppStackNavigation } from "../../../hooks";
 import { ActionableRow } from "./ActionableRow";
 
 export const Browse: React.FC = () => {
+  const { push } = useAppStackNavigation();
+
   return (
     <Box style={styles.container}>
       <ActionableRow
         title="Browse People"
         leftIcon="ios-people-outline"
         action="navigate"
-        onRowPress={() =>
-          console.log("========== File: Browse.tsx, Line: 10 ==========")
-        }
+        onRowPress={() => push("PeopleList")}
       />
       <ActionableRow
         title="Browse Genres"

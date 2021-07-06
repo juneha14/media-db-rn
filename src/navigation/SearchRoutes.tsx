@@ -6,9 +6,9 @@ import {
 } from "./MediaDetailsRoutes";
 import { StackRouteParamList } from "./Routes";
 import { Colors } from "../components/theme";
-import { SearchScreen } from "../screens/Search";
+import { PeopleListScreen, SearchScreen } from "../screens/Search";
 
-type SearchParamList = Pick<StackRouteParamList, "Search"> &
+type SearchParamList = Pick<StackRouteParamList, "Search" | "PeopleList"> &
   MediaDetailsParamList;
 
 const Stack = createStackNavigator<SearchParamList>();
@@ -27,6 +27,11 @@ export const SearchRoutes: React.FC = () => {
         name="Search"
         component={SearchScreen}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="PeopleList"
+        component={PeopleListScreen}
+        options={{ headerTitle: "Popular People" }}
       />
       {MediaDetailsRoutes(Stack)}
     </Stack.Navigator>

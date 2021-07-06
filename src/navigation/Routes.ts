@@ -11,6 +11,7 @@ export type StackRouteParamList = {
   GenreDetails: { genre?: Genre; sortOption?: SortOption };
   FavouriteList: undefined;
   Search: undefined;
+  PeopleList: undefined;
 };
 
 export type ModalRouteParamList = {
