@@ -39,6 +39,11 @@ client.getMovieVideos = (movieId: number) => {
 
 // People
 
+client.getPopularPeople = (page = 1) => {
+  const url = constructUrl("/person/popular", { page });
+  return new Request(url);
+};
+
 client.getPersonDetails = (personId: number) => {
   const url = constructUrl(`/person/${personId}`);
   return new Request(url);
