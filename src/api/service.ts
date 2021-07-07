@@ -20,6 +20,7 @@ export type EndpointParamList = {
     genreIds: number[];
     sortOption?: RemoteSortOption;
   };
+  GenreMovieList: undefined;
 };
 
 export type Endpoint = keyof EndpointParamList;
@@ -74,6 +75,9 @@ export function fetchRequest<T extends Endpoint>(
         sortOption,
       } = params as EndpointParamList["DiscoverMovies"];
       return client.discoverMovies(page, genreIds, sortOption);
+    }
+    case "GenreMovieList": {
+      return client.getMovieGenres();
     }
 
     default: {

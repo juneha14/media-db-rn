@@ -66,11 +66,16 @@ client.discoverMovies = (
   genreIds?: number[],
   sortOption?: RemoteSortOption
 ) => {
-  const url = constructUrl(`/discover/movie`, {
+  const url = constructUrl("/discover/movie", {
     page,
     with_genres: genreIds,
     sort_by: sortOption,
   });
+  return new Request(url);
+};
+
+client.getMovieGenres = () => {
+  const url = constructUrl("/genre/movie/list");
   return new Request(url);
 };
 

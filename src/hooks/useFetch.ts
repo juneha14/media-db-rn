@@ -12,14 +12,14 @@ interface FetchResponse<T> {
 
 export function useFetch<Response, T extends Endpoint = Endpoint>(
   endpoint: T,
-  params: EndpointParamList[T]
+  params?: EndpointParamList[T]
 ): FetchResponse<Response> {
   // Since `params` is an object, it will create a new reference every time this hook is called in a component
   // We cannot add `params` as part of our dependency array, since this will cause an infinite fetch/rendering
   // Ideally, we need some form of 'deep equality' check to determine if the object's contents has actually changed
   // However, in general, 'deep equality' checking is a bad idea - using a JSON string is sufficient in cases where the object tree is small
   // https://twitter.com/dan_abramov/status/1104414272753487872
-  const fetchConfig = JSON.stringify(params);
+  const fetchConfig = JSON.stringify(params ?? null);
 
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
