@@ -8,6 +8,7 @@ export type StackRouteParamList = {
   CreditList: { id: number };
   CreditDetails: { id: number };
   CreditKnownForList: { media: KnownForMedia[] };
+  GenreList: undefined;
   GenreDetails: { genre?: Genre; sortOption?: SortOption };
   FavouriteList: undefined;
   Search: undefined;

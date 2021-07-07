@@ -20,9 +20,7 @@ export const Browse: React.FC = () => {
         title="Browse Genres"
         leftIcon="ios-tv-outline"
         action="navigate"
-        onRowPress={() =>
-          console.log("========== File: Browse.tsx, Line: 10 ==========")
-        }
+        onRowPress={() => push("GenreList")}
       />
     </Box>
   );

@@ -6,9 +6,6 @@ import { Browse } from "./components/Browse";
 import { RecentSearches } from "./components/RecentSearches";
 import { SearchBar } from "./components/SearchBar";
 
-// People list screen
-// Genre list screen
-
 export const SearchScreen: React.FC = () => {
   const { top } = useSafeAreaInsets();
 
