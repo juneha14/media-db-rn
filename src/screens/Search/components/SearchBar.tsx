@@ -14,11 +14,12 @@ import { Spacing, Colors } from "../../../components/theme";
 
 interface SearchBarProps {
   onSubmit: (text: string) => void;
+  onCancel: () => void;
   style?: StyleProp<ViewStyle>;
 }
 
 export const SearchBar: React.FC<SearchBarProps> = React.memo(
-  ({ onSubmit, style }) => {
+  ({ onSubmit, onCancel, style }) => {
     const [active, setActive] = useState(false);
     const [text, setText] = useState("");
 
@@ -37,7 +38,8 @@ export const SearchBar: React.FC<SearchBarProps> = React.memo(
       setActive(false);
       Keyboard.dismiss();
       textInputRef.current?.clear();
-    }, []);
+      onCancel();
+    }, [onCancel]);
 
     const onSubmitValue = useCallback((text: string) => () => onSubmit(text), [
       onSubmit,
