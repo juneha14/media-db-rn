@@ -21,6 +21,8 @@ export type EndpointParamList = {
     sortOption?: RemoteSortOption;
   };
   GenreMovieList: undefined;
+
+  Search: { page: number; query: string };
 };
 
 export type Endpoint = keyof EndpointParamList;
@@ -78,6 +80,11 @@ export function fetchRequest<T extends Endpoint>(
     }
     case "GenreMovieList": {
       return client.getMovieGenres();
+    }
+
+    case "Search": {
+      const { page, query } = params as EndpointParamList["Search"];
+      return client.search(query, page);
     }
 
     default: {

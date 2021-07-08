@@ -79,6 +79,13 @@ client.getMovieGenres = () => {
   return new Request(url);
 };
 
+// Search
+
+client.search = (query: string, page = 1) => {
+  const url = constructUrl("/search/multi", { query, page });
+  return new Request(url);
+};
+
 // Helpers
 
 type ResourcePath = string;
