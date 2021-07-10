@@ -37,6 +37,7 @@ export const PeopleListScreen: React.FC = () => {
         <ContentPreview
           style={styles.row}
           imgUrl={item.profilePath}
+          roundBorder={false}
           title={item.name}
           description={knownFor}
           onPress={onSelectPerson(item.id)}

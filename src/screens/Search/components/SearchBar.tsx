@@ -56,6 +56,7 @@ export const SearchBar: React.FC<SearchBarProps> = React.memo(
             placeholder="Search for movies, actors, etc."
             placeholderTextColor={Colors.TextNeutral}
             enablesReturnKeyAutomatically
+            returnKeyType="search"
             onFocus={onFocus}
             onChangeText={onChangeText}
             onSubmitEditing={onSubmitValue(text)}
