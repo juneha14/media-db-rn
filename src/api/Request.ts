@@ -2,14 +2,13 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 import { Mutex } from "async-mutex";
+import { v4 as uuidv4 } from "uuid";
 
 interface MetaData {
   method: "GET" | "POST";
   body?: string;
   headers: Record<string, string>;
 }
-
-let id = 0;
 
 export type RequestState = "initialized" | "finished" | "cancelled" | "errored";
 
@@ -18,24 +17,22 @@ export class Request {
   private headers?: Record<string, string>;
   private body: any;
 
-  private id: number;
+  private id: string;
   private state: RequestState;
   private stateMutex: Mutex;
   private abortController?: AbortController;
 
   constructor(url: string, headers?: Record<string, string>, body?: any) {
-    this.id = id;
+    this.id = uuidv4();
     this.state = "initialized";
     this.stateMutex = new Mutex();
 
     this.url = url;
     this.headers = headers;
     this.body = body;
-
-    id += 1;
   }
 
-  getId(): number {
+  getId(): string {
     return this.id;
   }
 

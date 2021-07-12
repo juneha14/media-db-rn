@@ -14,7 +14,6 @@ import {
   SearchResultsRow,
 } from "./components/SearchResultsRow";
 
-// Request to use unique id instead of incrementing number
 // useImgUri should be dependent on type of image (i.e. poster, backdrop, profile)
 
 export const SearchScreen: React.FC = () => {
