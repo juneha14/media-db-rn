@@ -31,6 +31,7 @@ export const SearchBar: React.FC<SearchBarProps> = React.memo(
     const onClearTextPress = useCallback(() => {
       setText("");
       textInputRef.current?.clear();
+      textInputRef.current?.focus();
     }, []);
 
     const onCancelPress = useCallback(() => {
