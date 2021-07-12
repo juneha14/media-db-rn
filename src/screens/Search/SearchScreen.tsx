@@ -5,14 +5,15 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PaginatedList } from "../../components/PaginatedList";
 import { QueryContainer } from "../../components/QueryContainer";
 import { Colors } from "../../components/theme";
-import { Text } from "../../components/Typography";
 import { usePagination } from "../../hooks";
-import { Movie, Person } from "../../models";
 import { Browse } from "./components/Browse";
 import { RecentSearches } from "./components/RecentSearches";
 import { SearchBar } from "./components/SearchBar";
+import {
+  SearchResponse,
+  SearchResultsRow,
+} from "./components/SearchResultsRow";
 
-// UI row
 // Request to use unique id instead of incrementing number
 // useImgUri should be dependent on type of image (i.e. poster, backdrop, profile)
 
@@ -38,12 +39,7 @@ export const SearchScreen: React.FC = () => {
   }, []);
 
   const renderItem = useCallback(({ item }: { item: SearchResponse }) => {
-    return (
-      <>
-        <Text variant="body">{item.id}</Text>
-        <Text variant="body">{item.mediaType}</Text>
-      </>
-    );
+    return <SearchResultsRow searchResponse={item} />;
   }, []);
 
   return (
@@ -98,7 +94,3 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.SurfaceBackground,
   },
 });
-
-type SearchResponse = (Movie | Person) & {
-  mediaType: "movie" | "tv" | "person";
-};
