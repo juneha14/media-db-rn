@@ -2421,6 +2421,11 @@
   "resolved" "https://registry.yarnpkg.com/@types/stack-utils/-/stack-utils-1.0.1.tgz"
   "version" "1.0.1"
 
+"@types/uuid@^8.3.1":
+  "integrity" "sha512-Y2mHTRAbqfFkpjldbkHGY8JIzRN6XqYRliG8/24FcHm2D2PwW24fl5xMRTVGdrb7iMrwCaIEbLWerGIkXuFWVg=="
+  "resolved" "https://registry.npmjs.org/@types/uuid/-/uuid-8.3.1.tgz"
+  "version" "8.3.1"
+
 "@types/webpack-env@^1.15.0":
   "integrity" "sha512-Fx+NpfOO0CpeYX2g9bkvX8O5qh9wrU1sOF4g8sft4Mu7z+qfe387YlyY8w8daDyDsKY5vUxM0yxkAYnbkRbZEw=="
   "resolved" "https://registry.npmjs.org/@types/webpack-env/-/webpack-env-1.16.0.tgz"

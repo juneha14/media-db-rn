@@ -3,9 +3,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { DiscoverRoutes } from "./DiscoverRoutes";
 import { FavouriteRoutes } from "./FavouriteRoutes";
 import { Ionicons } from "@expo/vector-icons";
-import { Box } from "../components/Box";
-import { Text } from "../components/Typography";
 import { Colors } from "../components/theme";
+import { SearchRoutes } from "./SearchRoutes";
 
 type TabParamList = {
   Discover: undefined;
@@ -35,7 +34,7 @@ export const TabRoutes: React.FC = () => {
       />
       <Tabs.Screen
         name="Search"
-        component={SearchScreen}
+        component={SearchRoutes}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="ios-search-outline" size={size} color={color} />
@@ -52,20 +51,5 @@ export const TabRoutes: React.FC = () => {
         }}
       />
     </Tabs.Navigator>
-  );
-};
-
-const SearchScreen = () => {
-  return (
-    <Box
-      style={{
-        flex: 1,
-        backgroundColor: Colors.SurfaceBackground,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text variant="body">Search screen</Text>
-    </Box>
   );
 };

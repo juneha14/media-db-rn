@@ -22,6 +22,7 @@ export function PaginatedList<Item>({
   onEndReachedThreshold = 0,
   contentInset,
   listRef,
+  ListEmptyComponent,
   style,
   contentContainerStyle,
 }: PaginatedListProps<Item>): JSX.Element {
@@ -48,11 +49,13 @@ export function PaginatedList<Item>({
       onEndReachedThreshold={onEndReachedThreshold}
       onMomentumScrollBegin={() => (fetchMoreEnabled.current = true)}
       refreshControl={
-        <RefreshControl
-          tintColor={Colors.IconNeutral}
-          refreshing={refreshing ?? false}
-          onRefresh={onRefresh ?? noop}
-        />
+        refreshing !== undefined && onRefresh !== undefined ? (
+          <RefreshControl
+            tintColor={Colors.IconNeutral}
+            refreshing={refreshing ?? false}
+            onRefresh={onRefresh ?? noop}
+          />
+        ) : undefined
       }
       ListFooterComponent={
         isFetching ? (
@@ -62,6 +65,7 @@ export function PaginatedList<Item>({
           />
         ) : null
       }
+      ListEmptyComponent={ListEmptyComponent}
     />
   );
 }

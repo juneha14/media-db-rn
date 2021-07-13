@@ -39,6 +39,11 @@ client.getMovieVideos = (movieId: number) => {
 
 // People
 
+client.getPopularPeople = (page = 1) => {
+  const url = constructUrl("/person/popular", { page });
+  return new Request(url);
+};
+
 client.getPersonDetails = (personId: number) => {
   const url = constructUrl(`/person/${personId}`);
   return new Request(url);
@@ -61,11 +66,23 @@ client.discoverMovies = (
   genreIds?: number[],
   sortOption?: RemoteSortOption
 ) => {
-  const url = constructUrl(`/discover/movie`, {
+  const url = constructUrl("/discover/movie", {
     page,
     with_genres: genreIds,
     sort_by: sortOption,
   });
+  return new Request(url);
+};
+
+client.getMovieGenres = () => {
+  const url = constructUrl("/genre/movie/list");
+  return new Request(url);
+};
+
+// Search
+
+client.search = (query: string, page = 1) => {
+  const url = constructUrl("/search/multi", { query, page });
   return new Request(url);
 };
 
