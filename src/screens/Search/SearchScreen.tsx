@@ -2,9 +2,11 @@ import React, { useCallback, useState } from "react";
 import { StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Box } from "../../components/Box";
 import { PaginatedList } from "../../components/PaginatedList";
 import { QueryContainer } from "../../components/QueryContainer";
 import { Colors } from "../../components/theme";
+import { Text } from "../../components/Typography";
 import { usePagination } from "../../hooks";
 import { Browse } from "./components/Browse";
 import { RecentSearches } from "./components/RecentSearches";
@@ -13,8 +15,6 @@ import {
   SearchResponse,
   SearchResultsRow,
 } from "./components/SearchResultsRow";
-
-// useImgUri should be dependent on type of image (i.e. poster, backdrop, profile)
 
 export const SearchScreen: React.FC = () => {
   const { top } = useSafeAreaInsets();
@@ -57,11 +57,13 @@ export const SearchScreen: React.FC = () => {
         >
           <PaginatedList
             style={styles.background}
+            contentContainerStyle={{ flexGrow: 1 }} // https://github.com/facebook/react-native/issues/17944#issuecomment-381724580
             keyExtractor={(item) => String(item.id)}
             isFetching={isFetching}
-            data={allData}
+            data={allData ?? []}
             renderItem={renderItem}
             onEndReached={() => fetchNextPage({ page: nextPage })}
+            ListEmptyComponent={<EmptySearchResults query={query} />}
           />
         </QueryContainer>
       ) : (
@@ -85,6 +87,20 @@ export const SearchScreen: React.FC = () => {
         </ScrollView>
       )}
     </>
+  );
+};
+
+const EmptySearchResults = ({ query }: { query: string }) => {
+  return (
+    <Box
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Text variant="body">{`No results for "${query}"`}</Text>
+    </Box>
   );
 };
 
