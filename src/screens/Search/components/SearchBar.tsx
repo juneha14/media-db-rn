@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   Pressable,
   Keyboard,
@@ -13,15 +13,17 @@ import { Icon, RemoveIcon } from "../../../components/Icons";
 import { Spacing, Colors } from "../../../components/theme";
 
 interface SearchBarProps {
+  defaultQuery?: string;
   onSubmit: (text: string) => void;
+  onClear: () => void;
   onCancel: () => void;
   style?: StyleProp<ViewStyle>;
 }
 
 export const SearchBar: React.FC<SearchBarProps> = React.memo(
-  ({ onSubmit, onCancel, style }) => {
+  ({ defaultQuery, onSubmit, onClear, onCancel, style }) => {
     const [active, setActive] = useState(false);
-    const [text, setText] = useState("");
+    const [text, setText] = useState(defaultQuery ?? "");
 
     const textInputRef = useRef<TextInput>(null);
 
@@ -30,21 +32,26 @@ export const SearchBar: React.FC<SearchBarProps> = React.memo(
 
     const onClearTextPress = useCallback(() => {
       setText("");
-      textInputRef.current?.clear();
       textInputRef.current?.focus();
-    }, []);
+      onClear();
+    }, [onClear]);
 
     const onCancelPress = useCallback(() => {
       setText("");
       setActive(false);
       Keyboard.dismiss();
-      textInputRef.current?.clear();
       onCancel();
     }, [onCancel]);
 
     const onSubmitValue = useCallback((text: string) => () => onSubmit(text), [
       onSubmit,
     ]);
+
+    // This is needed in order to update the search bar text whenever a new defaultQuery is passed in
+    useEffect(() => {
+      setText(defaultQuery ?? "");
+      setActive(true);
+    }, [defaultQuery]);
 
     return (
       <Box style={[styles.container, style]}>
@@ -53,6 +60,7 @@ export const SearchBar: React.FC<SearchBarProps> = React.memo(
           <TextInput
             ref={textInputRef}
             style={styles.textInput}
+            value={text}
             autoCorrect={false}
             placeholder="Search for movies, actors, etc."
             placeholderTextColor={Colors.TextNeutral}

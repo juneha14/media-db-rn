@@ -35,7 +35,7 @@ export const SearchRoutes: React.FC = () => {
       <Stack.Screen
         name="PeopleList"
         component={PeopleListScreen}
-        options={{ headerTitle: "Popular People" }}
+        options={{ headerTitle: "Trending People" }}
       />
       <Stack.Screen
         name="GenreList"
