@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -9,7 +9,7 @@ import { Colors } from "../../components/theme";
 import { Text } from "../../components/Typography";
 import { usePagination } from "../../hooks";
 import { Browse } from "./components/Browse";
-import { RecentSearches } from "./components/RecentSearches";
+import { RecentSearches, useRecentSearches } from "./components/RecentSearches";
 import { SearchBar } from "./components/SearchBar";
 import {
   SearchResponse,
@@ -30,12 +30,18 @@ export const SearchScreen: React.FC = () => {
     fetchNextPage,
     allData,
     refresh,
-  } = usePagination<SearchResponse>("Search", { query, page: 1 });
+  } = useSearchQuery(query);
 
-  const onSubmitSearch = useCallback((query: string) => {
-    setSearching(true);
-    setQuery(query);
-  }, []);
+  const { recentSearches, addToRecent, removeFromRecent } = useRecentSearches();
+
+  const onSubmitSearch = useCallback(
+    (query: string) => {
+      setSearching(true);
+      setQuery(query);
+      addToRecent(query);
+    },
+    [addToRecent]
+  );
 
   const renderItem = useCallback(({ item }: { item: SearchResponse }) => {
     return <SearchResultsRow searchResponse={item} />;
@@ -45,8 +51,13 @@ export const SearchScreen: React.FC = () => {
     <>
       <SearchBar
         style={{ paddingTop: top }}
+        defaultQuery={query}
         onSubmit={onSubmitSearch}
-        onCancel={() => setSearching(false)}
+        onClear={() => setQuery("")}
+        onCancel={() => {
+          setSearching(false);
+          setQuery("");
+        }}
       />
       {searching ? (
         <QueryContainer
@@ -69,21 +80,13 @@ export const SearchScreen: React.FC = () => {
       ) : (
         <ScrollView style={styles.background}>
           <Browse />
-          <RecentSearches
-            searches={[
-              "Bradl",
-              "Cooper",
-              "Godzilla",
-              "Emily",
-              "Harry Potter and the Prisoner of the Azakaban asdfadfkljad  asdaf.",
-            ]}
-            onSelectQuery={(query) =>
-              console.log("==== Value of added query:", query)
-            }
-            onRemoveQuery={(query) =>
-              console.log("==== Value of removed query:", query)
-            }
-          />
+          {recentSearches.length > 0 && (
+            <RecentSearches
+              searches={recentSearches}
+              onSelectQuery={onSubmitSearch}
+              onRemoveQuery={(query) => removeFromRecent(query)}
+            />
+          )}
         </ScrollView>
       )}
     </>
@@ -102,6 +105,19 @@ const EmptySearchResults = ({ query }: { query: string }) => {
       <Text variant="body">{`No results for "${query}"`}</Text>
     </Box>
   );
+};
+
+// Wrapper around `usePagination` hook
+// This is needed so that we do not trigger a new search request when the query text is empty
+const useSearchQuery = (text: string) => {
+  const [query, setQuery] = useState(text);
+  const response = usePagination<SearchResponse>("Search", { query, page: 1 });
+
+  useEffect(() => {
+    if (text.length > 0) setQuery(text);
+  }, [text]);
+
+  return response;
 };
 
 const styles = StyleSheet.create({
