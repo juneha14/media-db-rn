@@ -1,5 +1,6 @@
 import { Genre, SortOption } from "../models";
 import { KnownForMedia } from "../screens/Credits/utils";
+import { CarouselImageData } from "../screens/ImageCarousel";
 
 export type StackRouteParamList = {
   MediaList: undefined;
@@ -13,6 +14,7 @@ export type StackRouteParamList = {
   FavouriteList: undefined;
   Search: undefined;
   PeopleList: undefined;
+  ImageCarousel: { images: CarouselImageData[] };
 };
 
 export type ModalRouteParamList = {
