@@ -1,4 +1,4 @@
-export interface Images {
+export interface MovieImages {
   id: number;
   backdrops: Image[];
   posters: Image[];
