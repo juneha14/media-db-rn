@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleProp, ViewStyle, Dimensions } from "react-native";
+import { StyleProp, ViewStyle, Dimensions, Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image } from "../../components/Image";
 import { Spacing } from "../../components/theme";
@@ -8,10 +8,11 @@ import { useImageUri } from "../../hooks";
 interface PosterBackdropProps {
   posterUrl: string | null;
   backdropUrl: string | null;
+  onPress: () => void;
 }
 
 export const PosterBackdrop: React.FC<PosterBackdropProps> = React.memo(
-  ({ posterUrl, backdropUrl }) => {
+  ({ posterUrl, backdropUrl, onPress }) => {
     const posterUri = useImageUri("poster", "Original", posterUrl);
     const backdropUri = useImageUri("backdrop", "Original", backdropUrl);
     const { top } = useSafeAreaInsets();
@@ -31,7 +32,7 @@ export const PosterBackdrop: React.FC<PosterBackdropProps> = React.memo(
         };
 
     return (
-      <>
+      <Pressable onPress={onPress}>
         {posterUri && (
           <Image
             style={posterStyle}
@@ -49,7 +50,7 @@ export const PosterBackdrop: React.FC<PosterBackdropProps> = React.memo(
             shouldRoundCorners={false}
           />
         )}
-      </>
+      </Pressable>
     );
   }
 );

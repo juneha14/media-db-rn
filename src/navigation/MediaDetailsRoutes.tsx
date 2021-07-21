@@ -12,7 +12,7 @@ import {
   CreditsKnownForScreen,
 } from "../screens/Credits";
 import { GenreScreen } from "../screens/Genre";
-import { ImageCarouselScreen } from "../screens/ImageCarousel";
+import { GalleryListScreen } from "../screens/Gallery";
 
 export type MediaDetailsParamList = Pick<
   StackRouteParamList,
@@ -22,7 +22,7 @@ export type MediaDetailsParamList = Pick<
   | "CreditDetails"
   | "CreditKnownForList"
   | "GenreDetails"
-  | "ImageCarousel"
+  | "GalleryList"
 >;
 
 type RouteConfig = { component: React.FC; options?: StackNavigationOptions };
@@ -52,9 +52,9 @@ const mediaDetailsScreens: Record<keyof MediaDetailsParamList, RouteConfig> = {
     component: GenreScreen,
     options: undefined, // Header title is based off of genre's name. Configured within the screen
   },
-  ImageCarousel: {
-    component: ImageCarouselScreen,
-    // options: { headerShown: false },
+  GalleryList: {
+    component: GalleryListScreen,
+    options: { headerTitle: "Gallery" },
   },
 };
 

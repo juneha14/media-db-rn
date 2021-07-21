@@ -10,12 +10,15 @@ import { Header } from "./Header";
 import { PosterBackdrop } from "./PosterBackdrop";
 import { Cast, MovieDetails, Movie, VideoLink, Genre } from "../../models";
 import { useImageUri } from "../../hooks";
+import { noop } from "lodash";
+import { GalleryImage } from "../Gallery/utils";
 
 interface MediaDetailsViewProps {
   infoDetails: MovieDetails & { isLiked?: boolean };
   cast?: Cast[];
   recommendations?: Movie[];
   videos?: VideoLink[];
+  images?: GalleryImage[];
   onSelectGenre: (genre: Genre) => void;
   onSelectFavourite: () => void;
   onSelectPlayTrailer?: (url: string) => void;
@@ -23,6 +26,7 @@ interface MediaDetailsViewProps {
   onSelectRecommended: (id: number) => void;
   onSelectSeeAllCast: () => void;
   onSelectSeeAllRecommended: () => void;
+  onSelectPosterBackdrop: (images: GalleryImage[]) => void;
 }
 
 export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
@@ -30,6 +34,7 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
   cast,
   recommendations,
   videos,
+  images,
   onSelectGenre,
   onSelectFavourite,
   onSelectPlayTrailer,
@@ -37,6 +42,7 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
   onSelectRecommended,
   onSelectSeeAllCast,
   onSelectSeeAllRecommended,
+  onSelectPosterBackdrop,
 }) => {
   const renderCast = useCallback(
     ({ item }: { item: Cast }) => {
@@ -77,6 +83,7 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
       <PosterBackdrop
         posterUrl={infoDetails.posterPath}
         backdropUrl={infoDetails.backdropPath}
+        onPress={() => (images ? onSelectPosterBackdrop(images) : noop)}
       />
       <Header
         style={{

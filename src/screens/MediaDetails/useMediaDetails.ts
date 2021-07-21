@@ -4,6 +4,7 @@ import {
   Cast,
   Credit,
   Favourite,
+  MovieImages,
   Movie,
   MovieDetails,
   PaginatedResponse,
@@ -11,6 +12,7 @@ import {
   Videos,
 } from "../../models";
 import { convertToCamelCase } from "../../utils";
+import { GalleryImage } from "../Gallery/utils";
 import { useFavouriteState } from "../shared";
 
 interface State {
@@ -20,6 +22,7 @@ interface State {
   cast?: Cast[];
   recommendations?: Movie[];
   videos?: VideoLink[];
+  images?: GalleryImage[];
   refetch: () => void;
   onToggleLike: (favourite: Favourite) => void;
 }
@@ -32,6 +35,8 @@ export const useMediaDetails = (movieId: number): State => {
   const [cast, setCast] = useState<Cast[]>();
   const [recommendations, setRecommendations] = useState<Movie[]>();
   const [videos, setVideos] = useState<VideoLink[]>();
+  const [images, setImages] = useState<GalleryImage[]>();
+
   const { favourites, onToggleLike } = useFavouriteState();
 
   const fetch = useCallback(async () => {
@@ -39,23 +44,30 @@ export const useMediaDetails = (movieId: number): State => {
     const credits = fetchRequest("MovieCredits", { movieId });
     const recommendations = fetchRequest("MovieRecommendations", { movieId });
     const videos = fetchRequest("MovieVideos", { movieId });
+    const images = fetchRequest("MovieImages", { movieId });
 
     return Promise.all([
       details.fetch(),
       credits.fetch(),
       recommendations.fetch(),
       videos.fetch(),
+      images.fetch(),
     ])
       .then((jsons) => {
-        const [details, credits, recommendations, videos] = jsons.map((json) =>
-          convertToCamelCase(json)
-        );
+        const [
+          details,
+          credits,
+          recommendations,
+          videos,
+          images,
+        ] = jsons.map((json) => convertToCamelCase(json));
         setDetails(details);
         setCast((credits as Credit).cast.slice(0, 8));
         setRecommendations(
           (recommendations as PaginatedResponse<Movie[]>).results.slice(0, 8)
         );
         setVideos(mapToVideoLinks(videos));
+        setImages(mapToGalleryImages(images));
       })
       .catch((error) => {
         console.error(
@@ -89,6 +101,7 @@ export const useMediaDetails = (movieId: number): State => {
     cast,
     recommendations,
     videos,
+    images,
     refetch,
     onToggleLike,
   };
@@ -105,4 +118,25 @@ function mapToVideoLinks(videos: Videos): VideoLink[] {
     }));
 
   return links;
+}
+
+// renmae Images to MovieImages since we also need to map one for ProfileImages
+function mapToGalleryImages(images: MovieImages): GalleryImage[] {
+  const backdrops: GalleryImage[] = images.backdrops.map((image) => ({
+    type: "backdrop",
+    path: image.filePath,
+    width: image.width,
+    height: image.height,
+    orientation: "landscape",
+  }));
+
+  const posters: GalleryImage[] = images.posters.map((image) => ({
+    type: "poster",
+    path: image.filePath,
+    width: image.width,
+    height: image.height,
+    orientation: "portrait",
+  }));
+
+  return [...backdrops, ...posters];
 }
