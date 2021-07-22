@@ -9,7 +9,11 @@ import {
 import { FlatList } from "react-native-gesture-handler";
 import { Image } from "../../components/Image";
 import { Colors } from "../../components/theme";
-import { useImageUri, useRouteParams } from "../../hooks";
+import {
+  useAppModalNavigation,
+  useImageUri,
+  useRouteParams,
+} from "../../hooks";
 import { GalleryImage, ImageType } from "./utils";
 
 const NUM_COLS = 3;
@@ -18,6 +22,7 @@ export const GalleryListScreen: React.FC = () => {
   const {
     params: { images },
   } = useRouteParams<"GalleryList">();
+  const { navigate } = useAppModalNavigation();
 
   const renderItem = useCallback(
     ({
@@ -38,14 +43,12 @@ export const GalleryListScreen: React.FC = () => {
           imageType={type}
           width={width}
           onPress={() =>
-            console.log(
-              "========== File: GalleryListScreen.tsx, Line: 22 =========="
-            )
+            navigate("GalleryCarousel", { selectedPage: index, images: images })
           }
         />
       );
     },
-    []
+    [images, navigate]
   );
 
   return (
@@ -75,7 +78,7 @@ const Thumbnail = ({
   const uri = useImageUri(imageType, "Original", imagePath);
 
   return (
-    <Pressable style={[styles.thumbail, style, { width }]} onPress={onPress}>
+    <Pressable style={[styles.thumbail, style]} onPress={onPress}>
       <Image
         uri={uri}
         width={width}
