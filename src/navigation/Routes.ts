@@ -19,6 +19,7 @@ export type StackRouteParamList = {
 
 export type ModalRouteParamList = {
   Filter: { option?: SortOption };
+  GalleryCarousel: { selectedPage: number; images: GalleryImage[] };
 };
 
 export type Screens = keyof StackRouteParamList | keyof ModalRouteParamList;

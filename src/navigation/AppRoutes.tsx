@@ -9,6 +9,7 @@ import { ModalRouteParamList } from "./Routes";
 import { TabRoutes } from "./TabRoutes";
 
 import { FilterScreen } from "../screens/Filter";
+import { GalleryCarouselScreen } from "../screens/Gallery";
 import { Colors } from "../components/theme";
 
 type AppParamList = ModalRouteParamList & { Tabs: undefined };
@@ -31,6 +32,11 @@ export const AppRoutes: React.FC = () => {
           name="Filter"
           component={FilterScreen}
           options={{ headerTitle: "Sort by" }}
+        />
+        <Stack.Screen
+          name="GalleryCarousel"
+          component={GalleryCarouselScreen}
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>
