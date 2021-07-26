@@ -36,7 +36,10 @@ export const AppRoutes: React.FC = () => {
         <Stack.Screen
           name="GalleryCarousel"
           component={GalleryCarouselScreen}
-          options={{ headerShown: false }}
+          options={{
+            headerShown: false,
+            ...TransitionPresets.ModalSlideFromBottomIOS,
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>

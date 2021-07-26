@@ -10,20 +10,25 @@ import { Carousel } from "../../components/Carousel";
 import { Image } from "../../components/Image";
 import { Colors } from "../../components/theme";
 import { Text } from "../../components/Typography";
-import { useImageUri, useRouteParams } from "../../hooks";
+import {
+  useAppStackNavigation,
+  useImageUri,
+  useRouteParams,
+} from "../../hooks";
 import { getCurrentScrollPagePosition } from "../../utils";
+import { BackNavigationButton } from "../shared";
 import { GalleryImage } from "./utils";
 
 const FULL_WIDTH = Dimensions.get("window").width;
 const FULL_HEIGHT = Dimensions.get("window").height;
 
-// Custom x button to pop gallery carousel screen
 // empty screens for movies and favourite
 
 export const GalleryCarouselScreen: React.FC = () => {
   const {
     params: { selectedPage, images },
   } = useRouteParams<"GalleryCarousel">();
+  const { pop } = useAppStackNavigation();
 
   const [currentPage, setCurrentPage] = useState(selectedPage);
 
@@ -49,8 +54,11 @@ export const GalleryCarouselScreen: React.FC = () => {
     []
   );
 
+  const onNavigateBack = useCallback(() => pop(), [pop]);
+
   return (
     <>
+      <BackNavigationButton type="cancel" onNavigateBack={onNavigateBack} />
       <Carousel
         style={styles.carouselContainer}
         keyExtractor={(item) => item.path}
