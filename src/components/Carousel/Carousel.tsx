@@ -6,6 +6,7 @@ type CarouselFlatListProps<Item> = Pick<
   | "keyExtractor"
   | "data"
   | "renderItem"
+  | "initialScrollIndex"
   | "pagingEnabled"
   | "showsHorizontalScrollIndicator"
   | "snapToInterval"
@@ -14,6 +15,7 @@ type CarouselFlatListProps<Item> = Pick<
   | "onScroll"
   | "onMomentumScrollBegin"
   | "onMomentumScrollEnd"
+  | "getItemLayout"
 >;
 
 interface CarouselProps<Item> extends CarouselFlatListProps<Item> {
@@ -26,6 +28,7 @@ export function Carousel<Item>({
   keyExtractor,
   data,
   renderItem,
+  initialScrollIndex = 0,
   showsHorizontalScrollIndicator = false,
   snapToInterval,
   snapToAlignment = "center",
@@ -34,6 +37,7 @@ export function Carousel<Item>({
   onScroll,
   onMomentumScrollBegin,
   onMomentumScrollEnd,
+  getItemLayout,
   carouselRef,
   contentContainerStyle,
   style,
@@ -47,11 +51,13 @@ export function Carousel<Item>({
       data={data}
       renderItem={renderItem}
       horizontal
+      initialScrollIndex={initialScrollIndex}
       showsHorizontalScrollIndicator={showsHorizontalScrollIndicator}
       pagingEnabled={pagingEnabled}
       snapToInterval={snapToInterval}
       snapToAlignment={snapToAlignment}
       decelerationRate="fast"
+      getItemLayout={getItemLayout}
       onScroll={onScroll}
       onMomentumScrollBegin={onMomentumScrollBegin}
       onMomentumScrollEnd={onMomentumScrollEnd}

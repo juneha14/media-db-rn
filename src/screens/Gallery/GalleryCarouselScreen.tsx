@@ -1,10 +1,9 @@
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   Dimensions,
   NativeScrollEvent,
   NativeSyntheticEvent,
   StyleSheet,
-  FlatList,
 } from "react-native";
 import { Box } from "../../components/Box";
 import { Carousel } from "../../components/Carousel";
@@ -19,7 +18,7 @@ const FULL_WIDTH = Dimensions.get("window").width;
 const FULL_HEIGHT = Dimensions.get("window").height;
 
 // Custom x button to pop gallery carousel screen
-// selectedPage index causes pagination issues if FlatList hasn't rendered the cell
+// empty screens for movies and favourite
 
 export const GalleryCarouselScreen: React.FC = () => {
   const {
@@ -28,39 +27,40 @@ export const GalleryCarouselScreen: React.FC = () => {
 
   const [currentPage, setCurrentPage] = useState(selectedPage);
 
-  const renderItem = useCallback(({ item }: { item: GalleryImage }) => {
-    return <FullScreenImage image={item} />;
+  const renderItem = useCallback(
+    ({ item }: { item: GalleryImage }) => <FullScreenImage image={item} />,
+    []
+  );
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const getItemLayout = useCallback((data: any, index: number) => {
+    return {
+      index,
+      length: FULL_WIDTH,
+      offset: index * FULL_WIDTH,
+    };
   }, []);
 
   const onPaginate = useCallback(
     (event: NativeSyntheticEvent<NativeScrollEvent>) => {
       const index = getCurrentScrollPagePosition(event);
-      console.log("==== Value of index:", index);
       setCurrentPage(index);
     },
     []
   );
 
-  const ref = useRef<FlatList<GalleryImage>>(null);
-
   return (
     <>
       <Carousel
-        carouselRef={ref}
         style={styles.carouselContainer}
         keyExtractor={(item) => item.path}
         data={images}
         renderItem={renderItem}
-        initialScrollIndex={selectedPage}
         pagingEnabled
+        getItemLayout={getItemLayout}
         snapToInterval={FULL_WIDTH}
+        initialScrollIndex={selectedPage}
         onScroll={onPaginate}
-        onScrollToIndexFailed={({ index, averageItemLength }) =>
-          ref.current?.scrollToOffset({
-            offset: index * averageItemLength,
-            animated: false,
-          })
-        }
       />
       <Indicator currentPage={currentPage + 1} totalPages={images.length} />
     </>
