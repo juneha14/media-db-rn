@@ -6,6 +6,8 @@ import { Favourite } from "../../models";
 import { MediaCell, useFavouriteState } from "../shared";
 import { FlatList } from "react-native-gesture-handler";
 import { useAppStackNavigation } from "../../hooks";
+import { Box } from "../../components/Box";
+import { Text } from "../../components/Typography";
 
 export const FavouriteScreen: React.FC = () => {
   const { push } = useAppStackNavigation();
@@ -56,13 +58,30 @@ export const FavouriteScreen: React.FC = () => {
 
   return (
     <FlatList
-      ref={(input) => (listRef.current = input)}
+      ref={listRef}
       style={styles.container}
       contentContainerStyle={styles.contentContainer}
       keyExtractor={(item) => String(item.id)}
       data={favourites}
       renderItem={renderItem}
+      ListEmptyComponent={<EmptyFavourites />}
     />
+  );
+};
+
+const EmptyFavourites = () => {
+  return (
+    <Box
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Text variant="body">
+        Start exploring and keep track of your favourites!
+      </Text>
+    </Box>
   );
 };
 
@@ -71,6 +90,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.SurfaceBackground,
   },
   contentContainer: {
+    flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
     marginTop: Spacing.l,

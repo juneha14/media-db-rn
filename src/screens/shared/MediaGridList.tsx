@@ -9,6 +9,8 @@ import { MediaCell } from "./MediaCell";
 import { Colors, Spacing } from "../../components/theme";
 import { useFavouriteState } from "./useFavouriteState";
 import { useAppStackNavigation } from "../../hooks";
+import { Box } from "../../components/Box";
+import { Text } from "../../components/Typography";
 
 interface MediaGridListProps {
   isLoading: boolean;
@@ -113,8 +115,17 @@ export const MediaGridList: React.FC<MediaGridListProps> = ({
         renderItem={renderItem}
         onEndReached={onFetchNextPage}
         onRefresh={onRefresh}
+        ListEmptyComponent={<EmptyMediaResults />}
       />
     </QueryContainer>
+  );
+};
+
+const EmptyMediaResults = () => {
+  return (
+    <Box style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text variant="body">No movies available</Text>
+    </Box>
   );
 };
 
@@ -123,6 +134,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.SurfaceBackground,
   },
   contentContainer: {
+    flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 5,
