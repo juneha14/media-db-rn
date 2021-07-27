@@ -37,6 +37,11 @@ client.getMovieVideos = (movieId: number) => {
   return new Request(url);
 };
 
+client.getMovieImages = (movieId: number) => {
+  const url = constructUrl(`/movie/${movieId}/images`);
+  return new Request(url);
+};
+
 // People
 
 client.getPopularPeople = (page = 1) => {

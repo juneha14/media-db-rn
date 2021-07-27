@@ -6,6 +6,7 @@ import { useMediaDetails } from "./useMediaDetails";
 import { Favourite, Genre } from "../../models";
 import { BackNavigationButton } from "../shared";
 import { useAppStackNavigation, useRouteParams } from "../../hooks";
+import { GalleryImage } from "../Gallery/utils";
 
 export const MediaDetailsScreen: React.FC = () => {
   const {
@@ -20,6 +21,7 @@ export const MediaDetailsScreen: React.FC = () => {
     cast,
     recommendations,
     videos,
+    images,
     refetch,
     onToggleLike,
   } = useMediaDetails(id);
@@ -59,6 +61,11 @@ export const MediaDetailsScreen: React.FC = () => {
     [push, id]
   );
 
+  const onSelectPosterBackdrop = useCallback(
+    (images: GalleryImage[]) => push("GalleryList", { images }),
+    [push]
+  );
+
   const onNavigateBack = useCallback(() => pop(), [pop]);
 
   return (
@@ -76,6 +83,7 @@ export const MediaDetailsScreen: React.FC = () => {
             cast={cast}
             recommendations={recommendations}
             videos={videos}
+            images={images}
             onSelectGenre={onSelectGenre}
             onSelectFavourite={onSelectFavourite({
               id: details.id,
@@ -90,6 +98,7 @@ export const MediaDetailsScreen: React.FC = () => {
             onSelectRecommended={onSelectRecommended}
             onSelectSeeAllCast={onSelectSeeAllCast}
             onSelectSeeAllRecommended={onSelectSeeAllRecommended}
+            onSelectPosterBackdrop={onSelectPosterBackdrop}
           />
         )}
       </QueryContainer>
