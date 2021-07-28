@@ -4,6 +4,7 @@ import { QueryContainer } from "../../components/QueryContainer";
 import { useAppStackNavigation, useFetch, useRouteParams } from "../../hooks";
 import { Credit } from "../../models";
 import { ViewPager } from "../../components/ViewPager";
+import { Colors } from "../../components/theme";
 
 export const CreditsScreen: React.FC = () => {
   const {
@@ -57,7 +58,12 @@ export const CreditsScreen: React.FC = () => {
       isErrored={error !== undefined}
       onRetryQuery={refresh}
     >
-      {castPage && crewPage && <ViewPager pages={[castPage, crewPage]} />}
+      {castPage && crewPage && (
+        <ViewPager
+          style={{ backgroundColor: Colors.SurfaceBackground }}
+          pages={[castPage, crewPage]}
+        />
+      )}
     </QueryContainer>
   );
 };
