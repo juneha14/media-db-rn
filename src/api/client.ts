@@ -64,6 +64,11 @@ client.getPersonMovieCredits = (personId: number) => {
   return new Request(url);
 };
 
+client.getPersonImages = (personId: number) => {
+  const url = constructUrl(`/person/${personId}/images`);
+  return new Request(url);
+};
+
 // Discover
 
 client.discoverMovies = (
