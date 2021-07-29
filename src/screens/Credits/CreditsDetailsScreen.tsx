@@ -22,21 +22,29 @@ export const CreditsDetailsScreen: React.FC = () => {
     personDetails,
     socialMediaLinks,
     knownForMedia,
+    images,
     refetch,
   } = useCreditDetails(id);
 
   const onNavigateBack = useCallback(() => pop(), [pop]);
+
   const onSelectMedia = useCallback(
     (id: number) => push("MediaDetails", { id }),
     [push]
   );
+
   const onSelectSocialMediaLink = useCallback(
     (url: string) => WebBrowser.openBrowserAsync(url),
     []
   );
+
   const onSelectSeeAllKnownForMedia = useCallback(() => {
     if (knownForMedia) push("CreditKnownForList", { media: knownForMedia });
   }, [push, knownForMedia]);
+
+  const onSelectHeaderImage = useCallback(() => {
+    if (images) push("GalleryList", { images });
+  }, [push, images]);
 
   return (
     <>
@@ -59,6 +67,7 @@ export const CreditsDetailsScreen: React.FC = () => {
               birthPlace={personDetails.placeOfBirth}
               popularity={personDetails.popularity}
               onSocialMediaLinkPress={onSelectSocialMediaLink}
+              onHeaderImagePress={onSelectHeaderImage}
             />
             <Section
               style={styles.knownFor}

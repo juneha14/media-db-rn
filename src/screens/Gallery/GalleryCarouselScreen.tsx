@@ -114,8 +114,6 @@ const styles = StyleSheet.create({
     height: FULL_HEIGHT,
     justifyContent: "center",
     alignItems: "center",
-    flexWrap: "wrap",
-    overflow: "hidden",
     backgroundColor: Colors.SurfaceForeground,
   },
   indicator: {
