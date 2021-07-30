@@ -120,7 +120,6 @@ function mapToVideoLinks(videos: Videos): VideoLink[] {
   return links;
 }
 
-// renmae Images to MovieImages since we also need to map one for ProfileImages
 function mapToGalleryImages(images: MovieImages): GalleryImage[] {
   const backdrops: GalleryImage[] = images.backdrops.map((image) => ({
     type: "backdrop",

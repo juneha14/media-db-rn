@@ -84,7 +84,7 @@ export const SearchScreen: React.FC = () => {
             <RecentSearches
               searches={recentSearches}
               onSelectQuery={onSubmitSearch}
-              onRemoveQuery={(query) => removeFromRecent(query)}
+              onRemoveQuery={removeFromRecent}
             />
           )}
         </ScrollView>

@@ -4,6 +4,11 @@ export interface MovieImages {
   posters: Image[];
 }
 
+export interface PersonImages {
+  id: number;
+  profiles: Image[];
+}
+
 interface Image {
   aspectRatio: number;
   filePath: string;

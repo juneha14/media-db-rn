@@ -22,8 +22,6 @@ import { GalleryImage } from "./utils";
 const FULL_WIDTH = Dimensions.get("window").width;
 const FULL_HEIGHT = Dimensions.get("window").height;
 
-// empty screens for movies and favourite
-
 export const GalleryCarouselScreen: React.FC = () => {
   const {
     params: { selectedPage, images },
@@ -116,8 +114,6 @@ const styles = StyleSheet.create({
     height: FULL_HEIGHT,
     justifyContent: "center",
     alignItems: "center",
-    flexWrap: "wrap",
-    overflow: "hidden",
     backgroundColor: Colors.SurfaceForeground,
   },
   indicator: {

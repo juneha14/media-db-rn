@@ -18,6 +18,7 @@ interface HeaderProps {
   birthPlace: string | null;
   popularity: number;
   onSocialMediaLinkPress: (url: string) => void;
+  onHeaderImagePress: () => void;
   style?: StyleProp<ViewStyle>;
 }
 
@@ -31,6 +32,7 @@ export const Header: React.FC<HeaderProps> = ({
   birthPlace,
   popularity,
   onSocialMediaLinkPress,
+  onHeaderImagePress,
   style,
 }) => {
   const { top } = useSafeAreaInsets();
@@ -50,6 +52,7 @@ export const Header: React.FC<HeaderProps> = ({
         title={name}
         subtitle={department}
         textPosition="bottom"
+        onPressImage={onHeaderImagePress}
       />
       <Box style={styles.socialMediaContainer}>
         {socialMediaLinks.map(({ type, url }) => {

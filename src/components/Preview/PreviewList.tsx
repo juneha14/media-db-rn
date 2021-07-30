@@ -18,7 +18,13 @@ export const PreviewList: React.FC<PreviewListProps> = React.memo(
       []
     );
     const renderItem = useCallback(({ item }: { item: PreviewDataItem }) => {
-      return <ContentPreview style={styles.previewRow} {...item} />;
+      return (
+        <ContentPreview
+          style={styles.previewRow}
+          roundBorder={false}
+          {...item}
+        />
+      );
     }, []);
 
     return (

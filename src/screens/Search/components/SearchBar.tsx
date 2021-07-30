@@ -50,7 +50,7 @@ export const SearchBar: React.FC<SearchBarProps> = React.memo(
     // This is needed in order to update the search bar text whenever a new defaultQuery is passed in
     useEffect(() => {
       setText(defaultQuery ?? "");
-      setActive(true);
+      setActive(defaultQuery !== undefined && defaultQuery.length > 0);
     }, [defaultQuery]);
 
     return (

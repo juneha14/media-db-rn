@@ -15,6 +15,7 @@ export type EndpointParamList = {
   PersonDetails: { personId: number };
   PersonExternalIds: { personId: number };
   PersonMovieCredits: { personId: number };
+  PersonImages: { personId: number };
 
   DiscoverMovies: {
     page: number;
@@ -73,6 +74,10 @@ export function fetchRequest<T extends Endpoint>(
     case "PersonMovieCredits": {
       const { personId } = params as EndpointParamList["PersonMovieCredits"];
       return client.getPersonMovieCredits(personId);
+    }
+    case "PersonImages": {
+      const { personId } = params as EndpointParamList["PersonImages"];
+      return client.getPersonImages(personId);
     }
 
     case "DiscoverMovies": {
