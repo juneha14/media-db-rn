@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import {
-  Image,
-  Keyboard,
   KeyboardAvoidingView,
   Pressable,
   StyleProp,
   StyleSheet,
   TextInput,
   ViewStyle,
+  ScrollView,
 } from "react-native";
-import Images from "../../assets";
 import { Box } from "../../components/Box";
+import { Icon } from "../../components/Icons";
+import { LoadingIndicator } from "../../components/LoadingIndicator";
 import { Colors, Spacing, TextVariants } from "../../components/theme";
 import { PageHeader, Text } from "../../components/Typography";
 import { BackNavigationButton } from "../shared";
@@ -18,19 +18,19 @@ import { BackNavigationButton } from "../shared";
 export const TMDBLoginScreen: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loggingIn, setLoggingIn] = useState(false);
 
   return (
     <>
       {/* <BackNavigationButton /> */}
       <KeyboardAvoidingView style={styles.container}>
-        <Image
-          style={styles.backdropImage}
-          source={Images.loginBackdropImage}
-        />
-        <Pressable style={styles.contentContainer} onPress={Keyboard.dismiss}>
+        <ScrollView
+          style={styles.contentContainer}
+          keyboardShouldPersistTaps="handled"
+        >
           <PageHeader
-            style={{ marginTop: 50, marginBottom: 30 }}
-            title="Welcome back!"
+            style={{ marginVertical: 50 }}
+            title="Welcome back"
             subtitle="Login to your TMDB account to get started."
           />
           <LoginInput
@@ -41,13 +41,14 @@ export const TMDBLoginScreen: React.FC = () => {
           <LoginInput type="password" onChangeText={setPassword} />
           <LoginButton
             enabled={email.length > 0 && password.length > 0}
+            authenticating={loggingIn}
             onPress={() =>
               console.log(
                 "========== File: TMDBLoginScreen.tsx, Line: 42 =========="
               )
             }
           />
-        </Pressable>
+        </ScrollView>
       </KeyboardAvoidingView>
     </>
   );
@@ -65,17 +66,16 @@ const LoginInput = ({
   const isUsername = type === "username";
 
   return (
-    <Pressable style={[styles.loginInputContainer, style]}>
-      <Text
-        style={{ marginBottom: Spacing.m }}
-        variant="body"
-        color={Colors.TextOnSurfaceNeutral}
-      >
-        {type === "username" ? "Username" : "Password"}
-      </Text>
+    <Box style={[styles.loginInputContainer, style]}>
+      <Icon
+        style={{ marginRight: Spacing.m }}
+        name={isUsername ? "ios-person-outline" : "ios-lock-closed-outline"}
+        size="small"
+        color={Colors.IconNeutral}
+      />
       <TextInput
         style={styles.textInput}
-        placeholder={isUsername ? "Your username" : "Your password"}
+        placeholder={isUsername ? "Username" : "Password"}
         placeholderTextColor={Colors.TextDisabled}
         autoCorrect={false}
         autoCapitalize="none"
@@ -84,15 +84,17 @@ const LoginInput = ({
         onChangeText={onChangeText}
         secureTextEntry={!isUsername}
       />
-    </Pressable>
+    </Box>
   );
 };
 
 const LoginButton = ({
   enabled,
+  authenticating,
   onPress,
 }: {
   enabled: boolean;
+  authenticating: boolean;
   onPress: () => void;
 }) => {
   return (
@@ -106,9 +108,13 @@ const LoginButton = ({
         },
       ]}
       onPress={onPress}
-      disabled={!enabled}
+      disabled={!enabled || authenticating}
     >
-      <Text variant="captionHeadingSmall">Log in</Text>
+      {authenticating ? (
+        <LoadingIndicator isFullScreen={false} />
+      ) : (
+        <Text variant="captionHeadingSmall">Login</Text>
+      )}
     </Pressable>
   );
 };
@@ -116,40 +122,32 @@ const LoginButton = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.SurfaceBackground,
+    backgroundColor: Colors.SurfaceBackgroundPressed,
   },
   contentContainer: {
     flex: 1,
     padding: Spacing.defaultMargin,
   },
-  backdropImage: {
-    position: "absolute",
-    left: 0,
-    top: 0,
-    width: "100%",
-    height: "100%",
-    opacity: 0.35,
-  },
   loginInputContainer: {
-    width: "100%",
-    justifyContent: "center",
+    flexDirection: "row",
+    alignItems: "center",
     paddingHorizontal: Spacing.l,
-    padding: Spacing.m,
     borderWidth: 1,
-    borderRadius: 4,
+    borderRadius: 8,
     borderColor: Colors.Border,
     backgroundColor: Colors.SurfaceForegroundPressed,
   },
   textInput: {
     ...TextVariants.body,
-    fontStyle: "italic",
+    flex: 1,
+    height: 60,
   },
   loginButton: {
     justifyContent: "center",
     alignItems: "center",
     padding: Spacing.defaultMargin,
     marginTop: 30,
-    borderRadius: 4,
+    borderRadius: 8,
     backgroundColor: Colors.ActionPrimary,
   },
 });

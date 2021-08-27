@@ -9,28 +9,30 @@ export const LoginOptionsScreen: React.FC = () => {
   return (
     <Box style={styles.container}>
       <Image style={styles.backdropImage} source={Images.loginBackdropImage} />
-      <PageHeader
-        style={styles.pageHeader}
-        title="MediaDB"
-        subtitle="Browse thousands of movies and TV shows"
-      />
-      <Box style={styles.buttonsContainer}>
-        <Button
-          type="tmdb"
-          onPress={() =>
-            console.log(
-              "========== File: LoginOptionsScreen.tsx, Line: 24 =========="
-            )
-          }
+      <Box style={styles.contentContainer}>
+        <PageHeader
+          style={styles.pageHeader}
+          title="MediaDB"
+          subtitle="Browse thousands of movies and TV shows."
         />
-        <Button
-          type="guest"
-          onPress={() =>
-            console.log(
-              "========== File: LoginOptionsScreen.tsx, Line: 24 =========="
-            )
-          }
-        />
+        <>
+          <Button
+            type="tmdb"
+            onPress={() =>
+              console.log(
+                "========== File: LoginOptionsScreen.tsx, Line: 24 =========="
+              )
+            }
+          />
+          <Button
+            type="guest"
+            onPress={() =>
+              console.log(
+                "========== File: LoginOptionsScreen.tsx, Line: 24 =========="
+              )
+            }
+          />
+        </>
       </Box>
     </Box>
   );
@@ -71,8 +73,6 @@ const Button = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
     backgroundColor: Colors.SurfaceBackground,
   },
   backdropImage: {
@@ -83,18 +83,23 @@ const styles = StyleSheet.create({
     height: "100%",
     opacity: 0.35,
   },
+  contentContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
+    paddingHorizontal: Spacing.defaultMargin,
+    paddingBottom: 50,
+  },
   pageHeader: {
     justifyContent: "center",
     alignItems: "center",
-  },
-  buttonsContainer: {
-    marginTop: 40,
+    marginBottom: 50,
   },
   button: {
-    width: 300,
+    width: "100%",
     padding: Spacing.defaultMargin,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 4,
+    borderRadius: 8,
   },
 });
