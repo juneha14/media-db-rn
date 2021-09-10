@@ -6,27 +6,40 @@ import {
 } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { ModalRouteParamList } from "./Routes";
-import { TabRoutes } from "./TabRoutes";
+import { LoginRoutes } from "./LoginRoutes";
 
 import { FilterScreen } from "../screens/Filter";
 import { GalleryCarouselScreen } from "../screens/Gallery";
 import { Colors } from "../components/theme";
+import { TMDBLoginScreen } from "../screens/Login";
 
-type AppParamList = ModalRouteParamList & { Tabs: undefined };
+type AppParamList = ModalRouteParamList & { Login: undefined; Tabs: undefined };
 const Stack = createStackNavigator<AppParamList>();
 
 export const AppRoutes: React.FC = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Tabs"
+        initialRouteName="Login"
         mode="modal"
         screenOptions={modalScreenOptions}
       >
         <Stack.Screen
-          name="Tabs"
-          component={TabRoutes}
+          name="Login"
+          component={LoginRoutes}
           options={{ headerShown: false }}
+        />
+
+        {/* Modals */}
+
+        <Stack.Screen
+          name="TMDBLogin"
+          component={TMDBLoginScreen}
+          options={{
+            ...modalScreenOptions,
+            headerShown: false,
+            gestureEnabled: false,
+          }}
         />
         <Stack.Screen
           name="Filter"
