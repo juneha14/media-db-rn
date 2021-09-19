@@ -8,28 +8,37 @@ import {
   ViewStyle,
   ScrollView,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Box } from "../../components/Box";
 import { Icon } from "../../components/Icons";
 import { LoadingIndicator } from "../../components/LoadingIndicator";
 import { Colors, Spacing, TextVariants } from "../../components/theme";
 import { PageHeader, Text } from "../../components/Typography";
+import { useAppStackNavigation } from "../../hooks";
 import { BackNavigationButton } from "../shared";
 
 export const TMDBLoginScreen: React.FC = () => {
+  const { pop } = useAppStackNavigation();
+  const { top } = useSafeAreaInsets();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loggingIn, setLoggingIn] = useState(false);
 
   return (
     <>
-      {/* <BackNavigationButton /> */}
+      <BackNavigationButton
+        type="cancel"
+        respectsTopInset={false}
+        onNavigateBack={() => pop()}
+      />
       <KeyboardAvoidingView style={styles.container}>
         <ScrollView
           style={styles.contentContainer}
           keyboardShouldPersistTaps="handled"
         >
           <PageHeader
-            style={{ marginVertical: 50 }}
+            style={{ marginTop: 50 + top, marginBottom: 50 }}
             title="Welcome back"
             subtitle="Login to your TMDB account to get started."
           />

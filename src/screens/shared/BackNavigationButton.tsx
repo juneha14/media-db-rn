@@ -5,18 +5,20 @@ import { StyleProp, ViewStyle } from "react-native";
 
 interface BackNavigationButtonProps {
   type?: "back" | "cancel";
+  respectsTopInset?: boolean;
   onNavigateBack?: () => void;
 }
 
 export const BackNavigationButton: React.FC<BackNavigationButtonProps> = ({
   type = "back",
+  respectsTopInset = true,
   onNavigateBack,
 }) => {
   const { top, left } = useSafeAreaInsets();
   const style: StyleProp<ViewStyle> = {
     position: "absolute",
     left: left + 15,
-    top,
+    top: respectsTopInset ? top : 5,
     zIndex: 100,
   };
 

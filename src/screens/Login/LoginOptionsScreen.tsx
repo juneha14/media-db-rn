@@ -4,8 +4,14 @@ import Images from "../../assets";
 import { Box } from "../../components/Box";
 import { Colors, Spacing } from "../../components/theme";
 import { PageHeader, Text } from "../../components/Typography";
+import { useAppModalNavigation, useAppStackNavigation } from "../../hooks";
+
+// add authentication logic and hook
 
 export const LoginOptionsScreen: React.FC = () => {
+  const { push } = useAppStackNavigation();
+  const { navigate } = useAppModalNavigation();
+
   return (
     <Box style={styles.container}>
       <Image style={styles.backdropImage} source={Images.loginBackdropImage} />
@@ -16,22 +22,8 @@ export const LoginOptionsScreen: React.FC = () => {
           subtitle="Browse thousands of movies and TV shows."
         />
         <>
-          <Button
-            type="tmdb"
-            onPress={() =>
-              console.log(
-                "========== File: LoginOptionsScreen.tsx, Line: 24 =========="
-              )
-            }
-          />
-          <Button
-            type="guest"
-            onPress={() =>
-              console.log(
-                "========== File: LoginOptionsScreen.tsx, Line: 24 =========="
-              )
-            }
-          />
+          <Button type="tmdb" onPress={() => navigate("TMDBLogin")} />
+          <Button type="guest" onPress={() => push("Tabs")} />
         </>
       </Box>
     </Box>
