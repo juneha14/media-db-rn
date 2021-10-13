@@ -54,6 +54,7 @@ export class Request {
       metaData.body = JSON.stringify(this.body);
     }
 
+    console.log("==== Value of metaData.body:", metaData.body);
     try {
       console.debug("Begin fetching request with id:", this.id);
       const res = await fetch(this.url, { ...metaData, signal });
@@ -67,7 +68,7 @@ export class Request {
       throw new Error(res.statusText);
     } catch (error) {
       console.error(
-        `Failed to ${metaData.method} from ${this.url} wit id: ${this.id} due to error:`,
+        `Failed to ${metaData.method} from ${this.url} with id: ${this.id} due to error:`,
         error
       );
       await this.updateInternalState("errored");
