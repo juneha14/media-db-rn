@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   KeyboardAvoidingView,
   Pressable,
@@ -7,6 +7,7 @@ import {
   TextInput,
   ViewStyle,
   ScrollView,
+  Keyboard,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Box } from "../../components/Box";
@@ -16,14 +17,22 @@ import { Colors, Spacing, TextVariants } from "../../components/theme";
 import { PageHeader, Text } from "../../components/Typography";
 import { useAppStackNavigation } from "../../hooks";
 import { BackNavigationButton } from "../shared";
+import { useAuthentication } from "./useAuthentication";
 
 export const TMDBLoginScreen: React.FC = () => {
-  const { pop } = useAppStackNavigation();
+  const { pop, push } = useAppStackNavigation();
   const { top } = useSafeAreaInsets();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loggingIn, setLoggingIn] = useState(false);
+  const { authenticating, sessionId, login } = useAuthentication();
+
+  useEffect(() => {
+    if (sessionId) {
+      pop();
+      push("Tabs");
+    }
+  }, [push, pop, sessionId]);
 
   return (
     <>
@@ -50,12 +59,11 @@ export const TMDBLoginScreen: React.FC = () => {
           <LoginInput type="password" onChangeText={setPassword} />
           <LoginButton
             enabled={email.length > 0 && password.length > 0}
-            authenticating={loggingIn}
-            onPress={() =>
-              console.log(
-                "========== File: TMDBLoginScreen.tsx, Line: 42 =========="
-              )
-            }
+            authenticating={authenticating}
+            onPress={() => {
+              Keyboard.dismiss();
+              login(email, password);
+            }}
           />
         </ScrollView>
       </KeyboardAvoidingView>
