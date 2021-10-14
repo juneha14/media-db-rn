@@ -54,7 +54,6 @@ export class Request {
       metaData.body = JSON.stringify(this.body);
     }
 
-    console.log("==== Value of metaData.body:", metaData.body);
     try {
       console.debug("Begin fetching request with id:", this.id);
       const res = await fetch(this.url, { ...metaData, signal });

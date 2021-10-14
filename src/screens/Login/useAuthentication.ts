@@ -5,7 +5,7 @@ import { convertToCamelCase } from "../../utils";
 interface State {
   authenticating: boolean;
   sessionId: string;
-  error: string;
+  error?: string;
   login: (username: string, password: string) => Promise<void>;
 }
 
@@ -23,7 +23,7 @@ interface SessionResponse {
 export const useAuthentication = (): State => {
   const [authenticating, setAuthenticating] = useState(false);
   const [sessionId, setSessionId] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string>();
 
   const login = useCallback(async (username: string, password: string) => {
     setAuthenticating(true);
@@ -71,10 +71,12 @@ export const useAuthentication = (): State => {
 
       // Success
       setSessionId(sessionId);
+      setError(undefined);
       setAuthenticating(false);
     } catch (error) {
       setAuthenticating(false);
-      setError(error.message);
+      console.log("==== Value of error.message:", error.message);
+      setError(error.message ?? "Login failed");
       console.error(`Failed to authenticate due to error: ${error}`);
     }
   }, []);

@@ -15,6 +15,7 @@ import { Icon } from "../../components/Icons";
 import { LoadingIndicator } from "../../components/LoadingIndicator";
 import { Colors, Spacing, TextVariants } from "../../components/theme";
 import { PageHeader, Text } from "../../components/Typography";
+import { Toast } from "../../components/Toast";
 import { useAppStackNavigation } from "../../hooks";
 import { BackNavigationButton } from "../shared";
 import { useAuthentication } from "./useAuthentication";
@@ -25,14 +26,14 @@ export const TMDBLoginScreen: React.FC = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { authenticating, sessionId, login } = useAuthentication();
+  const { authenticating, sessionId, error, login } = useAuthentication();
 
   useEffect(() => {
-    if (sessionId) {
+    if (sessionId && !error) {
       pop();
       push("Tabs");
     }
-  }, [push, pop, sessionId]);
+  }, [push, pop, sessionId, error]);
 
   return (
     <>
@@ -41,6 +42,13 @@ export const TMDBLoginScreen: React.FC = () => {
         respectsTopInset={false}
         onNavigateBack={() => pop()}
       />
+      {error ? (
+        <Toast
+          title="The username or password is incorrect. Please try again."
+          type="error"
+          respectsTopInset={false}
+        />
+      ) : null}
       <KeyboardAvoidingView style={styles.container}>
         <ScrollView
           style={styles.contentContainer}
