@@ -47,6 +47,9 @@ export const Colors = {
   ActionNeutralPressed: `#404245`,
   ActionPrimary: Palette.Blue.D1,
   ActionPrimaryPressed: `#498AF2`,
+  ActionWarning: `#C18B00`,
+  ActionCritical: `#CF290C`,
+  ActionSuccess: Palette.Green.D1,
 
   TextNeutral: `#E3E5E7`,
   TextSubdued: `#989FA4`,
@@ -57,12 +60,19 @@ export const Colors = {
   TextOnSurfacePrimary: Palette.White,
   TextOnSurfaceNeutral: `#C6CDD1`,
 
+  TextWarning: Palette.Yellow.Primary,
+  TextCritical: Palette.Red.L1,
+  TextSuccess: Palette.Green.Primary,
+
   IconOnPrimary: Palette.White,
   IconNeutral: `#A6ACB2`,
   IconSubdued: `#787D81`,
   IconDisabled: `#54575B`,
   IconInteractive: Palette.Blue.Primary,
   IconHighlight: `#35ADB9`,
+  IconWarning: `#DDA844`,
+  IconCritical: `#EB574C`,
+  IconSuccess: `#359977`,
 
   SystemBlue: `#0a84ff`,
 

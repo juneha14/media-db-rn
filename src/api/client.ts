@@ -10,6 +10,31 @@ const baseUrl = "https://api.themoviedb.org/3";
 
 export function client() {}
 
+// Authentication
+
+client.getAuthRequestToken = () => {
+  const url = constructUrl("/authentication/token/new");
+  return new Request(url);
+};
+
+client.validateAuthRequestToken = (
+  username: string,
+  password: string,
+  requestToken: string
+) => {
+  const url = constructUrl("/authentication/token/validate_with_login");
+  return new Request(url, undefined, {
+    username,
+    password,
+    request_token: requestToken,
+  });
+};
+
+client.createSessionId = (requestToken: string) => {
+  const url = constructUrl("/authentication/session/new");
+  return new Request(url, undefined, { request_token: requestToken });
+};
+
 // Movies
 
 client.getNowPlayingMovies = (page = 1) => {

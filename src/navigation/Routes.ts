@@ -3,6 +3,8 @@ import { KnownForMedia } from "../screens/Credits/utils";
 import { GalleryImage } from "../screens/Gallery/utils";
 
 export type StackRouteParamList = {
+  LoginOptions: undefined;
+  Tabs: undefined;
   MediaList: undefined;
   MediaDetails: { id: number };
   RecommendedList: { id: number };
@@ -18,6 +20,7 @@ export type StackRouteParamList = {
 };
 
 export type ModalRouteParamList = {
+  TMDBLogin: undefined;
   Filter: { option?: SortOption };
   GalleryCarousel: { selectedPage: number; images: GalleryImage[] };
 };

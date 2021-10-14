@@ -3,6 +3,14 @@ import { RemoteSortOption } from "../models";
 import { Request } from "./Request";
 
 export type EndpointParamList = {
+  AuthRequestToken: undefined;
+  AuthValidateRequestToken: {
+    requestToken: string;
+    username: string;
+    password: string;
+  };
+  AuthSessionId: { requestToken: string };
+
   NowPlayingMovies: { page: number };
   PopularMovies: { page: number };
   MovieDetails: { movieId: number };
@@ -34,6 +42,22 @@ export function fetchRequest<T extends Endpoint>(
   params: EndpointParamList[T]
 ): Request {
   switch (endpoint) {
+    case "AuthRequestToken": {
+      return client.getAuthRequestToken();
+    }
+    case "AuthValidateRequestToken": {
+      const {
+        username,
+        password,
+        requestToken,
+      } = params as EndpointParamList["AuthValidateRequestToken"];
+      return client.validateAuthRequestToken(username, password, requestToken);
+    }
+    case "AuthSessionId": {
+      const { requestToken } = params as EndpointParamList["AuthSessionId"];
+      return client.createSessionId(requestToken);
+    }
+
     case "NowPlayingMovies": {
       const { page } = params as EndpointParamList["NowPlayingMovies"];
       return client.getNowPlayingMovies(page);
