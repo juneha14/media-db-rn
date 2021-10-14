@@ -7,3 +7,4 @@ export { SocialMediaLink, SocialMedia } from "./SocialMedia";
 export { CheckmarkIcon } from "./Checkmark";
 export { RemoveIcon } from "./Remove";
 export { CancelIcon } from "./Cancel";
+export { ToastStatusIcon, ToastType } from "./ToastStatus";
