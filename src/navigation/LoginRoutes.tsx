@@ -15,7 +15,11 @@ export const LoginRoutes: React.FC = () => {
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="LoginOptions" component={LoginOptionsScreen} />
-      <Stack.Screen name="Tabs" component={TabRoutes} />
+      <Stack.Screen
+        name="Tabs"
+        component={TabRoutes}
+        options={{ animationEnabled: false }}
+      />
     </Stack.Navigator>
   );
 };

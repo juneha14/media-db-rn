@@ -19,6 +19,7 @@ import { Toast } from "../../components/Toast";
 import { useAppStackNavigation } from "../../hooks";
 import { BackNavigationButton } from "../shared";
 import { useAuthentication } from "./useAuthentication";
+import { useSession } from "./SessionProvider";
 
 export const TMDBLoginScreen: React.FC = () => {
   const { pop, push } = useAppStackNavigation();
@@ -27,13 +28,15 @@ export const TMDBLoginScreen: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { authenticating, sessionId, error, login } = useAuthentication();
+  const { setSessionId } = useSession();
 
   useEffect(() => {
     if (sessionId && !error) {
-      pop();
+      setSessionId(sessionId);
       push("Tabs");
+      pop();
     }
-  }, [push, pop, sessionId, error]);
+  }, [push, pop, sessionId, error, setSessionId]);
 
   return (
     <>
