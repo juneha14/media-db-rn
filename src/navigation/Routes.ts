@@ -23,6 +23,7 @@ export type ModalRouteParamList = {
   TMDBLogin: undefined;
   Filter: { option?: SortOption };
   GalleryCarousel: { selectedPage: number; images: GalleryImage[] };
+  AddRating: { id: number; title: string; imgUrl: string | null };
 };
 
 export type Screens = keyof StackRouteParamList | keyof ModalRouteParamList;

@@ -12,6 +12,7 @@ import { FilterScreen } from "../screens/Filter";
 import { GalleryCarouselScreen } from "../screens/Gallery";
 import { Colors } from "../components/theme";
 import { TMDBLoginScreen } from "../screens/Login";
+import { AddRatingScreen } from "../screens/Reviews";
 
 type AppParamList = ModalRouteParamList & { Login: undefined; Tabs: undefined };
 const Stack = createStackNavigator<AppParamList>();
@@ -52,6 +53,13 @@ export const AppRoutes: React.FC = () => {
           options={{
             headerShown: false,
             ...TransitionPresets.ModalSlideFromBottomIOS,
+          }}
+        />
+        <Stack.Screen
+          name="AddRating"
+          component={AddRatingScreen}
+          options={{
+            headerShown: false,
           }}
         />
       </Stack.Navigator>
