@@ -12,6 +12,8 @@ import {
   starRatings,
   descriptionForStarRating,
   feedbackOptionsForStarRating,
+  FeedbackOptions,
+  FeedbackOptionKeys,
 } from "./utils";
 import { BackNavigationButton } from "../shared";
 import {
@@ -22,11 +24,8 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAddRating } from "./useAddRating";
 
-// useParam to get name and url of movie
-// make it modal screen
 // convert star rating to number rating and post to database
 // store rating in local prefs so that we can update the rating as opposed to creating new ones
-// use safeAreaInsets to do margin calculations
 
 export const AddRatingScreen: React.FC = () => {
   const {
@@ -112,16 +111,16 @@ const Stars = ({
 const FeedbackPills = ({ rating }: { rating: StarRating }) => {
   const options = feedbackOptionsForStarRating[rating];
 
-  const [selectedOptions, setSelectedOptions] = useState<Set<string>>(
-    new Set([])
-  );
+  const [selectedOptions, setSelectedOptions] = useState<
+    Set<FeedbackOptionKeys>
+  >(new Set([]));
 
   useEffect(() => {
     // Whenever user selects a new rating, reset the selected feedback options
     setSelectedOptions(new Set());
   }, [rating]);
 
-  const onSelectOption = useCallback((newOption: string) => {
+  const onSelectOption = useCallback((newOption: FeedbackOptionKeys) => {
     setSelectedOptions((options) => {
       const oldOptions = Array.from(options);
       if (options.has(newOption)) {
@@ -136,7 +135,7 @@ const FeedbackPills = ({ rating }: { rating: StarRating }) => {
     <TagList
       tags={options.map((option) => {
         return {
-          title: option,
+          title: FeedbackOptions[option],
           borderColor: Colors.BorderSubdued,
           fillColor: selectedOptions.has(option)
             ? Colors.ActionPrimaryPressed

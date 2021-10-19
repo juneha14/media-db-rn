@@ -16,31 +16,89 @@ export const descriptionForStarRating: Record<StarRating, string> = {
   excellent: "Excellent rating! What did you enjoy?",
 };
 
-export const feedbackOptionsForStarRating: Record<StarRating, string[]> = {
-  bad: ["Bad casting", "Bad production", "Boring", "Too long / too short"],
+export const FeedbackOptions = {
+  // Common
+  wouldNotRecommend: "Would not recommend",
+
+  // Bad
+  badCast: "Bad cast",
+  awfulProduction: "Awful production",
+  badPlot: "Bad script",
+  awfullyBoring: "Awfully boring",
+  wouldNotPayToRewatch: "Would not pay to rewatch",
+  wasteOfTime: "Waste of time",
+
+  // Poor
+  poorCast: "Poor cast",
+  poorProduction: "Poorly produced",
+  poorActing: "Poor acting",
+  boring: "Boring",
+  wouldNotRewatch: "Would not rewatch",
+
+  // Average
+  decentCast: "Decent cast",
+  decentProduction: "Decent production",
+  decentPlot: "Okay plot - kind of expected",
+  mightRewatch: "Might rewatch if nothing else was available",
+  mightRecommend: "Might recommend",
+
+  // Good
+  goodCast: "Good cast",
+  goodProduction: "Good production",
+  goodPlot: "Well developed plot / story",
+  rewatchWorthy: "Rewatch worthy",
+  wouldRecommend: "Would recommend",
+
+  // Excellent
+  excellentCast: "Excellent cast",
+  excellentProduction: "Excellently produced",
+  excellentPlot: "Excellently written",
+  excellentMusic: "Great music",
+  tenOfTen: "10/10 would rewatch",
+};
+
+export type FeedbackOptionKeys = keyof typeof FeedbackOptions;
+
+export const feedbackOptionsForStarRating: Record<
+  StarRating,
+  FeedbackOptionKeys[]
+> = {
+  bad: [
+    "badCast",
+    "awfulProduction",
+    "badPlot",
+    "awfullyBoring",
+    "wouldNotPayToRewatch",
+    "wouldNotRecommend",
+    "wasteOfTime",
+  ],
   poor: [
-    "Poor casting",
-    "Poor production",
-    "Not engaging",
-    "Too long / too short",
+    "poorCast",
+    "poorProduction",
+    "poorActing",
+    "boring",
+    "wouldNotRecommend",
+    "wouldNotRewatch",
   ],
   average: [
-    "Decent casting",
-    "Average production",
-    "Meh acting",
-    "Was anticipating more",
+    "decentCast",
+    "decentProduction",
+    "decentPlot",
+    "mightRewatch",
+    "mightRecommend",
   ],
   good: [
-    "Good casting",
-    "Good production",
-    "Good acting",
-    "Not worth the hype",
+    "goodCast",
+    "goodProduction",
+    "goodPlot",
+    "rewatchWorthy",
+    "wouldRecommend",
   ],
   excellent: [
-    "Great cast",
-    "Top production",
-    "Top acting",
-    "Engaging",
-    "Rewatch-worthy",
+    "excellentCast",
+    "excellentProduction",
+    "excellentPlot",
+    "excellentMusic",
+    "tenOfTen",
   ],
 };
