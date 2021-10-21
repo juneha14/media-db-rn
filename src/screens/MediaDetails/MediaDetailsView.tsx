@@ -14,7 +14,7 @@ import { noop } from "lodash";
 import { GalleryImage } from "../Gallery/utils";
 
 interface MediaDetailsViewProps {
-  infoDetails: MovieDetails & { isLiked?: boolean };
+  infoDetails: MovieDetails & { isLiked?: boolean; canRate?: boolean };
   cast?: Cast[];
   recommendations?: Movie[];
   videos?: VideoLink[];
@@ -22,6 +22,7 @@ interface MediaDetailsViewProps {
   onSelectGenre: (genre: Genre) => void;
   onSelectFavourite: () => void;
   onSelectPlayTrailer?: (url: string) => void;
+  onSelectAddRating?: (id: number, title: string, url: string | null) => void;
   onSelectCast: (id: number) => void;
   onSelectRecommended: (id: number) => void;
   onSelectSeeAllCast: () => void;
@@ -38,6 +39,7 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
   onSelectGenre,
   onSelectFavourite,
   onSelectPlayTrailer,
+  onSelectAddRating,
   onSelectCast,
   onSelectRecommended,
   onSelectSeeAllCast,
@@ -78,6 +80,12 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
     [onSelectRecommended]
   );
 
+  const onPressAddRating = useCallback(
+    (id: number, title: string, url: string | null) => () =>
+      onSelectAddRating ? onSelectAddRating(id, title, url) : noop,
+    [onSelectAddRating]
+  );
+
   return (
     <>
       <PosterBackdrop
@@ -102,9 +110,15 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
         overview={infoDetails.overview}
         genres={infoDetails.genres}
         isLiked={infoDetails.isLiked}
+        canAddRating={infoDetails.canRate}
         onSelectGenre={onSelectGenre}
         onSelectFavourite={onSelectFavourite}
         onSelectPlayTrailer={onSelectPlayTrailer}
+        onSelectAddRating={onPressAddRating(
+          infoDetails.id,
+          infoDetails.title,
+          infoDetails.posterPath
+        )}
       />
       <Section
         style={{
