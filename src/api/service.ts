@@ -33,6 +33,8 @@ export type EndpointParamList = {
   GenreMovieList: undefined;
 
   Search: { page: number; query: string };
+
+  AddRating: { sessionId: string; movieId: number; rating: number };
 };
 
 export type Endpoint = keyof EndpointParamList;
@@ -119,6 +121,15 @@ export function fetchRequest<T extends Endpoint>(
     case "Search": {
       const { page, query } = params as EndpointParamList["Search"];
       return client.search(query, page);
+    }
+
+    case "AddRating": {
+      const {
+        sessionId,
+        movieId,
+        rating,
+      } = params as EndpointParamList["AddRating"];
+      return client.addRating(sessionId, movieId, rating);
     }
 
     default: {
