@@ -3,17 +3,20 @@ import { indexOf } from "lodash";
 import { fetchRequest } from "../../api";
 import { convertToCamelCase } from "../../utils";
 import { useSession } from "../Login/SessionProvider";
-import { StarRating, starRatings } from "./utils";
+import { FeedbackOptionKeys, StarRating, starRatings } from "./utils";
 
 interface State {
   submitting: boolean;
+  status?: Status;
   error?: string;
   submit: (
     id: number,
     rating: StarRating,
-    feedbackOptions: string[]
+    feedbackOptions: FeedbackOptionKeys[]
   ) => Promise<void>;
 }
+
+type Status = "success" | "failure";
 
 interface Response {
   statusCode: number;
@@ -21,14 +24,22 @@ interface Response {
 }
 
 // save to preferences - use observableState to share state to MediaDetailsScreen
+// map status codes correctly
 export const useAddRating = (): State => {
   const { sessionId } = useSession();
   const [submitting, setSubmitting] = useState(false);
+  const [status, setStatus] = useState<Status>();
   const [error, setError] = useState<string>();
 
   const submit = useCallback(
-    async (id: number, rating: StarRating, feedbackOptions: string[]) => {
+    async (
+      id: number,
+      rating: StarRating,
+      feedbackOptions: FeedbackOptionKeys[]
+    ) => {
       setSubmitting(true);
+
+      console.log("==== Value of feedbackOptions:", feedbackOptions);
 
       try {
         if (sessionId === undefined) {
@@ -42,14 +53,16 @@ export const useAddRating = (): State => {
         }).fetch();
 
         const { statusCode } = convertToCamelCase(json) as Response;
-        if (statusCode !== 1) {
+        if (statusCode !== 1 && statusCode !== 12) {
           throw new Error("Failed to post rating to TMDB server");
         }
 
         setSubmitting(false);
+        setStatus("success");
         setError(undefined);
       } catch (error) {
         setSubmitting(false);
+        setStatus("failure");
         setError(error.message ?? "Adding rating failed");
         console.error("Failed to add rating due to error:", error.message);
       }
@@ -59,6 +72,7 @@ export const useAddRating = (): State => {
 
   return {
     submitting,
+    status,
     error,
     submit,
   };
