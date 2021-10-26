@@ -98,7 +98,7 @@ export const Header: React.FC<HeaderProps> = ({
             onPress={onPlayTrailer(trailer)}
           />
         )}
-        {!canAddRating && (
+        {canAddRating && (
           <StarIcon
             size="medium"
             encloseInBorder
