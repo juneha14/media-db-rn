@@ -23,6 +23,7 @@ interface HeaderProps {
   trailer?: string;
   isLiked?: boolean;
   canAddRating?: boolean;
+  isRated?: boolean;
   onSelectGenre: (genre: Genre) => void;
   onSelectFavourite: () => void;
   onSelectPlayTrailer?: (url: string) => void;
@@ -42,6 +43,7 @@ export const Header: React.FC<HeaderProps> = ({
   trailer,
   isLiked = false,
   canAddRating = false,
+  isRated = false,
   onSelectGenre,
   onSelectFavourite,
   onSelectPlayTrailer,
@@ -100,6 +102,7 @@ export const Header: React.FC<HeaderProps> = ({
         )}
         {canAddRating && (
           <StarIcon
+            selected={isRated}
             size="medium"
             encloseInBorder
             caption="Rate It"

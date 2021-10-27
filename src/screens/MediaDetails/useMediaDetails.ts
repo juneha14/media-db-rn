@@ -14,12 +14,17 @@ import {
 import { convertToCamelCase } from "../../utils";
 import { GalleryImage } from "../Gallery/utils";
 import { useSession } from "../Login/SessionProvider";
+import { useRatedList } from "../Reviews/useRatedList";
 import { useFavouriteState } from "../shared";
 
 interface State {
   loading: boolean;
   error?: string;
-  details?: MovieDetails & { isLiked: boolean; canRate: boolean };
+  details?: MovieDetails & {
+    isLiked: boolean;
+    canRate: boolean;
+    isRated: boolean;
+  };
   cast?: Cast[];
   recommendations?: Movie[];
   videos?: VideoLink[];
@@ -39,7 +44,7 @@ export const useMediaDetails = (movieId: number): State => {
   const [images, setImages] = useState<GalleryImage[]>();
 
   const { favourites, onToggleLike } = useFavouriteState();
-
+  const { getMediaForId } = useRatedList();
   const { sessionId } = useSession();
 
   const fetch = useCallback(async () => {
@@ -101,6 +106,7 @@ export const useMediaDetails = (movieId: number): State => {
       ...details,
       isLiked: favourites.find((f) => f.id === movieId) !== undefined,
       canRate: sessionId !== undefined,
+      isRated: getMediaForId(movieId) !== undefined,
     },
     cast,
     recommendations,

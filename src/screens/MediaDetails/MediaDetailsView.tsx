@@ -14,7 +14,11 @@ import { noop } from "lodash";
 import { GalleryImage } from "../Gallery/utils";
 
 interface MediaDetailsViewProps {
-  infoDetails: MovieDetails & { isLiked?: boolean; canRate?: boolean };
+  infoDetails: MovieDetails & {
+    isLiked?: boolean;
+    canRate?: boolean;
+    isRated?: boolean;
+  };
   cast?: Cast[];
   recommendations?: Movie[];
   videos?: VideoLink[];
@@ -111,6 +115,7 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
         genres={infoDetails.genres}
         isLiked={infoDetails.isLiked}
         canAddRating={infoDetails.canRate}
+        isRated={infoDetails.isRated}
         onSelectGenre={onSelectGenre}
         onSelectFavourite={onSelectFavourite}
         onSelectPlayTrailer={onSelectPlayTrailer}
