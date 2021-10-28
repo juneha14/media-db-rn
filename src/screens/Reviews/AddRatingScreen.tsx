@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Pressable, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { indexOf } from "lodash";
 import { Avatar } from "../../components/Avatar";
 import { Box } from "../../components/Box";
@@ -7,6 +8,8 @@ import { StarIcon } from "../../components/Icons";
 import { Colors, Spacing } from "../../components/theme";
 import { Text } from "../../components/Typography";
 import { TagList } from "../../components/Tags";
+import { Button } from "../../components/Button";
+import { BackNavigationButton } from "../shared";
 import {
   StarRating,
   starRatings,
@@ -15,17 +18,13 @@ import {
   FeedbackOptions,
   FeedbackOptionKeys,
 } from "./utils";
-import { BackNavigationButton } from "../shared";
 import {
   useAppModalNavigation,
   useImageUri,
   useRouteParams,
 } from "../../hooks";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useAddRating } from "./useAddRating";
-
-// convert star rating to number rating and post to database
-// store rating in local prefs so that we can update the rating as opposed to creating new ones
+import { Toast } from "../../components/Toast";
 
 export const AddRatingScreen: React.FC = () => {
   const {
@@ -36,8 +35,30 @@ export const AddRatingScreen: React.FC = () => {
   const { top, bottom } = useSafeAreaInsets();
   const uri = useImageUri("poster", "Original", imgUrl);
 
-  const [rating, setRating] = useState<StarRating>();
-  // const { submitting, error, submit } = useAddRating();
+  const {
+    submitting,
+    status,
+    error,
+    submit,
+    previousRating,
+    previousFeedback,
+  } = useAddRating(id);
+
+  const [rating, setRating] = useState<StarRating | undefined>(previousRating);
+  const [feedback, setFeedback] = useState<FeedbackOptionKeys[] | undefined>(
+    previousFeedback ?? []
+  );
+
+  useEffect(() => {
+    setRating(previousRating);
+    setFeedback(previousFeedback);
+  }, [previousRating, previousFeedback]);
+
+  useEffect(() => {
+    if (status === "success") {
+      pop();
+    }
+  }, [status, pop]);
 
   return (
     <>
@@ -46,6 +67,13 @@ export const AddRatingScreen: React.FC = () => {
         type="cancel"
         onNavigateBack={() => pop()}
       />
+      {error && !submitting ? (
+        <Toast
+          type="error"
+          title="Could not add rating. Please try again."
+          respectsTopInset={false}
+        />
+      ) : null}
       <Box style={styles.container}>
         <Box style={[styles.contentContainer, { marginTop: top + 30 }]}>
           <Avatar style={styles.avatar} url={uri} size={120} />
@@ -68,31 +96,37 @@ export const AddRatingScreen: React.FC = () => {
               </Text>
             )}
           </>
-          <Stars onSelectRating={setRating} />
-          {rating && <FeedbackPills rating={rating} />}
+          <Stars rating={rating} onSelectRating={setRating} />
+          {rating && (
+            <FeedbackPills
+              previousFeedback={feedback}
+              rating={rating}
+              onUpdateFeedback={setFeedback}
+            />
+          )}
         </Box>
-        <Pressable style={[styles.submitButton, { marginBottom: bottom }]}>
-          <Text variant="captionHeadingSmall">Submit</Text>
-        </Pressable>
+        <Button
+          style={{
+            marginBottom: bottom,
+            marginHorizontal: Spacing.defaultMargin,
+          }}
+          title="Submit"
+          enabled={rating !== undefined}
+          loading={submitting}
+          onPress={() => rating && submit(rating, feedback ?? [])}
+        />
       </Box>
     </>
   );
 };
 
 const Stars = ({
+  rating,
   onSelectRating,
 }: {
+  rating?: StarRating;
   onSelectRating: (rating: StarRating) => void;
 }) => {
-  const [rating, setRating] = useState<StarRating>();
-  const onPress = useCallback(
-    (rating: StarRating) => () => {
-      setRating(rating);
-      onSelectRating(rating);
-    },
-    [onSelectRating]
-  );
-
   return (
     <Box style={styles.starRatingContainer}>
       {starRatings.map((star, index) => {
@@ -100,7 +134,7 @@ const Stars = ({
           <StarIcon
             key={star}
             selected={index <= indexOf(starRatings, rating)}
-            onPress={onPress(star)}
+            onPress={() => onSelectRating(star)}
           />
         );
       })}
@@ -108,28 +142,52 @@ const Stars = ({
   );
 };
 
-const FeedbackPills = ({ rating }: { rating: StarRating }) => {
+const FeedbackPills = ({
+  previousFeedback,
+  rating,
+  onUpdateFeedback,
+}: {
+  previousFeedback?: FeedbackOptionKeys[];
+  rating: StarRating;
+  onUpdateFeedback: (options: FeedbackOptionKeys[]) => void;
+}) => {
   const options = feedbackOptionsForStarRating[rating];
 
   const [selectedOptions, setSelectedOptions] = useState<
     Set<FeedbackOptionKeys>
-  >(new Set([]));
+  >(previousFeedback ? new Set(previousFeedback) : new Set([]));
+
+  useEffect(() => {
+    setSelectedOptions(
+      previousFeedback ? new Set(previousFeedback) : new Set([])
+    );
+  }, [previousFeedback]);
+
+  console.log("==== Value of selectedOptions:", selectedOptions);
 
   useEffect(() => {
     // Whenever user selects a new rating, reset the selected feedback options
     setSelectedOptions(new Set());
-  }, [rating]);
+    onUpdateFeedback([]);
+  }, [rating, onUpdateFeedback]);
 
-  const onSelectOption = useCallback((newOption: FeedbackOptionKeys) => {
-    setSelectedOptions((options) => {
-      const oldOptions = Array.from(options);
-      if (options.has(newOption)) {
-        return new Set(oldOptions.filter((o) => o !== newOption));
-      } else {
-        return new Set([...oldOptions, newOption]);
-      }
-    });
-  }, []);
+  const onSelectOption = useCallback(
+    (newOption: FeedbackOptionKeys) => {
+      setSelectedOptions((options) => {
+        const oldOptions = Array.from(options);
+        let newOptions;
+        if (options.has(newOption)) {
+          newOptions = new Set(oldOptions.filter((o) => o !== newOption));
+        } else {
+          newOptions = new Set([...oldOptions, newOption]);
+        }
+
+        onUpdateFeedback(Array.from(newOptions));
+        return newOptions;
+      });
+    },
+    [onUpdateFeedback]
+  );
 
   return (
     <TagList
@@ -167,13 +225,5 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     alignItems: "center",
     marginVertical: 32,
-  },
-  submitButton: {
-    justifyContent: "center",
-    alignItems: "center",
-    padding: Spacing.defaultMargin,
-    marginHorizontal: Spacing.defaultMargin,
-    borderRadius: 8,
-    backgroundColor: Colors.ActionPrimary,
   },
 });

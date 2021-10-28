@@ -1,19 +1,21 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { indexOf } from "lodash";
 import { fetchRequest } from "../../api";
 import { convertToCamelCase } from "../../utils";
 import { useSession } from "../Login/SessionProvider";
 import { FeedbackOptionKeys, StarRating, starRatings } from "./utils";
+import { useRatedList } from "./useRatedList";
 
 interface State {
   submitting: boolean;
   status?: Status;
   error?: string;
   submit: (
-    id: number,
     rating: StarRating,
     feedbackOptions: FeedbackOptionKeys[]
   ) => Promise<void>;
+  previousRating?: StarRating;
+  previousFeedback?: FeedbackOptionKeys[];
 }
 
 type Status = "success" | "failure";
@@ -23,23 +25,19 @@ interface Response {
   statusMessage: string;
 }
 
-// save to preferences - use observableState to share state to MediaDetailsScreen
 // map status codes correctly
-export const useAddRating = (): State => {
+export const useAddRating = (id: number): State => {
   const { sessionId } = useSession();
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState<Status>();
   const [error, setError] = useState<string>();
+  const { getMediaForId, updateMediaForId, list } = useRatedList();
+
+  console.log("==== Value of list:", list);
 
   const submit = useCallback(
-    async (
-      id: number,
-      rating: StarRating,
-      feedbackOptions: FeedbackOptionKeys[]
-    ) => {
+    async (rating: StarRating, feedbackOptions: FeedbackOptionKeys[]) => {
       setSubmitting(true);
-
-      console.log("==== Value of feedbackOptions:", feedbackOptions);
 
       try {
         if (sessionId === undefined) {
@@ -57,6 +55,8 @@ export const useAddRating = (): State => {
           throw new Error("Failed to post rating to TMDB server");
         }
 
+        updateMediaForId(id, rating, feedbackOptions);
+
         setSubmitting(false);
         setStatus("success");
         setError(undefined);
@@ -67,13 +67,17 @@ export const useAddRating = (): State => {
         console.error("Failed to add rating due to error:", error.message);
       }
     },
-    [sessionId]
+    [sessionId, updateMediaForId, id]
   );
+
+  const previousRating = useMemo(() => getMediaForId(id), [getMediaForId, id]);
 
   return {
     submitting,
     status,
     error,
     submit,
+    previousRating: previousRating?.rating,
+    previousFeedback: previousRating?.feedback,
   };
 };
