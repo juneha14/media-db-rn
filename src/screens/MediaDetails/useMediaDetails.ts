@@ -14,7 +14,7 @@ import {
 import { convertToCamelCase } from "../../utils";
 import { GalleryImage } from "../Gallery/utils";
 import { useSession } from "../Login/SessionProvider";
-import { useRatedList } from "../Reviews/useRatedList";
+import { RatedMedia, useRatedList } from "../Reviews";
 import { useFavouriteState } from "../shared";
 
 interface State {
@@ -23,7 +23,7 @@ interface State {
   details?: MovieDetails & {
     isLiked: boolean;
     canRate: boolean;
-    isRated: boolean;
+    ratingDetails: RatedMedia | null;
   };
   cast?: Cast[];
   recommendations?: Movie[];
@@ -106,7 +106,7 @@ export const useMediaDetails = (movieId: number): State => {
       ...details,
       isLiked: favourites.find((f) => f.id === movieId) !== undefined,
       canRate: sessionId !== undefined,
-      isRated: getMediaForId(movieId) !== undefined,
+      ratingDetails: getMediaForId(movieId),
     },
     cast,
     recommendations,

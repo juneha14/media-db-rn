@@ -11,6 +11,7 @@ import {
   useRouteParams,
 } from "../../hooks";
 import { GalleryImage } from "../Gallery/utils";
+import { RatedMedia } from "../Reviews";
 
 export const MediaDetailsScreen: React.FC = () => {
   const {
@@ -47,11 +48,17 @@ export const MediaDetailsScreen: React.FC = () => {
   );
 
   const onSelectAddRating = useCallback(
-    (id: number, title: string, url: string | null) =>
+    (
+      id: number,
+      title: string,
+      url: string | null,
+      ratingDetails: RatedMedia | null
+    ) =>
       navigate("AddRating", {
         title,
         imgUrl: url,
         id,
+        ratingDetails,
       }),
     [navigate]
   );

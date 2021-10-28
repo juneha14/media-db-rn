@@ -3,6 +3,12 @@ import { useCallback } from "react";
 import { usePersistedState } from "../../hooks";
 import { FeedbackOptionKeys, StarRating } from "./utils";
 
+export interface RatedMedia {
+  id: number;
+  rating: StarRating;
+  feedback: FeedbackOptionKeys[];
+}
+
 interface State {
   list: RatedMedia[];
   getMediaForId: (id: number) => RatedMedia | null;
@@ -11,12 +17,6 @@ interface State {
     rating: StarRating,
     feedback: FeedbackOptionKeys[]
   ) => void;
-}
-
-interface RatedMedia {
-  id: number;
-  rating: StarRating;
-  feedback: FeedbackOptionKeys[];
 }
 
 export const useRatedList = (): State => {

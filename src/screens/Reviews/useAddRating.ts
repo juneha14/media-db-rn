@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { indexOf } from "lodash";
 import { fetchRequest } from "../../api";
 import { convertToCamelCase } from "../../utils";
@@ -14,8 +14,6 @@ interface State {
     rating: StarRating,
     feedbackOptions: FeedbackOptionKeys[]
   ) => Promise<void>;
-  previousRating?: StarRating;
-  previousFeedback?: FeedbackOptionKeys[];
 }
 
 type Status = "success" | "failure";
@@ -31,9 +29,7 @@ export const useAddRating = (id: number): State => {
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState<Status>();
   const [error, setError] = useState<string>();
-  const { getMediaForId, updateMediaForId, list } = useRatedList();
-
-  console.log("==== Value of list:", list);
+  const { updateMediaForId } = useRatedList();
 
   const submit = useCallback(
     async (rating: StarRating, feedbackOptions: FeedbackOptionKeys[]) => {
@@ -70,14 +66,10 @@ export const useAddRating = (id: number): State => {
     [sessionId, updateMediaForId, id]
   );
 
-  const previousRating = useMemo(() => getMediaForId(id), [getMediaForId, id]);
-
   return {
     submitting,
     status,
     error,
     submit,
-    previousRating: previousRating?.rating,
-    previousFeedback: previousRating?.feedback,
   };
 };

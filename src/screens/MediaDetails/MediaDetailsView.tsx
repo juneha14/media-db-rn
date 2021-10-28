@@ -1,5 +1,6 @@
 import React, { useCallback } from "react";
 import { Pressable, StyleProp, ViewStyle } from "react-native";
+import { noop, isNull } from "lodash";
 import { Section } from "../../components/Section";
 import { Carousel } from "../../components/Carousel";
 import { CaptionImage } from "../../components/CaptionImage";
@@ -10,14 +11,14 @@ import { Header } from "./Header";
 import { PosterBackdrop } from "./PosterBackdrop";
 import { Cast, MovieDetails, Movie, VideoLink, Genre } from "../../models";
 import { useImageUri } from "../../hooks";
-import { noop } from "lodash";
 import { GalleryImage } from "../Gallery/utils";
+import { RatedMedia } from "../Reviews";
 
 interface MediaDetailsViewProps {
   infoDetails: MovieDetails & {
     isLiked?: boolean;
     canRate?: boolean;
-    isRated?: boolean;
+    ratingDetails: RatedMedia | null;
   };
   cast?: Cast[];
   recommendations?: Movie[];
@@ -26,7 +27,12 @@ interface MediaDetailsViewProps {
   onSelectGenre: (genre: Genre) => void;
   onSelectFavourite: () => void;
   onSelectPlayTrailer?: (url: string) => void;
-  onSelectAddRating?: (id: number, title: string, url: string | null) => void;
+  onSelectAddRating?: (
+    id: number,
+    title: string,
+    url: string | null,
+    ratingDetails: RatedMedia | null
+  ) => void;
   onSelectCast: (id: number) => void;
   onSelectRecommended: (id: number) => void;
   onSelectSeeAllCast: () => void;
@@ -85,8 +91,15 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
   );
 
   const onPressAddRating = useCallback(
-    (id: number, title: string, url: string | null) => () =>
-      onSelectAddRating ? onSelectAddRating(id, title, url) : noop,
+    (
+      id: number,
+      title: string,
+      url: string | null,
+      ratingDetails: RatedMedia | null
+    ) => () =>
+      onSelectAddRating
+        ? onSelectAddRating(id, title, url, ratingDetails)
+        : noop,
     [onSelectAddRating]
   );
 
@@ -115,14 +128,15 @@ export const MediaDetailsView: React.FC<MediaDetailsViewProps> = ({
         genres={infoDetails.genres}
         isLiked={infoDetails.isLiked}
         canAddRating={infoDetails.canRate}
-        isRated={infoDetails.isRated}
+        isRated={!isNull(infoDetails.ratingDetails)}
         onSelectGenre={onSelectGenre}
         onSelectFavourite={onSelectFavourite}
         onSelectPlayTrailer={onSelectPlayTrailer}
         onSelectAddRating={onPressAddRating(
           infoDetails.id,
           infoDetails.title,
-          infoDetails.posterPath
+          infoDetails.posterPath,
+          infoDetails.ratingDetails
         )}
       />
       <Section

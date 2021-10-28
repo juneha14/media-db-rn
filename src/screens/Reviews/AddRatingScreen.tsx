@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { indexOf } from "lodash";
+import { indexOf, isEqual } from "lodash";
 import { Avatar } from "../../components/Avatar";
 import { Box } from "../../components/Box";
 import { StarIcon } from "../../components/Icons";
@@ -28,31 +28,42 @@ import { Toast } from "../../components/Toast";
 
 export const AddRatingScreen: React.FC = () => {
   const {
-    params: { id, imgUrl, title },
+    params: { id, imgUrl, title, ratingDetails },
   } = useRouteParams<"AddRating">();
   const { pop } = useAppModalNavigation();
 
   const { top, bottom } = useSafeAreaInsets();
   const uri = useImageUri("poster", "Original", imgUrl);
 
-  const {
-    submitting,
-    status,
-    error,
-    submit,
-    previousRating,
-    previousFeedback,
-  } = useAddRating(id);
+  const { submitting, status, error, submit } = useAddRating(id);
 
-  const [rating, setRating] = useState<StarRating | undefined>(previousRating);
-  const [feedback, setFeedback] = useState<FeedbackOptionKeys[] | undefined>(
-    previousFeedback ?? []
+  /* Local state to handle user input */
+
+  const [rating, setRating] = useState<StarRating | undefined>(
+    ratingDetails?.rating
+  );
+  const [feedback, setFeedback] = useState<FeedbackOptionKeys[]>(
+    ratingDetails?.feedback ?? []
   );
 
-  useEffect(() => {
-    setRating(previousRating);
-    setFeedback(previousFeedback);
-  }, [previousRating, previousFeedback]);
+  const onSelectRating = useCallback((rating: StarRating) => {
+    setRating(rating);
+    // Whenever user selects a new rating, reset the selected feedback options
+    setFeedback([]);
+  }, []);
+
+  const onSelectFeedback = useCallback((feedback: FeedbackOptionKeys) => {
+    setFeedback((oldFeedback) => {
+      let newFeedback;
+      if (oldFeedback.includes(feedback)) {
+        newFeedback = oldFeedback.filter((o) => o !== feedback);
+      } else {
+        newFeedback = [...oldFeedback, feedback];
+      }
+
+      return newFeedback;
+    });
+  }, []);
 
   useEffect(() => {
     if (status === "success") {
@@ -76,7 +87,7 @@ export const AddRatingScreen: React.FC = () => {
       ) : null}
       <Box style={styles.container}>
         <Box style={[styles.contentContainer, { marginTop: top + 30 }]}>
-          <Avatar style={styles.avatar} url={uri} size={120} />
+          <Avatar style={styles.avatar} url={uri} size={150} />
           <>
             <Text
               style={{
@@ -96,12 +107,12 @@ export const AddRatingScreen: React.FC = () => {
               </Text>
             )}
           </>
-          <Stars rating={rating} onSelectRating={setRating} />
+          <Stars rating={rating} onSelectRating={onSelectRating} />
           {rating && (
             <FeedbackPills
-              previousFeedback={feedback}
               rating={rating}
-              onUpdateFeedback={setFeedback}
+              feedback={feedback}
+              onSelectFeedback={onSelectFeedback}
             />
           )}
         </Box>
@@ -111,7 +122,10 @@ export const AddRatingScreen: React.FC = () => {
             marginHorizontal: Spacing.defaultMargin,
           }}
           title="Submit"
-          enabled={rating !== undefined}
+          enabled={
+            rating !== ratingDetails?.rating &&
+            !isEqual(feedback, ratingDetails?.feedback)
+          }
           loading={submitting}
           onPress={() => rating && submit(rating, feedback ?? [])}
         />
@@ -143,51 +157,15 @@ const Stars = ({
 };
 
 const FeedbackPills = ({
-  previousFeedback,
   rating,
-  onUpdateFeedback,
+  feedback,
+  onSelectFeedback,
 }: {
-  previousFeedback?: FeedbackOptionKeys[];
   rating: StarRating;
-  onUpdateFeedback: (options: FeedbackOptionKeys[]) => void;
+  feedback: FeedbackOptionKeys[];
+  onSelectFeedback: (feedback: FeedbackOptionKeys) => void;
 }) => {
   const options = feedbackOptionsForStarRating[rating];
-
-  const [selectedOptions, setSelectedOptions] = useState<
-    Set<FeedbackOptionKeys>
-  >(previousFeedback ? new Set(previousFeedback) : new Set([]));
-
-  useEffect(() => {
-    setSelectedOptions(
-      previousFeedback ? new Set(previousFeedback) : new Set([])
-    );
-  }, [previousFeedback]);
-
-  console.log("==== Value of selectedOptions:", selectedOptions);
-
-  useEffect(() => {
-    // Whenever user selects a new rating, reset the selected feedback options
-    setSelectedOptions(new Set());
-    onUpdateFeedback([]);
-  }, [rating, onUpdateFeedback]);
-
-  const onSelectOption = useCallback(
-    (newOption: FeedbackOptionKeys) => {
-      setSelectedOptions((options) => {
-        const oldOptions = Array.from(options);
-        let newOptions;
-        if (options.has(newOption)) {
-          newOptions = new Set(oldOptions.filter((o) => o !== newOption));
-        } else {
-          newOptions = new Set([...oldOptions, newOption]);
-        }
-
-        onUpdateFeedback(Array.from(newOptions));
-        return newOptions;
-      });
-    },
-    [onUpdateFeedback]
-  );
 
   return (
     <TagList
@@ -195,10 +173,10 @@ const FeedbackPills = ({
         return {
           title: FeedbackOptions[option],
           borderColor: Colors.BorderSubdued,
-          fillColor: selectedOptions.has(option)
+          fillColor: feedback.includes(option)
             ? Colors.ActionPrimaryPressed
             : Colors.ActionNeutralPressed,
-          onPress: () => onSelectOption(option),
+          onPress: () => onSelectFeedback(option),
         };
       })}
     />
