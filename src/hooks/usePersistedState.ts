@@ -5,6 +5,7 @@ import { useObservableState } from "./useObservableState";
 const PersistenceKeys: Readonly<Record<string, string>> = {
   LikedMedia: "liked-media",
   RecentSearches: "recent-searches",
+  Rating: "rating",
 };
 
 export function usePersistedState<Value>(

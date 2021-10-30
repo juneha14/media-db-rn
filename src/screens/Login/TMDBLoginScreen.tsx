@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   KeyboardAvoidingView,
-  Pressable,
   StyleProp,
   StyleSheet,
   TextInput,
@@ -12,9 +11,9 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Box } from "../../components/Box";
 import { Icon } from "../../components/Icons";
-import { LoadingIndicator } from "../../components/LoadingIndicator";
 import { Colors, Spacing, TextVariants } from "../../components/theme";
-import { PageHeader, Text } from "../../components/Typography";
+import { PageHeader } from "../../components/Typography";
+import { Button } from "../../components/Button";
 import { Toast } from "../../components/Toast";
 import { useAppStackNavigation } from "../../hooks";
 import { BackNavigationButton } from "../shared";
@@ -68,9 +67,11 @@ export const TMDBLoginScreen: React.FC = () => {
             onChangeText={setEmail}
           />
           <LoginInput type="password" onChangeText={setPassword} />
-          <LoginButton
+          <Button
+            style={styles.loginButton}
+            title="Login"
             enabled={email.length > 0 && password.length > 0}
-            authenticating={authenticating}
+            loading={authenticating}
             onPress={() => {
               Keyboard.dismiss();
               login(email, password);
@@ -116,37 +117,6 @@ const LoginInput = ({
   );
 };
 
-const LoginButton = ({
-  enabled,
-  authenticating,
-  onPress,
-}: {
-  enabled: boolean;
-  authenticating: boolean;
-  onPress: () => void;
-}) => {
-  return (
-    <Pressable
-      style={[
-        styles.loginButton,
-        {
-          backgroundColor: enabled
-            ? Colors.ActionPrimary
-            : Colors.ActionNeutralPressed,
-        },
-      ]}
-      onPress={onPress}
-      disabled={!enabled || authenticating}
-    >
-      {authenticating ? (
-        <LoadingIndicator isFullScreen={false} />
-      ) : (
-        <Text variant="captionHeadingSmall">Login</Text>
-      )}
-    </Pressable>
-  );
-};
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -171,11 +141,7 @@ const styles = StyleSheet.create({
     height: 60,
   },
   loginButton: {
-    justifyContent: "center",
-    alignItems: "center",
-    padding: Spacing.defaultMargin,
     marginTop: 30,
     borderRadius: 8,
-    backgroundColor: Colors.ActionPrimary,
   },
 });

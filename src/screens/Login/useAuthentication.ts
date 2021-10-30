@@ -75,7 +75,6 @@ export const useAuthentication = (): State => {
       setAuthenticating(false);
     } catch (error) {
       setAuthenticating(false);
-      console.log("==== Value of error.message:", error.message);
       setError(error.message ?? "Login failed");
       console.error(`Failed to authenticate due to error: ${error}`);
     }

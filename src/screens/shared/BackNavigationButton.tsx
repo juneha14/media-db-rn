@@ -18,7 +18,7 @@ export const BackNavigationButton: React.FC<BackNavigationButtonProps> = ({
   const style: StyleProp<ViewStyle> = {
     position: "absolute",
     left: left + 15,
-    top: respectsTopInset ? top : 5,
+    top: respectsTopInset ? top : 15,
     zIndex: 100,
   };
 

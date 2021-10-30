@@ -12,13 +12,23 @@ interface AvatarProps {
   title?: string;
   subtitle?: string;
   textPosition?: "right" | "bottom";
+  type?: "poster" | "profile";
   onPressImage?: () => void;
   style?: StyleProp<ViewStyle>;
 }
 
 export const Avatar: React.FC<AvatarProps> = React.memo(
-  ({ url, size, title, subtitle, textPosition, onPressImage, style }) => {
-    const uri = useImageUri("profile", "Original", url);
+  ({
+    url,
+    size,
+    title,
+    subtitle,
+    textPosition,
+    type = "profile",
+    onPressImage,
+    style,
+  }) => {
+    const uri = useImageUri(type, "Original", url);
 
     return (
       <Box

@@ -5,14 +5,20 @@ import { MediaDetailsView } from "./MediaDetailsView";
 import { useMediaDetails } from "./useMediaDetails";
 import { Favourite, Genre } from "../../models";
 import { BackNavigationButton } from "../shared";
-import { useAppStackNavigation, useRouteParams } from "../../hooks";
+import {
+  useAppModalNavigation,
+  useAppStackNavigation,
+  useRouteParams,
+} from "../../hooks";
 import { GalleryImage } from "../Gallery/utils";
+import { RatedMedia } from "../Reviews";
 
 export const MediaDetailsScreen: React.FC = () => {
   const {
     params: { id },
   } = useRouteParams<"MediaDetails">();
   const { push, pop } = useAppStackNavigation();
+  const { navigate } = useAppModalNavigation();
 
   const {
     loading,
@@ -39,6 +45,22 @@ export const MediaDetailsScreen: React.FC = () => {
   const onSelectPlayTrailer = useCallback(
     (url: string) => WebBrowser.openBrowserAsync(url),
     []
+  );
+
+  const onSelectAddRating = useCallback(
+    (
+      id: number,
+      title: string,
+      url: string | null,
+      ratingDetails: RatedMedia | null
+    ) =>
+      navigate("AddRating", {
+        title,
+        imgUrl: url,
+        id,
+        ratingDetails,
+      }),
+    [navigate]
   );
 
   const onSelectCast = useCallback(
@@ -94,6 +116,7 @@ export const MediaDetailsScreen: React.FC = () => {
               voteAverage: details.voteAverage,
             })}
             onSelectPlayTrailer={onSelectPlayTrailer}
+            onSelectAddRating={onSelectAddRating}
             onSelectCast={onSelectCast}
             onSelectRecommended={onSelectRecommended}
             onSelectSeeAllCast={onSelectSeeAllCast}

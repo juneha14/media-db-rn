@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { StyleSheet, StyleProp, ViewStyle } from "react-native";
 import { Box } from "../../components/Box";
-import { FavouriteIcon, PlayIcon } from "../../components/Icons";
+import { FavouriteIcon, PlayIcon, StarIcon } from "../../components/Icons";
 import { PageHeader, Text } from "../../components/Typography";
 import { Rating } from "../../components/Rating";
 import { TagList } from "../../components/Tags";
@@ -22,9 +22,12 @@ interface HeaderProps {
   genres: Genre[];
   trailer?: string;
   isLiked?: boolean;
+  canAddRating?: boolean;
+  isRated?: boolean;
   onSelectGenre: (genre: Genre) => void;
   onSelectFavourite: () => void;
   onSelectPlayTrailer?: (url: string) => void;
+  onSelectAddRating?: () => void;
   style?: StyleProp<ViewStyle>;
 }
 
@@ -39,9 +42,12 @@ export const Header: React.FC<HeaderProps> = ({
   genres,
   trailer,
   isLiked = false,
+  canAddRating = false,
+  isRated = false,
   onSelectGenre,
   onSelectFavourite,
   onSelectPlayTrailer,
+  onSelectAddRating,
   style,
 }) => {
   const infoText = runtime
@@ -94,18 +100,29 @@ export const Header: React.FC<HeaderProps> = ({
             onPress={onPlayTrailer(trailer)}
           />
         )}
+        {canAddRating && (
+          <StarIcon
+            selected={isRated}
+            size="medium"
+            encloseInBorder
+            caption="Rate It"
+            onPress={onSelectAddRating}
+          />
+        )}
       </Box>
       <Section title="Overview">
-        <Text
-          style={{
-            fontStyle: "italic",
-            fontWeight: "500",
-            marginBottom: Spacing.s,
-          }}
-          variant="body"
-        >
-          {tagline}
-        </Text>
+        {tagline && tagline.length > 0 ? (
+          <Text
+            style={{
+              fontStyle: "italic",
+              fontWeight: "500",
+              marginBottom: Spacing.s,
+            }}
+            variant="body"
+          >
+            {tagline}
+          </Text>
+        ) : null}
         <Text variant="body">{overview}</Text>
       </Section>
     </Box>

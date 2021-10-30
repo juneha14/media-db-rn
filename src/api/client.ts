@@ -121,6 +121,15 @@ client.search = (query: string, page = 1) => {
   return new Request(url);
 };
 
+// Add rating
+
+client.addRating = (sessionId: string, movieId: number, rating: number) => {
+  const url = constructUrl(`/movie/${movieId}/rating`, {
+    session_id: sessionId,
+  });
+  return new Request(url, undefined, { value: rating });
+};
+
 // Helpers
 
 type ResourcePath = string;
