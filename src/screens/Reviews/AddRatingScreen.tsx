@@ -46,11 +46,18 @@ export const AddRatingScreen: React.FC = () => {
     ratingDetails?.feedback ?? []
   );
 
-  const onSelectRating = useCallback((rating: StarRating) => {
-    setRating(rating);
-    // Whenever user selects a new rating, reset the selected feedback options
-    setFeedback([]);
-  }, []);
+  const onSelectRating = useCallback(
+    (rating: StarRating) => {
+      setRating(rating);
+
+      // Whenever user selects a new rating, reset the selected feedback options
+      // If user selects the same initial rating, populate the initial feedback options
+      setFeedback(
+        rating === ratingDetails?.rating ? ratingDetails.feedback : []
+      );
+    },
+    [ratingDetails]
+  );
 
   const onSelectFeedback = useCallback((feedback: FeedbackOptionKeys) => {
     setFeedback((oldFeedback) => {
@@ -123,7 +130,7 @@ export const AddRatingScreen: React.FC = () => {
           }}
           title="Submit"
           enabled={
-            rating !== ratingDetails?.rating &&
+            rating !== ratingDetails?.rating ||
             !isEqual(feedback, ratingDetails?.feedback)
           }
           loading={submitting}

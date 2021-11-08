@@ -26,6 +26,7 @@ export const FavouriteRoutes: React.FC = () => {
         name="FavouriteList"
         component={FavouriteScreen}
         options={{
+          headerLeft: () => null,
           headerTitle: "Favourites",
         }}
       />

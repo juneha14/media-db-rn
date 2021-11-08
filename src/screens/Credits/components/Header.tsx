@@ -45,10 +45,10 @@ export const Header: React.FC<HeaderProps> = ({
   );
 
   return (
-    <Box style={[styles.container, { paddingTop: top }, style]}>
+    <Box style={[styles.container, { paddingTop: top + 30 }, style]}>
       <Avatar
         url={imgUrl}
-        size={120}
+        size={150}
         title={name}
         subtitle={department}
         textPosition="bottom"
