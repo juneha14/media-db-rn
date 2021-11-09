@@ -95,25 +95,23 @@ export const AddRatingScreen: React.FC = () => {
       <Box style={styles.container}>
         <Box style={[styles.contentContainer, { marginTop: top + 30 }]}>
           <Avatar style={styles.avatar} url={uri} size={150} />
-          <>
+          <Text
+            style={{
+              textAlign: "center",
+              marginBottom: rating === undefined ? undefined : Spacing.m,
+            }}
+            variant="sectionHeading"
+          >
+            {`How was ${title}?`}
+          </Text>
+          {rating && (
             <Text
-              style={{
-                textAlign: "center",
-                marginBottom: rating === undefined ? undefined : Spacing.m,
-              }}
-              variant="sectionHeading"
+              variant="captionHeadingSmall"
+              color={Colors.TextOnSurfaceNeutral}
             >
-              {`How was ${title}?`}
+              {descriptionForStarRating[rating]}
             </Text>
-            {rating && (
-              <Text
-                variant="captionHeadingSmall"
-                color={Colors.TextOnSurfaceNeutral}
-              >
-                {descriptionForStarRating[rating]}
-              </Text>
-            )}
-          </>
+          )}
           <Stars rating={rating} onSelectRating={onSelectRating} />
           {rating && (
             <FeedbackPills

@@ -7,7 +7,7 @@ import { noop } from "lodash";
 
 interface PaginatedListProps<Item> extends FlatListProps<Item> {
   isFetching: boolean;
-  listRef?: (ref: FlatList<Item> | null) => void;
+  listRef?: React.MutableRefObject<null>;
 }
 
 export function PaginatedList<Item>({

@@ -1,10 +1,10 @@
 import React, { useCallback, useMemo, useRef } from "react";
+import { FlatList } from "react-native-gesture-handler";
 import { Dimensions, StyleSheet } from "react-native";
 import { useScrollToTop } from "@react-navigation/native";
 import { Colors, Spacing } from "../../components/theme";
 import { Favourite } from "../../models";
 import { MediaCell, useFavouriteState } from "../shared";
-import { FlatList } from "react-native-gesture-handler";
 import { useAppStackNavigation } from "../../hooks";
 import { Box } from "../../components/Box";
 import { Text } from "../../components/Typography";
@@ -13,7 +13,7 @@ export const FavouriteScreen: React.FC = () => {
   const { push } = useAppStackNavigation();
   const { favourites, onToggleLike } = useFavouriteState();
 
-  const listRef = useRef<FlatList<Favourite> | null>(null);
+  const listRef = useRef<null>(null);
   useScrollToTop(listRef);
 
   const cellWidth = useMemo(
