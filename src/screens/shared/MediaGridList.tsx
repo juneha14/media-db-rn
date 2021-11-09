@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo } from "react";
 import { Dimensions, StyleSheet } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { PaginatedList } from "../../components/PaginatedList";
 import { QueryContainer } from "../../components/QueryContainer";
@@ -21,7 +20,7 @@ interface MediaGridListProps {
   onRetryError?: () => void;
   onFetchNextPage?: () => void;
   onRefresh?: () => void;
-  gridRef?: (ref: FlatList<Movie> | null) => void;
+  gridRef?: React.MutableRefObject<null>;
   ignoresTopPadding?: boolean;
 }
 
